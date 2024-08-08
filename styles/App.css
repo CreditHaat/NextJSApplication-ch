@@ -1,0 +1,324 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Footer page css*/
+.footer {
+    background-color: #F2EDFF80;
+    margin-top: 50px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+  
+  }
+  
+  .footer-logo{
+    font-size: 24px;
+    font-weight: 600;
+    font-style: normal;
+  
+    color: #18181C;
+  }
+  
+  .footer-disc {
+    font-family: 'Times New Roman';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 25px;
+    margin-bottom: 20px;
+    display: block;
+  }
+  
+  .footer-link {
+  
+    font-style: normal;
+    list-style: none;
+    font-weight: 500;
+    font-size: 16px;
+    padding: 0;
+    color: #18181C;
+    text-decoration: none;
+  }
+  
+  .footer-link_item {
+    line-height: 25px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    color: #000;
+    text-decoration: none;
+  }
+  
+  .copy-right  {
+    margin-top: 30px;
+    font-size: 14px;
+    color: #000;
+  }
+  .copy-right a{
+    color: #000;
+    text-decoration: none;
+  }
+  
+  /* credit Score page css*/
+  .createaccount-home_section {
+    font-size: 40px;
+    font-weight: 500;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    line-height: 40px;
+    color: #18181C;
+    font-style: normal;
+    text-align: center;
+  }
+  
+  .createaccount-home_disc {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 33px;
+    text-align: center;
+    letter-spacing: 0.02em;
+    color: #858691;
+  }
+  .createaccount-home_con {
+    font-size: 30px;
+    color: #18181C;
+    font-weight: 500;
+    margin-bottom: 20px;
+    flex: content;
+    font-style: normal;
+    letter-spacing: 0.02em;
+  }
+  .createaccount-home_btn {
+    border-radius: 25px;
+    background-color: #3E2780;
+    text-align: left;
+  }
+  .createaccount-home_item {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 25px;
+    letter-spacing: 0.02em;
+    color: #858691;
+  }
+  .eligibilty-list_item {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: #18181C;
+  }
+  
+  /* Key Parnter css*/
+  
+  .benefits-home {
+    font-size: 29px;
+  
+    font-style: normal;
+    font-weight: 500;
+    line-height: 33px;
+    margin-top: 20px;
+  
+    color: #18181C;
+  }
+  
+  
+  
+  .benefits-home_lists {
+  
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    margin-left: 10px;
+    line-height: 25px;
+    /* identical to box height */
+  
+    letter-spacing: 0.02em;
+  
+    color: #18181C;
+  
+  }
+  .benefits-home_listf {
+    margin-top: 12px;
+    margin-bottom: 8px;
+    font-size: 30px;
+    margin-left: 20px;
+    color: #3E2780;
+  }
+  
+  /* BEStProduct css*/
+  .col-md-6 {
+    flex: 0 0 auto;
+    width: 50%;
+  }
+  .col-lg-4 {
+    flex: 0 0 auto;
+    width: 33.33333333%;
+  }
+  
+  .benefits-home {
+    font-size: 29px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 33px;
+    margin-top: 20px;
+    color: #18181C;
+  }
+  .benefits-home_disc {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 25px;
+    color: #858691;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    font-family: 'Noto Sans';
+    font-style: normal;
+    letter-spacing: 0.02em;
+  }
+  .benefits-home_lists {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    margin-left: 10px;
+    line-height: 25px;
+    /* identical to box height */
+    letter-spacing: 0.02em;
+    color: #18181C;
+  }
+  .benefits-home_listf {
+    margin-top: 12px;
+    margin-bottom: 8px;
+    font-size: 30px;
+    margin-left: 20px;
+    color: #3E2780;
+  }
+  .row{
+    display: flex;
+    flex-direction: row;
+  }
+  
+  /* FAQ css */
+  .main {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+  .faq-main_home {
+    text-align: center;
+    font-size: 50px;
+    line-height: 77px;
+    font-weight: 500;
+    font-style: normal;
+    margin-top: 50px;
+  
+  }
+  
+  .faq-main_disc {
+    font-size: 24px;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 40px;
+    color: #858691;
+    font-family: 'Noto Sans';
+    font-style: normal;
+  }
+  .accordion-body {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 27px;
+    letter-spacing: 0.02em;
+    color: #18181C;
+  }
+  
+  .accordion-item {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    color: #18181C;    
+  }
+  .accordion-button{
+    font-size: 20px;
+  }
+  
+  /* Benefit css*/
+  
+  
+  .benefits-home {
+    font-size: 29px;
+  
+    font-style: normal;
+    font-weight: 500;
+    line-height: 33px;
+    margin-top: 20px;
+  
+    color: #18181C;
+  }
+  
+  .benefits-home_disc {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 25px;
+    color: #858691;
+    margin-top: 30px;
+    margin-bottom: 20px;
+  
+    font-family: 'Noto Sans';
+    font-style: normal;
+    letter-spacing: 0.02em;
+  }
+  
+  .benefits-home_lists {
+  
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    margin-left: 10px;
+    line-height: 25px;
+    /* identical to box height */
+  
+    letter-spacing: 0.02em;
+  
+    color: #18181C;
+  
+  }
+  
+  .benefits-home_listd {
+  
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    margin-left: 10px;
+    line-height: 25px;
+    /* identical to box height */
+  
+    letter-spacing: 0.02em;
+  
+    color: #858691;
+  }
+  
+  .benefits-home_list {
+    background-color: #F2EDFF;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    height: calc(100% - 30px);
+    padding: 15px;
+  }
+  
+  .benefits-home_listf {
+    margin-top: 12px;
+    margin-bottom: 8px;
+    font-size: 30px;
+    margin-left: 20px;
+    color: #3E2780;
+  }
+  @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;300&display=swap');
+  
+  
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }

@@ -1,0 +1,59 @@
+/* FormFooter.css */
+
+.form-footer-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .arrow {
+    width: 30px; /* Adjust arrow width as needed */
+    height: 30px; /* Adjust arrow height as needed */
+    background-color: #ddd; /* Adjust arrow color as needed */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add box shadow for better visibility */
+  }
+  
+  .left-arrow {
+    margin-right: 10px; /* Adjust margin between left arrow and carousel */
+  }
+  
+  .right-arrow {
+    margin-left: 10px; /* Adjust margin between right arrow and carousel */
+  }
+  
+  .carousel-container {
+    width: 100%; /* Adjust the width of the carousel container */
+    overflow: hidden;
+    height: 200px;
+    
+   /* Prevent logos from overlapping the navigation arrows */
+   
+  }
+@media only screen and (max-width: 500px) {
+  .carousel-container {
+    width: 100%;
+    height: 110%;
+    margin-bottom: 10%;
+  }
+
+}
+
+  
+  .logo {
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+  
+  /* Additional styling if needed */
+ 
+
+

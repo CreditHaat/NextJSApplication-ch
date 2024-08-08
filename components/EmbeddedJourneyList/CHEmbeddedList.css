@@ -1,0 +1,146 @@
+/* LendersList.css */
+
+/* .banner {
+    padding-top: 4%;
+    padding-bottom: 4%;
+  } */
+  
+  .banner_title {
+    color: #3E2780;
+  }
+  
+  .primary-color {
+    color: #3E2780;
+  }
+  
+  .card-container {
+    border-radius: 20px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #3e2780;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  }
+  
+  .card-content {
+    display: flex;
+    padding: 0px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  
+  .logo {
+    height: 80px;
+    width: auto;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-right: 20px;
+  }
+  
+  .text-content {
+    margin-top: 10px;
+  }
+  
+  .title {
+    font-family: 'Noto Serif';
+    font-weight: bold;
+    color: #3e2780;
+  }
+  
+  .descriptions {
+    font-family: 'Noto Serif';
+    font-size: 15px;
+    color: green;
+  }
+  
+  .details {
+    margin-top: 10px;
+    display: flex;
+  }
+  
+  .detail {
+    margin-right: 30px;
+    margin-left: 20px;
+  }
+  
+  .detail-label {
+    color: red;
+    font-weight: bold;
+    align-items: baseline;
+    margin-right: '50%';
+  }
+  .detail-labels{
+    font-weight: bold;
+  }
+  
+  .action-button {
+    display: flex;
+    justify-content: center;
+    padding: 0 20px 20px 20px;
+    /* height: 40px; */
+    margin-top: 10px;
+    
+    
+  }
+  
+  .MuiButton-root{
+    background-color: #3E2780;
+  }
+  
+  .getLoanButton{
+    background-color: #3E2780;
+    color: white;
+    border-radius: 5px;
+    height: 50px;
+    width: 100px;
+  }
+  .data{
+    color:green;
+  }
+  
+  
+  /* Media Query for Desktop */
+  @media screen and (min-width: 768px) {
+    /* .banner {
+      padding-top: 6%;
+      padding-bottom: 6%;
+    } */
+  
+    .card-container {
+      max-width: 1000px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      
+    }
+  
+    .card-content {
+      /* padding: 30px; */
+      padding-left: 70px;
+    }
+    .details{
+      padding-left: 70px;
+    }
+  
+    .title {
+      font-size: 24px;
+    }
+  
+    .descriptions {
+      font-size: 18px;
+    }
+  
+    .detail-label {
+      font-size: 16px;
+    }
+  
+    .action-button {
+      height: auto;
+      padding-left: 40%;
+    }
+    .maind{
+      margin-right: 40px;
+    }
+  }
+  

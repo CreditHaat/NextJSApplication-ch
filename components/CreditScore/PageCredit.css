@@ -1,0 +1,162 @@
+.msgbox {
+    background-color: #ffffff;
+    border-radius: .8rem;
+    width: 130%;
+    max-width: 100%;
+  }
+  
+  
+  @media only screen and (min-width: 761px){
+    .layout-align{
+      width: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 30px 0 30px 0;
+    }
+  } 
+  @media only screen and (max-width: 760px){
+    .layout-align{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 25px 0 25px 0;
+    }
+  } 
+  /* Just for very small screen sizes */
+  @media only screen and (max-width: 355px){
+    .layout-align{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 10px 0 10px 0;
+      transform: scale(0.8);
+    }  
+  } 
+
+  .correct {
+    color: green;
+  }
+  
+  .incorrect {
+    color: red;
+    text-decoration: underline;
+  }
+  
+  .form-submit-button
+   {
+      background: #3e2780;
+      color: "#32e70";
+      border: 1px solid #eee;
+      border-radius: 10px;
+      box-shadow: 5px 5px 5px #eee;
+      text-shadow: none;
+      height: 50px;
+      margin: auto;
+      background-color: #f44336;
+  }
+
+  .scoreup{
+  display:none;
+  }
+  
+  .scoredown{
+  display:block;
+  }
+  
+  /* Show in Large desktops and laptops */
+  @media screen and (min-width: 1200px) {
+       .scoreup {
+         display:none;
+      }
+      
+      .scoredown{
+      display:block;
+      }
+  
+  
+  }
+    
+  /* Landscape tablets and medium desktops */
+  @media screen and (max-width: 1199px) {
+  
+        .scoreup {
+         display:none;
+      }
+      
+      .scoredown{
+      display:block;
+      }
+  
+  }
+  
+  @media screen and (max-width: 992px){
+  
+      .scoreup {
+         display:none;
+      }
+      
+      .scoredown{
+      display:block;
+      }
+  
+  }
+  
+  /* Portrait tablets and small desktops */
+  @media screen and (max-width: 991px) {
+  
+        .scoreup {
+         display:none;
+      }
+      
+      .scoredown{
+      display:block;
+      }
+  
+  }
+  
+  @media screen and (max-width: 768px){
+  
+        .scoreup {
+         display:none;
+      }
+      
+      .scoredown{
+      display:block;
+      }
+  
+  }
+  
+  /* Landscape phones and portrait tablets */
+  @media screen and (max-width: 767px) {
+  
+        .scoreup {
+         display:block;
+      }
+      
+      .scoredown{
+      display:none;
+      }
+  
+  }
+  
+  /* Portrait phones and smaller */
+  @media screen and (max-width: 480px) {
+  
+        .scoreup {
+         display:block;
+      }
+      
+      .scoredown{
+      display:none;
+      }
+  
+  }
+  
+  .scroll {
+      height: 40px;
+      overflow-x: hidden;
+      overflow-y: auto;
+  }

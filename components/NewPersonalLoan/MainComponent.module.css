@@ -1,0 +1,21 @@
+
+.upperDiv {
+    /* position: fixed; */
+     width: 100%;
+    /*background-color: red; */
+    /* height: 100px; */
+    /* position: sticky; */
+  /* top: 0; Stick to the top of the viewport */
+  /* background-color: #f0f0f0; Example background color */
+  /* padding: 10px; Example padding */
+  /* z-index: 100; Ensure it's above other content */
+} 
+
+.lowerDiv {
+    /* position: fixed; */
+    /* margin-top: 100px; */
+    /* position: absolute; */
+    /* width: 100%;
+    background-color: blue;
+    height: 300px; */
+}

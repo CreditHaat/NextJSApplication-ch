@@ -1,0 +1,46 @@
+   
+.advanteg-block__title {
+    font-size: 24px;
+    line-height: 33px;
+    color: #000;
+
+}
+
+.advanteg-block_disc {
+    font-size: 18px;
+    line-height: 25px;
+    color: #858691;
+}
+
+.advanteg-item {
+    background-color: #F2EDFF;
+    padding: 16px;
+    border-radius: 5px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    height: calc(100% - 30px);
+
+}
+
+.advanteg-item_title {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 25px;
+    color: #18181C;
+    margin-top: 8px;
+
+}
+
+.advanteg-item_desc {
+    font-size: 14px;
+    line-height: 19px;
+    color: #858691;
+}
+
+.advanteg-item_link {
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 16px;
+    color: #3E2780;
+    text-decoration: none;
+}

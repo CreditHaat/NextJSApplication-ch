@@ -1,0 +1,24 @@
+/* GridContainer.module.css */
+
+.gridContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Adjust as per your design needs */
+    gap: 10px; /* Adjust spacing between columns */
+    padding: 10px; /* Optional padding */
+  }
+  
+  .gridItem {
+    flex: 1 1 18%; /* Adjust width of grid items for responsive design */
+    min-width: 0; /* Prevent items from expanding beyond container */
+    /* background-color: #f0f0f0; Example background color */
+    padding: 20px; /* Example padding */
+    text-align: center; /* Example center alignment */
+  }
+  
+  @media screen and (max-width: 768px) {
+    .gridItem {
+      flex-basis: calc(20% - 20px); /* Adjust based on gap and number of columns */
+    }
+  }
+  

@@ -1,0 +1,14 @@
+#containerb{
+
+    height: auto;
+}
+@media only screen and (max-width: 500px) {
+    #containerb{
+
+        height: auto;
+    }
+  }
+
+  .MuiBox-root css-1yeiifd{
+    height: auto;
+  }

@@ -1,0 +1,89 @@
+
+.user-review_section {
+    background-color: #f2edff;
+    margin-top: 50px;
+    height: auto;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+
+.reviw-snap {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.reviw-snap_img {
+    background-color: #FFFFFF;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    display: block;
+    width: 90%;
+    max-width: 700px
+
+}
+
+.reviw-snap_img .reviw-snap_cont {
+    font-size: 12px;
+    line-height: 1.4;
+    margin-top: 16px
+}
+
+.reviw-snap_img +.reviw-snap_img {
+    margin-top: -30px;
+    margin-left: auto;
+}
+
+.reviw-profile_card {
+    display: flex
+}
+
+.reviw-profile_card-img {
+
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.reviw-snap_main {
+    margin-top: 40px;
+    font-size: 30px;
+    margin-bottom: 20px;
+    color: #18181C;
+    font-weight: 500;
+    line-height: 33px;
+    letter-spacing: 0.02em;
+}
+
+.reviw-snap_disc {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 25px;
+    letter-spacing: 0.02em;
+
+    color: #858691;
+}
+
+.reviw-snap_cont {
+    font-family: 'Noto sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 25px;
+    letter-spacing: 0.02em;
+    color: #18181C;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.reviw-profile_name {
+    margin-left: 5px;
+    color: #4D5160;
+}
+
+.reviw-profile_work {
+    color: #858691;
+}

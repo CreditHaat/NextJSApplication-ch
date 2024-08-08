@@ -1,0 +1,40 @@
+.banner_title h5 {
+    padding: 8px;
+    font-size: 16px;
+  }
+  
+  @media only screen and (min-width: 766px) {
+    .banner_title h5 {
+      font-size: 26px;
+    }
+  }
+  
+  @media only screen and (min-width: 1024px) {
+    .banner_title h5 {
+      font-size: 30px;
+    }
+  }
+
+  
+  #Con {
+    padding: 8px; /* Assuming theme.spacing(1) equals 8px */
+  }
+  
+  @media only screen and (max-width: 1500px) {
+    #Con {
+      margin-top: -60px;
+    }
+  }
+  
+  @media only screen and (min-width: 961px) {
+    #Con {
+      margin-top:'auto'
+    }
+  }
+  
+  @media only screen and (min-width: 1280px) {
+    #Con {
+      margin-top: 0%
+    }
+  }
+  

@@ -1,0 +1,43 @@
+{
+  "name": "react-application",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@mui/joy": "^5.0.0-beta.48",
+    "@mui/material": "^5.16.4",
+    "axios": "^1.7.2",
+    "bootstrap": "^5.3.3",
+    "carousel": "^0.0.3",
+    "embla": "^1.0.0",
+    "embla-carousel": "^8.1.7",
+    "embla-carousel-autoplay": "^8.1.7",
+    "embla-carousel-react": "^8.1.7",
+    "jquery": "^3.7.1",
+    "jquery-ui": "^1.13.3",
+    "next": "^14.2.5",
+    "nuqs": "^1.17.5",
+    "react": "^18.3.1",
+    "react-datepicker": "^7.3.0",
+    "react-dom": "^18",
+    "react-multi-carousel": "^2.8.5",
+    "react-router-dom": "^6.25.1",
+    "sharp": "^0.33.4",
+    "tw-elements": "^2.0.0",
+    "zustand": "^4.5.4"
+  },
+  "devDependencies": {
+    "@types/node": "20.14.11",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "5.5.3"
+  },
+  "engines": {
+    "node": "20.x"
+  }
+}

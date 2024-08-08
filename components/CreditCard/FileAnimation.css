@@ -1,0 +1,100 @@
+
+
+
+    .folder-icon {
+      position: relative;
+      width: 90px;
+      height: 80px;
+      background-color: #fca503; /* Folder color */
+      border-radius: 8px;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      margin: auto;
+    }
+
+    .folder-icon::before {
+      content: "";
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      width: 110%;
+      height: 40px;
+      background-color: #fcb503; /* Lighter color for folder top */
+    }
+
+    .folder-icon::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 30px; /* Adjust the height as needed */
+      background-color: #fa9402; /* Darker color for folder bottom */
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0% 100%); /* Clip-path for triangular bottom */
+    }
+
+    .folder-icon .folder-label {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 14px;
+      color: #fff;
+    }
+
+    .paper-icon {
+      position: absolute;
+      top: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 60px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: slideUpDown 2s infinite alternate;
+      overflow: hidden;
+      background-image: repeating-linear-gradient(0deg, #eee 0px, #eee 2px, transparent 2px, transparent 5px);
+    }
+    /* from below outside animation start */
+
+    @keyframes slideUpDown {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-40px);
+      }
+    }
+
+    .paper-icon img {
+      max-width: 80%;
+      height: auto;
+    }
+ 
+
+    .popup-dialog{
+
+      border: 2px solid red; /* Customize border properties as needed */
+      border-radius: 10px;
+      animation: spin 2s linear infinite; /* Apply spinning animation to the border */
+  }
+  
+  @keyframes spin {
+      11% {
+          border-top-color: rgb(151, 71, 255);
+        }
+        33% {
+          border-right-color: #F9BA45;
+        }
+        66% {
+          border-bottom-color: rgb(151, 71, 255);
+        }
+        99% {
+          border-left-color: #F9BA45;
+        }
+       
+    }

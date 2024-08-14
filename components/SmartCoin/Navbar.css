@@ -1,0 +1,49 @@
+.partner-navbar {
+  background-color: #fff; /* Example background color */
+  padding: 10px; /* Example padding */
+  /* position: fixed; */
+  width: 100%;
+
+}
+
+.partner-navbar-container {
+  display: flex; /* Use flexbox for layout */
+  justify-content: center; /* Center items horizontally */
+  align-items: center; /* Center items vertically */
+}
+
+.partner-logo {
+  display: flex; /* Use flexbox for layout */
+  align-items: center; /* Center items vertically */
+}
+
+.nav-logo {
+  /* width: 100px; Example width */
+  /* height: 100px; Example height */
+  /* border-radius: 50%; Make the images round */
+  margin: 0 10px; /* Example margin to separate the logos */
+}
+
+/* Vertical dotted line styling */
+.partner-logo:first-child {
+  position: relative;
+  margin-right: 10px; /* Adjust margin to control the space between logos and the line */
+}
+
+.partner-logo:first-child::after {
+  content: "";
+  position: absolute;
+  height: 80%;
+  width: 1px; /* Width of the vertical line */
+  background-color: #3e2780; /* Color of the vertical line */
+  right: -10px; /* Adjust position to place the line after the first logo */
+  border-radius: 2px; /* Optional: border radius for the line */
+  border-left: 1px dotted #3e2780; /* Dotted border */
+}
+
+/* Adjustments for mobile view */
+@media (max-width: 768px) {
+  .nav-logo {
+      margin: 5px; /* Example margin for spacing between logos */
+  }
+}

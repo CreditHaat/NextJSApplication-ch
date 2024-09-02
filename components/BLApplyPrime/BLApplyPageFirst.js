@@ -157,10 +157,10 @@ export default function BLPageFirst() {
     console.log("Inside this function 1");
     e.preventDefault();
 
-    function handleDataLayerStart(flag,mobile_number, emptype) {
+    function handleDataLayerStart(flag,mobile_number, emptype, PaymentType, monthlyincome) {
       console.log("INside handledatalayer , ",flag, mobile_number, emptype);
       window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({'mobileNumber' : mobile_number, 'flag':flag, 'employmentType': emptype  });
+      window.dataLayer.push({'mobileNumber' : mobile_number, 'flag':flag, 'employmentType': emptype, 'PaymentType': PaymentType  , 'monthlyincome': monthlyincome  });
     }
 
     console.log("Inside this function");
@@ -209,7 +209,7 @@ export default function BLPageFirst() {
 
         console.log("Before handleDataLayerStart");
 
-        handleDataLayerStart(response.data.obj.user_exist,formData.mobileNumber,formData.occupation); 
+        handleDataLayerStart(response.data.obj.user_exist,formData.mobileNumber,formData.occupation, formData.PaymentType, formData.monthlyincome ); 
 
         console.log("After handleDataLayerStart");
       }

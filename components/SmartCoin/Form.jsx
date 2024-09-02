@@ -198,6 +198,12 @@ export const Form = () => {
     }
   };
 
+  function handleDataLayerStart(flag,mobile_number, emptype) {
+    console.log("INside handledatalayer , ",flag, mobile_number, emptype);
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({'mobileNumber' : mobile_number, 'flag':flag, 'employmentType': emptype  });
+  }
+
   const handleFormSubmit = async (e) => {
     console.log("Inside this function 1");
     e.preventDefault();
@@ -242,6 +248,7 @@ export const Form = () => {
         setStgOneHitId(response.data.obj.stgOneHitId);
         setstgTwoHitId(response.data.obj.stgTwoHitId);
         sett_experian_log_id(response.data.obj.t_experian_log_id);
+        handleDataLayerStart(response.data.obj.user_exist,formData.mobileNumber,formData.profession); 
       }
 
       if (response.status === 200) {

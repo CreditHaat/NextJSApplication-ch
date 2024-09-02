@@ -1,0 +1,340 @@
+.blapplycontainer {
+    margin-top: 20px;
+  }
+  
+  .blapplyrow {
+    display: flex;
+    align-items: center;
+  }
+  
+  .blapply-col-md-6 {
+    padding: 0 15px;
+    padding-left: 5%;
+    max-width: 50%;
+  }
+  
+  .blapply-col-md-6-pl{
+    padding: 0 15px;
+    padding-left: 5%;
+    max-width: 40%;
+  }
+  
+  .blapply-image-container {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .blapply-image-container img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .blapply-col-md-6-pl {
+    width: 100%;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-left: 5%;
+  }
+  .blapply-col-md-6-pl form{
+    background-color: #fff;
+    width: 100%;
+    border-radius: 8px;
+
+    
+  }
+  .blapply-col-md-6 h1{
+   
+    color: #3e2780;
+    font-size: 3rem;
+    font-weight: normal;
+  }
+  .blapply-col-md-6-pl h2{
+   
+    color: #3e2780;
+    font-size: 2rem;
+    font-weight: normal;
+  }
+  .blapply-form-group {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #000000a6;
+}
+  .blapply-form-group input,
+  .blapply-form-group select {
+      width: calc(100% - 16px); /* Adjust width to account for padding and border */
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box; /* Ensures padding and border are included in the element's total width */
+  }
+  
+  .blapply-invalid-feedback {
+      color: #dc3545;
+      font-size: 0.875rem;
+  }
+  
+  .blapply-button {
+      padding: 10px 20px;
+      background-color: #F9BA45;      ;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%; /* Full width of the container */
+  }
+  
+  .blapply-button:hover {
+      background-color: #F9BA45;
+  }
+  .blapply-textsection{
+    border-style:solid;
+    border-width: 1px;
+    padding: 20px;
+    margin-left: 25%;
+    max-width: 50%;
+  margin-top: 80px;
+  box-sizing: border-box;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-size: 18px;
+  }
+  .error {
+    color: red;
+    font-size: 0.875rem;
+  }
+  /* Add this CSS to BLApplyPageFirst.css */
+.progress-container {
+  width: 100%;
+  background-color: #f3f3f3;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 20px; /* Adjust as needed */
+}
+
+.progress-bar {
+  height: 8px;
+  background-color: #3e2780;
+  width: 0; /* Start with 0 width */
+  transition: width 0.3s ease; /* Smooth transition effect */
+}
+
+/* Add this to your BLApplyPageFirst.css file */
+
+.modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure the modal is on top of other content */
+}
+
+.modal-container {
+  position: relative;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 500px;
+}
+
+
+
+.modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-container {
+  background-color: #fff;
+  width: 300px; /* Adjust modal width as needed */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.otp-input-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.otp-input {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  font-size: 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.otpclose {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* .ploan-btn-btn-primary {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+} */
+
+.ploan-btn-btn-primary {
+  margin-right: auto;
+  /* padding: 10px 10px; */
+  /* background-color: #3e2780; */
+  background-color: #fdc638;
+  font-weight: bold;
+  color: #3e2780;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 15px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+@media (max-width:768px){
+  
+  .blapplycontainer {
+    margin-top: 20px;
+  }
+  
+  .blapplyrow {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .blapply-col-md-6 {
+    padding: 0 15px;
+    padding-left: 5%;
+    max-width: 100%;
+  }
+  
+  .blapply-col-md-6-pl{
+    padding: 0 15px;
+    /* padding-left: 5%; */
+    max-width: 90%;
+  }
+  
+  .blapply-image-container {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .blapply-image-container img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .blapply-col-md-6-pl {
+    width: 100%;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-right: 5%;
+  }
+  .blapply-col-md-6-pl form{
+    background-color: #fff;
+    width: 100%;
+    border-radius: 8px;
+
+    
+  }
+  .blapply-col-md-6 h1{
+   
+    color: #3e2780;
+    font-size: 3rem;
+    font-weight: normal;
+  }
+  .blapply-col-md-6-pl h2{
+   
+    color: #3e2780;
+    font-size: 2rem;
+    font-weight: normal;
+  }
+  .blapply-form-group {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #000000a6;
+}
+  .blapply-form-group input,
+  .blapply-form-group select {
+      width: calc(100% - 16px); /* Adjust width to account for padding and border */
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box; /* Ensures padding and border are included in the element's total width */
+  }
+  
+  .blapply-invalid-feedback {
+      color: #dc3545;
+      font-size: 0.875rem;
+  }
+  
+  .blapply-button {
+      padding: 10px 20px;
+      background-color: #F9BA45;      ;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%; /* Full width of the container */
+  }
+  
+  .blapply-button:hover {
+      background-color: #F9BA45;
+  }
+  .blapply-textsection{
+    border-style:solid;
+    border-width: 1px;
+    padding: 20px;
+    margin-left: 5%;
+    max-width: 90%;
+  margin-top: 80px;
+  box-sizing: border-box;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-size: 18px;
+  }
+  .error {
+    color: red;
+    font-size: 0.875rem;
+  }
+  /* Add this CSS to BLApplyPageFirst.css */
+.progress-container {
+  width: 100%;
+  background-color: #f3f3f3;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 20px; /* Adjust as needed */
+}
+
+.progress-bar {
+  height: 8px;
+  background-color: #3e2780;
+  width: 0; /* Start with 0 width */
+  transition: width 0.3s ease; /* Smooth transition effect */
+}
+  
+}

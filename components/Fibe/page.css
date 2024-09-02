@@ -1,0 +1,499 @@
+
+  
+  .ploancontainer {
+    margin-top: 20px;
+  }
+  
+  .ploanrow {
+    display: flex;
+    align-items: center;
+  }
+  
+  .ploan-col-md-6 {
+    padding: 0 15px;
+    padding-left: 5%;
+    max-width: 50%;
+  }
+  
+  .ploan-col-md-6-pl{
+    padding: 0 15px;
+    padding-left: 5%;
+    max-width: 40%;
+  }
+  
+  .ploan-image-container {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .ploan-image-container img {
+    max-width: 80%;
+    height: auto;
+  }
+  
+  .ploan-text-container h1 {
+    font-size: 3rem;
+    color: #3e2780;
+    font-weight: normal;
+    font-family: 'Open Sans', sans-serif;
+  }
+  .ploan-col-md-6-pl {
+    width: 80%;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .ploan-col-md-6-pl form{
+    background-color: #fff;
+    width: 100%;
+    border-radius: 8px;
+    
+  }
+  .ploan-col-md-6 h1{
+   
+    color: #3e2780;
+    font-size: 3rem;
+    font-weight: normal;
+  }
+  .ploan-col-md-6-pl h2{
+   
+    color: #3e2780;
+    /* font-size: 2rem;
+    font-weight: normal; */
+  }
+  
+  .ploan-form-group {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #000000a6;
+  }
+  
+  
+  
+  .ploan-invalid-feedback {
+    color: #dc3545;
+    font-size: 0.875rem;
+  }
+  
+  /*---------------------------Example styles for dropdown arrow and FAQ-------------------------------*/
+  
+  .faq-item-pl{
+    background-color: #f2f2f2;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  
+  }
+  
+  .faq-question-pl {
+    display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-size: 20px;
+      font-family: 'Open Sans', sans-serif;
+  }
+  .arrowpl {
+    font-size: 14px;
+    transition: transform 0.3s ease; /* Smooth arrow rotation transition */
+  }
+  
+  .arrowpl.expanded {
+    transform: rotate(180deg); /* Rotate arrow when expanded */
+  }
+  
+  .faq-answer-pl {
+    margin-top: 10px; /* Margin above answer */
+    font-size: 18px;
+   
+  }
+  
+  .faq-answer-pl p {
+    margin: 0; /* Remove default margin for paragraphs */
+  
+  }
+  .faq-container-ploan h1{
+    font-size: 3 rem;
+    color: #3e2780;
+    font-weight: normal;
+    text-align: center;
+    padding-bottom: 20px;
+    padding-top: 20px;
+  }
+  
+  /* .ploan-btn-btn-primary{
+  background-color: #3e2780;
+  color: #ffffff;
+  padding: 10px;
+  width: 50%;
+  border: none;
+  border-radius: 5px;
+  margin-left: 25%;
+  } */
+  /* .pploan-btn-btn-primary:hover {
+    background-color: #5f3ba6;
+  } */
+  /* Add styles for OTP input fields */
+  .otp-input-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .otp-input {
+    width: 40px; /* Adjust width as needed */
+    height: 40px;
+    text-align: center;
+    font-size: 18px;
+    margin: 0 5px; /* Add space between OTP inputs */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  .loan-modal-content img{
+    margin-left: 80px;
+    width: 150px;
+    height: 150px;
+  }
+  
+  
+  .modal-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-container {
+    background-color: #fff;
+    width: 300px; /* Adjust modal width as needed */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .loan-modal-content {
+    text-align: center;
+  }
+  
+  .loan-modal-content h3 {
+    margin-bottom: 10px;
+  }
+  
+  .loan-modal-content p {
+    margin-bottom: 20px;
+  }
+  
+  .loan-modal-content input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .ploan-btn-btn-primary {
+    margin-right: auto;
+    /* padding: 10px 10px; */
+    /* background-color: #3e2780; */
+    background-color: #fdc638;
+    font-weight: bold;
+    color: #3e2780;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  
+  /* .ploan-btn-btn-primary button:hover {
+    background-color: #fdc638;
+  } */
+  .error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    display: block; 
+  }
+  .otpclose{
+    margin-left: 85%;
+    outline: none;
+    cursor: pointer;
+    background-color: hsl(0, 14%, 95%);
+    background: none;
+    border: none;
+    padding: 10px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50px;
+  }
+  .otpclose:hover{
+    background-color: hsl(0, 14%, 95%);
+  }
+  
+  @media (min-width:768px) {
+
+    .ploan-col-md-6-pl{
+      margin-left: 10%;
+    }
+    
+  .ploan-features {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+  }
+  
+  
+  
+  .ploan-feature img {
+  max-width: 25%;
+  height: 25%;
+  margin-bottom: 10px;
+  }
+  
+  .ploan-feature h4 {
+  margin-bottom: 5px;
+  font-size: 1.6rem;
+  color: #3e2780;
+  font-weight: normal;
+  }
+  
+  .ploan-feature p {
+  text-align: center;
+  margin-bottom: 10px; /* Adds space between paragraphs */
+  font-size: 1rem;
+  color: #000000a6;
+  }
+  
+    .ploan-feature {
+      text-align: center;
+      flex: 1;
+      padding: 10px; /* Added padding to space out the features */
+      max-width: 30%;
+      padding-top: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+  }  
+  @media (max-width: 768px) {
+    .ploancontainer {
+      overflow: hidden;
+    }
+    .ploanrow {
+      flex-direction: column;
+    }
+    
+    .ploan-col-md-6 {
+      width: 100%;
+      margin-bottom: 20px;
+      max-width: 100%;
+    }
+    .ploan-col-md-6-pl {
+      width: 95%;
+      max-width: 100%;
+    }
+    .ploan-col-md-6-pl h2{
+   
+      color: #3e2780;
+      /* font-size: 1.6rem;
+      font-weight: normal; */
+    }
+    .ploan-col-md-6-pl form{
+      width: 100%;
+      max-width: 100%;
+    }
+    .ploan-text-container h1{
+      max-width: 100%;
+      font-size: 28px;
+    }
+    .ploan-image-container{
+      max-width: 100%;
+      object-fit:fill;
+     
+    }
+    .ploan-image-container img{
+      max-width: 100%;
+      height: auto;
+    }
+  
+      /*-----------------------------faq-------------------------------------------*/
+      .faq-container-ploan h1{
+        font-size: 28px;
+        color: #3e2780;
+        padding-bottom: 20px;
+      }
+      .faq-question-pl{
+        font-size: 18px;
+        font-family: 'Open Sans', sans-serif;
+        }
+    .faq-answer-pl{
+        font-size: 15px;
+        font-family: 'Open Sans', sans-serif;
+  
+        }
+  }
+  
+
+  /* ------------------------------------------------------------------ */
+
+  .contactus-head{
+    padding: 10px;
+}
+.contactus-head h1{
+    font-size: 3rem;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: normal;
+    color: #3e2780;
+    
+
+}
+.contact-us-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    gap: 20px; /* Gap between columns */
+    margin: 0 auto; /* Center align horizontally */
+    padding: 20px;
+}
+
+.image-container-contact {
+    grid-column: 1 / 2; /* Image container spans first column */
+    grid-row: 1; /* Image container in first row */
+    margin-top: -15%;
+}
+.error-text {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    display: block;
+  }
+.image-container-contact img {
+    max-width: 90%; /* Ensure image fits container */
+    height: 90%;
+    display: block; /* Prevents unwanted space beneath image */
+}
+
+.form-container-contact {
+    grid-column: 2 / 3; /* Form container spans second column */
+    grid-row: 1; /* Form container in first row */
+}
+
+.form-container-contact form {
+    background-color: #fff;
+    padding: 20px;
+    width: 80%;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-container-contact h2 {
+    text-align: left;
+    font-size: 1.6rem;
+    font-family: 'Open Sans', sans-serif;
+    color: #3e2780;
+
+}
+.form-container-contact p{
+    font-size: 1.5rem;
+    color: #000000a6;
+}
+
+.form-group-contact {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #000000a6;
+
+}
+
+
+
+/* button:hover {
+    background-color: #3e2780;
+} */
+
+.support-options-container {
+    margin-top: 50px;
+    display: flex;
+    justify-content:center;
+}
+
+.support-option {
+    cursor: pointer;
+    text-align: center;
+    margin: 10px; /* Adjust spacing between options */
+    border-radius: 20px;
+    flex-basis: calc(33.33% - 10px); /* Adjust width for each option */
+}
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+    .contactus-head{
+        padding: 20px;
+    }
+    .contactus-head h1{
+        font-size: 28px;
+        font-family: 'Open Sans', sans-serif;
+        font-weight: normal;
+        color: #3e2780;
+        
+    
+    }
+    .image-container-contact img {
+        max-width: 100%; /* Ensure image fits container */
+        height: 100%;
+        display: block; /* Prevents unwanted space beneath image */
+    }
+    .contact-us-container {
+        grid-template-columns: 1fr; /* Single column layout for mobile */
+    }
+
+    .form-container-contact {
+        grid-column: 1 / 2; /* Form container spans full width */
+        grid-row: 2; /* Form container in second row */
+    }
+    .form-container-contact form{
+        width: 100%;
+    }
+
+    .form-container-contact p{
+        font-size: 18px;
+        color: #000000a6;
+    }
+    .support-option {
+        cursor: pointer;
+        text-align: center;
+        margin: 10px; /* Adjust spacing between options */
+        border-radius: 20px;
+        flex-basis: calc(28.33% - 2px); /* Adjust width for each option */
+    }
+    .support-options-container {
+        flex-direction: row; /* Stack options vertically on mobile */
+        align-items: center; /* Center items horizontally */
+    }
+ 
+    
+}
+
+.ploan-col-md-6-pl h2{
+   
+  color: #3e2780;
+  /* font-size: 2rem;
+  font-weight: normal; */
+}

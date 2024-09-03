@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation'; // Import useRouter for navigation
 import './ForSelfEmployed.css'; // Import the CSS module from the same directory
 import NewNavBar from "../NewPersonalLoan/Other Components/Navbar";
@@ -13,7 +13,7 @@ import ApplicationPopup from "../../components/BLApplyPrime/ApplicationPopup";
 import ApplicationLoader from './ApplicationLoader';
 import RedirectionLoader from "./RedirectionLoader";
 
-export default function ForSelfEmployed({cpi, lenderProduct, mainFormData, dobFlag, residentialPincodeFlag }) {
+export default function ForSelfEmployed({cpi, lenderProduct, mainFormData, dobFlag, residentialPincodeFlag, setActiveContainer }) {
   const [formData, setFormData] = useState({
     pan: '',
     email: '',
@@ -31,10 +31,16 @@ export default function ForSelfEmployed({cpi, lenderProduct, mainFormData, dobFl
   const [link, setLink] = useState(null);
   const [apiExecutionLoader, setApiExecutionLoader] = useState(false);
   const [redirectionLinkLoader, setRedirectionLinkLoader] = useState(false);
+  const [progress, setProgress] = useState(50); // Initial progress
 
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top of the page when component mounts
   }, []);
+
+useEffect(() => {
+  updateProgress(); // Update progress when formData changes
+}, [formData]);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -50,6 +56,17 @@ export default function ForSelfEmployed({cpi, lenderProduct, mainFormData, dobFl
       setFormData((prevData) => ({ ...prevData, [name]: value }));
     }
   };
+
+  const updateProgress = () => {
+    const totalFields = Object.keys(formData).length;
+    const completedFields = Object.values(formData).filter(value => value).length;
+
+    // Add base 50% to the percentage of fields filled
+    const progressPercentage = 50 + ((completedFields / totalFields) * 50);
+    setProgress(Math.min(progressPercentage, 100));
+  };
+
+
 
   const validateForm = () => {
     const errors = {};
@@ -78,14 +95,31 @@ export default function ForSelfEmployed({cpi, lenderProduct, mainFormData, dobFl
     return Object.keys(errors).length === 0;
   };
 
+ // ......................................steps count code---------------------------------------
+
+ const handleDataLayerStage = (stage) => {
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({'stage': stage});
+};
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
       // Process form data and navigate to the next page
+      handleDataLayerStage(4); // Track step 2 when the form is submitted
       StoreDataToBackendForSelfEmployed(e);
       console.log('Form data:', formData);
       // router.push('/next-page'); // Uncomment and modify the route as needed
     }
+  };
+
+  const handlePreviousClick = () => {
+    // Navigate to the lenders list page
+    // console.log("Previous button clicked");
+    // router.push('/BLApplyLenders');
+    setActiveContainer("LendersList");
+    
   };
 
   const handleDateChange2 = (date) => {
@@ -243,6 +277,9 @@ export default function ForSelfEmployed({cpi, lenderProduct, mainFormData, dobFl
     }
       {/* <NewNavBar /> */}
       <div className="blapply-selfemployedpage">
+      <div className="progress-container">
+         <div className="progress-bar" style={{ width: `${progress}%` }}></div>
+      </div>
         <form onSubmit={handleSubmit}>
           {/* <h2 style={{textAlign:""}}>Details</h2> */}
 
@@ -365,7 +402,7 @@ export default function ForSelfEmployed({cpi, lenderProduct, mainFormData, dobFl
             </div>
             {formErrors.itr && <span className="error">{formErrors.itr}</span>}
           </div>
-
+          <button type="button" className="blapply-selfemployedp-button" onClick={handlePreviousClick} style={{color:"#3e2780", marginRight: "10px"}}>Previous</button>
           <button type="submit" className="blapply-selfemployed-button" style={{color:"#3e2780"}}>Submit</button>
         </form>
       </div>

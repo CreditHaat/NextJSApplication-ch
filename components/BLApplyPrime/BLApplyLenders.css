@@ -1,116 +1,152 @@
-.body{
-    font-family: Open - sans;
+.firstoneimage img{
+  width: 80px;
 }
-.congratulations-container {
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  position: relative; /* Ensure container is positioned relative for absolute positioning */
+.firstoneimage p{
+  font-weight: bold;
+  color: #3e2780;
+  font-size: 22px;
 }
-.company-names {
-    border-style:solid;
-    border-width: 1px;
-    padding: 20px;
-    margin-left: 25%;
-    max-width: 50%;
-  margin-top: 20px;
-  box-sizing: border-box;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.newallfirst{
+  border-style:solid;
+  border-width: 1px;
+  padding: 20px;
+  margin-left: 10%;
+  max-width: 80%;
+margin-top: 20px;
+box-sizing: border-box;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+border-radius: 10px;
+font-size: 18px; 
+}
+.anothertext{
+  margin-top: -7%;
+}
+.firstonebutton{
+  background-color: #3e2780;
+  color: #fff;
+  padding: 10px;
   border-radius: 10px;
-  font-size: 1.5rem;
-
+  margin-left: 55%;
+  border: none;
 }
-.company-names-first img{
-    width: 200px;
+.secondonebutton{
+  background-color: #3e2780;
+  color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  margin-left: 40px;
+  border: none;
 }
-.company-names-first p{
-    font-size: 2rem;
-}
-.company-divider {
-    width: 100%; /* Full width of container */
-    border: none;
-    height: 1px; /* Height of the divider */
-    background-color: #656464; /* Color of the divider */
-    margin-top: 5px; /* Adjust spacing above divider */
-  }
-  .company-names-second{
-    font-size: 1.5rem;
-  }
-  .company-names-second h4{
-    margin-right: 20px;
-  }
-  .congraths-button{
-    padding: 10px;
-    width: 30%;
-    background-color: #F9BA45;
-    color: white;
-    margin-top: 20px;
-    border-radius: 5px;
-    border: none;
-  }
-
-.confetti-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none; /* Allow clicks to pass through */
-  z-index: 1000; /* Ensure confetti is on top of other content */
+/* Base Styles */
+body {
+  margin: 0;
+  font-family: "open Sans", sans-serif;
 }
 
-.confetti-piece {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  animation: confetti-fall 3s ease-out infinite;
+.lending-partner-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 
-/* Common confetti animation */
-@keyframes confetti-fall {
-  0% {
-    transform: translateY(-50vh) rotate(0deg);
+.lending-content {
+  display: flex;
+  align-items: left;
+  width: 100%;
+}
+.credit-haat-color{
+  color: #3e2780;
+}
+
+.details {
+  margin-top: 10px;
+  display: flex;
+}
+
+.detail {
+  margin-right: 30px;
+  margin-left: 20px;
+}
+
+.detail-label {
+  color: red;
+  font-weight: bold;
+  align-items: baseline;
+  margin-right: '50%';
+}
+.detail-labels{
+  font-weight: bold;
+}
+.action-button {
+  display: flex;
+  justify-content: center;
+  padding: 0 20px 20px 20px;
+  /* height: 40px; */
+  margin-top: 10px;
+  
+  
+}
+/* Grid Layout for Desktop */
+@media (min-width: 768px) {
+  .lending-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    gap: 20px; /* Space between the columns */
   }
-  100% {
-    transform: translateY(100vh) rotate(360deg);
+  .lending-content h1{
+    
+    font-size: 3rem;
+    font-weight: normal;
+    
+  }
+  .lending-image{
+    margin-left: 25%; 
   }
 }
 
+/* Mobile Styles */
+@media (max-width: 767px) {
+  .lending-content {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+
+  .lending-text, .lending-image {
+    padding: 20px 0;
+  }
+
+  .lending-image {
+    display: flex;
+    justify-content: center;
+  }
+
+  .lending-image img {
+    max-width: 100%;
+    height: auto;
+  }
+}
 
 @media (max-width: 768px){
-    .company-names {
-        border-style:solid;
-        border-width: 1px;
-        padding: 20px;
-        margin-left: 5%;
-        max-width: 90%;
-      margin-top: 20px;
-      box-sizing: border-box;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  .anothertext{
+      margin-top:0;
+     
+  }
+  .firstonebutton{
+      background-color: #3e2780;
+      color: #fff;
+      padding: 10px;
       border-radius: 10px;
-      font-size: 18px;
-    }
-    
-.company-names-first img{
-    width: 80px;
-}
-.company-names-first p{
-    font-size: 18px;
-}
-.company-names-second{
-    font-size: 18px;
+      margin-left: 0;
+      border: none;
   }
-  .company-names-second h4{
-    margin-right: 20px;
-  }
-  .congraths-button{
-    padding: 10px;
-    width: 40%;
-    background-color: #F9BA45;
-    color: white;
-    margin-top: 20px;
-    border-radius: 5px;
-  }
-
+  .secondonebutton{
+      background-color: #3e2780;
+      color: #fff;
+      padding: 10px;
+      border-radius: 10px;
+      margin-left: 10%;
+      border: none;
+  } 
 }

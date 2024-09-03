@@ -98,12 +98,26 @@
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      width: 100%; /* Full width of the container */
+      width: 40%; /* Full width of the container */
+      margin-left: 50px;
   }
   
   .blapply-selfemployed-button:hover {
       background-color: #F9BA45;
   }
+  .blapply-selfemployedp-button {
+    padding: 10px 20px;
+    background-color: #F9BA45;      ;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 40%; /* Full width of the container */
+}
+
+.blapply-selfemployedp-button:hover {
+    background-color: #F9BA45;
+}
   .error {
     color: red;
     font-size: 0.875rem;

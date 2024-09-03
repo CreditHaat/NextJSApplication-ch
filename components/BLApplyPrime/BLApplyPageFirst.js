@@ -64,20 +64,78 @@ export default function BLPageFirst() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-
-    if(name === 'pan')
-    {
-      const nameParts = value.trim().split(' ');
+  
+    if (name === 'pan') {
+      // Remove non-alphabetical characters except spaces
+      const sanitizedValue = value.replace(/[^a-zA-Z\s]/g, '');
+      const nameParts = sanitizedValue.trim().split(' ');
       const fname = nameParts.length > 0 ? nameParts[0] : '';
-        const surname = nameParts.length > 1 ? nameParts[nameParts.length - 1] : '';
-        setLastname(surname);
-        setFirstName(fname);
-        console.log("surname is :: "+surname);
+      const surname = nameParts.length > 1 ? nameParts[nameParts.length - 1] : '';
+  
+      setLastname(surname);
+      setFirstName(fname);
+  
+      // Validate name
+      if (sanitizedValue.trim() === '') {
+        setFormErrors(prevErrors => ({
+          ...prevErrors,
+          pan: 'Name is required'
+        }));
+      } else {
+        setFormErrors(prevErrors => ({
+          ...prevErrors,
+          pan: ''
+        }));
+      }
     }
+  
+     // Handle Mobile Number field
+  if (name === 'mobileNumber') {
+    // Remove all non-numeric characters
+    const numericValue = value.replace(/\D/g, '');
 
+    // Prevent input if it exceeds 10 characters
+    if (numericValue.length <= 10) {
+      setFormData(prevData => ({ ...prevData, mobileNumber: numericValue }));
+
+      // Validate mobile number
+      if (!/^[6789]\d{9}$/.test(numericValue)) {
+        setFormErrors(prevErrors => ({
+          ...prevErrors,
+          mobileNumber: 'Mobile number must start with 6, 7, 8, or 9 and be 10 digits long'
+        }));
+      } else {
+        setFormErrors(prevErrors => ({
+          ...prevErrors,
+          mobileNumber: ''
+        }));
+      }
+    }
+  }
+
+  // Handle other fields
+  if (name === 'monthlyincome') {
+    if (/^\d+$/.test(value) || value === '') {
+      setFormErrors(prevErrors => ({
+        ...prevErrors,
+        monthlyincome: ''
+      }));
+    } else {
+      setFormErrors(prevErrors => ({
+        ...prevErrors,
+        monthlyincome: 'Invalid monthly income'
+      }));
+    }
+  }
+
+    // Update form data state
     setFormData((prevData) => ({ ...prevData, [name]: value }));
     updateProgress();
+  };
+  const handleKeyDown = (e) => {
+    if (e.target.name === 'pan' && !/^[a-zA-Z\s]*$/.test(e.key)) {
+      e.preventDefault(); // Prevent input if the key is not a letter or space
+    }
   };
 
   const handleOtpInputChange = (index, value) => {
@@ -117,9 +175,9 @@ export default function BLPageFirst() {
   const validateForm = () => {
     const errors = {};
 
-    if (!formData.pan) errors.pan = 'PAN is required';
+    if (!formData.pan) errors.pan = 'Name is required';
     if (!formData.mobileNumber) errors.mobileNumber = 'Mobile number is required';
-    else if (!/^\d{10}$/.test(formData.mobileNumber)) errors.mobileNumber = 'Invalid mobile number';
+  else if (!/^[6789]\d{9}$/.test(formData.mobileNumber)) errors.mobileNumber = 'Mobile number must start with 6, 7, 8, or 9 and be 10 digits long';
 
     if (!formData.occupation) errors.occupation = 'Occupation is required';
     if (!formData.monthlyincome) errors.monthlyincome = 'Monthly income is required';
@@ -134,19 +192,31 @@ export default function BLPageFirst() {
   const updateProgress = () => {
     let completedFields = 0;
     const totalFields = 5;
-
+  
     Object.values(formData).forEach(value => {
       if (value) completedFields++;
     });
-
-    setProgress((completedFields / totalFields) * 100);
+  
+    // Calculate progress and cap it at 50%
+    const progressPercentage = (completedFields / totalFields) * 100;
+    setProgress(Math.min(progressPercentage, 50));
   };
+  
 
   const [activeContainer, setActiveContainer] = useState('FirstPage');
+
+// ......................................steps count code---------------------------------------
+
+  const handleDataLayerStage = (stage) => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({'stage': stage});
+  };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
+      handleDataLayerStage(1); // Track step 2 when the form is submitted
       setOtpModal(true);
       handleFormSubmit(e);
     }
@@ -157,10 +227,10 @@ export default function BLPageFirst() {
     console.log("Inside this function 1");
     e.preventDefault();
 
-    function handleDataLayerStart(flag,mobile_number, emptype, PaymentType, monthlyincome) {
+    function handleDataLayerStart(flag,mobile_number, emptype,PaymentType, monthlyincome) {
       console.log("INside handledatalayer , ",flag, mobile_number, emptype);
       window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({'mobileNumber' : mobile_number, 'flag':flag, 'employmentType': emptype, 'PaymentType': PaymentType  , 'monthlyincome': monthlyincome  });
+      window.dataLayer.push({'mobileNumber' : mobile_number, 'flag':flag, 'employmentType': emptype, 'PaymentType': PaymentType, 'monthlyincome': monthlyincome  });
     }
 
     console.log("Inside this function");
@@ -209,7 +279,7 @@ export default function BLPageFirst() {
 
         console.log("Before handleDataLayerStart");
 
-        handleDataLayerStart(response.data.obj.user_exist,formData.mobileNumber,formData.occupation, formData.PaymentType, formData.monthlyincome ); 
+        handleDataLayerStart(response.data.obj.user_exist,formData.mobileNumber,formData.occupation, formData.PaymentType, formData.monthlyincome); 
 
         console.log("After handleDataLayerStart");
       }
@@ -252,6 +322,8 @@ export default function BLPageFirst() {
         setOtpLoader(false);
         // setActiveContainer("LendersList");
         getLendersList(e);
+        handleDataLayerStage(2);
+
         // setActiveContainer("")
         // setOtpModal(false);
       } else if (response.data.code === 1) {
@@ -261,6 +333,7 @@ export default function BLPageFirst() {
         setOtpLoader(false);
         // setActiveContainer("LendersList");
         getLendersList(e);
+        handleDataLayerStage(2);
       } else if (response.data.code === 2) {
         setDobFlag(false);
         setResidentialPincodeFlag(true);
@@ -268,6 +341,7 @@ export default function BLPageFirst() {
         setOtpLoader(false);
         // setActiveContainer("LendersList");
         getLendersList(e);
+        handleDataLayerStage(2);
       } else if (response.data.code === 3) {
         setDobFlag(true);
         setResidentialPincodeFlag(true);
@@ -275,6 +349,7 @@ export default function BLPageFirst() {
         setOtpLoader(false);
         // setActiveContainer("LendersList");
         getLendersList(e);
+        handleDataLayerStage(2);
       }else {
         setOtpStatus("Incorrect OTP! Try Again.");
         setOtpInputs(["", "", "", "", "", ""]);
@@ -331,6 +406,7 @@ export default function BLPageFirst() {
     console.log("Inside the redirect link method");
     localStorage.setItem('applicationLink', applicationLink);
     if(formData.occupation === "Salaried"){
+      handleDataLayerStage(3); // Track step 2 when the form is submitted
       setActiveContainer("forSalaried");
     }else{
       setActiveContainer("forSelfEmployed");
@@ -343,6 +419,7 @@ export default function BLPageFirst() {
 
     setCpi(0);
     setLenderProduct(lenderProduct);
+    handleDataLayerStage(3); // Track step 2 when the form is submitted
     setActiveContainer("forSalaried");
     if(formData.occupation === "Salaried"){
       setActiveContainer("forSalaried");
@@ -356,16 +433,20 @@ export default function BLPageFirst() {
 
   return (
     <>
+    {
+      activeContainer !== 'LendersList' && 
       <NewNavBar />
+    }
+      
 
       {
         activeContainer === "forSelfEmployed" &&
-        <ForSelfEmployed cpi={cpi} lenderProduct={lenderProduct} mainFormData={formData} dobFlag={dobFlag} residentialPincodeFlag={residentialPincodeFlag} />//here we will be calling sendin this api to the next page 
+        <ForSelfEmployed cpi={cpi} lenderProduct={lenderProduct} mainFormData={formData} dobFlag={dobFlag} residentialPincodeFlag={residentialPincodeFlag} setActiveContainer={setActiveContainer}/>//here we will be calling sendin this api to the next page 
       }
 
 {
         activeContainer === "forSalaried" &&
-        <ForSalaried cpi={cpi} lenderProduct={lenderProduct} mainFormData={formData} dobFlag={dobFlag} residentialPincodeFlag={residentialPincodeFlag} />
+        <ForSalaried cpi={cpi} lenderProduct={lenderProduct} mainFormData={formData} dobFlag={dobFlag} residentialPincodeFlag={residentialPincodeFlag} setActiveContainer={setActiveContainer} />
       }
 
       {
@@ -373,14 +454,15 @@ export default function BLPageFirst() {
       }
       {otpLoader && <OtpVerifyLoader/>}
       
-      {
+      {/* {
         activeContainer === "BLApplyLenders" &&
         <BLApplyLenders />
-      }
+      } */}
 
       {
         activeContainer === "LendersList" && 
-        <LendersList companies={lenderDetails} formData={formData} redirectLinkMethod={redirectLinkMethod} getLoanBackendMethod={getLoanBackendMethod}/> 
+        // <LendersList companies={lenderDetails} formData={formData} redirectLinkMethod={redirectLinkMethod} getLoanBackendMethod={getLoanBackendMethod}/> 
+        <BLApplyLenders companies={lenderDetails} formData={formData} redirectLinkMethod={redirectLinkMethod} getLoanBackendMethod={getLoanBackendMethod}/>
       }
 
       {
@@ -399,11 +481,26 @@ export default function BLPageFirst() {
               <form onSubmit={handleSubmit}>
                 {/* <h2>Check eligibility in 3 steps</h2> */}
                 <div className="blapply-form-group">
-                  <input type="text" id="pan" name="pan" value={formData.pan} onChange={handleChange} placeholder="Name as per PAN" />
+                  <input 
+                    type="text" 
+                    id="pan" 
+                    name="pan" 
+                    value={formData.pan} 
+                    onChange={handleChange} 
+                    onKeyDown={handleKeyDown} 
+                    placeholder="Name as per PAN" />
                   {formErrors.pan && <span className="error">{formErrors.pan}</span>}
                 </div>
                 <div className="blapply-form-group">
-                  <input type="text" id="mobileNumber" name="mobileNumber" value={formData.mobileNumber} onChange={handleChange} placeholder="Mobile number" inputMode="numeric" />
+                  <input 
+                    type="number" 
+                    id="mobileNumber" 
+                    name="mobileNumber" 
+                    value={formData.mobileNumber} 
+                    onChange={handleChange} 
+                    placeholder="Mobile number" 
+                    inputMode="numeric"  
+                    maxLength='10' />
                   {formErrors.mobileNumber && <span className="error">{formErrors.mobileNumber}</span>}
                 </div>
                 {/* <div className="blapply-form-group">
@@ -442,7 +539,13 @@ export default function BLPageFirst() {
 
 {/* ----------------------------------------------------------- */}
                 <div className="blapply-form-group">
-                  <input type="text" id="monthlyincome" name="monthlyincome" value={formData.monthlyincome} onChange={handleChange} placeholder="Monthly income" inputMode="numeric" />
+                  <input 
+                   type="number" 
+                   id="monthlyincome" 
+                   name="monthlyincome" 
+                   value={formData.monthlyincome} 
+                   onChange={handleChange} placeholder="Monthly income" 
+                   inputMode="numeric" />
                   {formErrors.monthlyincome && <span className="error">{formErrors.monthlyincome}</span>}
                 </div>
                 <div className="blapply-form-group">

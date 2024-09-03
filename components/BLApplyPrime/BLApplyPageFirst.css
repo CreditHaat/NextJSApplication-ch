@@ -322,19 +322,20 @@
     font-size: 0.875rem;
   }
   /* Add this CSS to BLApplyPageFirst.css */
-.progress-container {
-  width: 100%;
-  background-color: #f3f3f3;
-  border-radius: 4px;
-  overflow: hidden;
-  margin-bottom: 20px; /* Adjust as needed */
-}
-
-.progress-bar {
-  height: 8px;
-  background-color: #3e2780;
-  width: 0; /* Start with 0 width */
-  transition: width 0.3s ease; /* Smooth transition effect */
-}
+  .progress-container {
+    position: relative;
+    height: 10px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .progress-bar {
+    height: 100%;
+    background-color: #3e2780;
+    width: 0; /* Default width */
+    transition: width 0.3s ease;
+  }
+  
   
 }

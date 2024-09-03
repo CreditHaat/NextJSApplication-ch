@@ -15,6 +15,10 @@
       border: 0;
       width: 100%;
   }
+
+.blapply-salaried-button:hover {
+    background-color: #F9BA45;
+}
 }
 
 @media (max-width: 768px) {
@@ -91,12 +95,26 @@
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      width: 100%; /* Full width of the container */
+      width:40%; /* Full width of the container */
+      margin-left: 50px;
   }
   
   .blapply-salaried-button:hover {
       background-color: #F9BA45;
   }
+  .blapply-salariedp-button {
+    padding: 10px 20px;
+    background-color: #F9BA45;      ;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width:40%; /* Full width of the container */
+}
+
+.blapply-salariedp-button:hover {
+    background-color: #F9BA45;
+}
   .error {
     color: red;
     font-size: 0.875rem;
@@ -160,4 +178,5 @@
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+
   }

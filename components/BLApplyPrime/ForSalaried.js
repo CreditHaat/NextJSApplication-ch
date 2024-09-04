@@ -48,16 +48,24 @@ useEffect(() => {
 const handleChange = (e) => {
   const { name, value } = e.target;
 
+  let updatedValue = value;
+
+  if(name==='pan'){
+    updatedValue = value.toUpperCase();
+    setFormData((prevData) => ({ ...prevData, [name]: updatedValue }));
+  }
+
   if (name === 'pincode' || name === 'officePincode') {
     // Remove non-digit characters and restrict to 6 digits
     const cleanedValue = value.replace(/\D/g, '').slice(0, 6);
     setFormData((prevData) => ({ ...prevData, [name]: cleanedValue }));
   } else {
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    setFormData((prevData) => ({ ...prevData, [name]: updatedValue }));
   }
 
   // Validate the specific field
-  validateField(name, value);
+  
+  validateField(name, updatedValue);
 };
 
 const validateField = (name, value) => {
@@ -85,7 +93,7 @@ const validateField = (name, value) => {
       break;
     case 'pincode':
       if (residentialPincodeFlag && !value) errors.pincode = 'Pincode is required';
-      else if (!/^\d{6}$/.test(value)) errors.pincode = 'Invalid pincode';
+      else if (residentialPincodeFlag && !/^\d{6}$/.test(value)) errors.pincode = 'Invalid pincode';
       else delete errors.pincode;
       break;
     case 'companyName':
@@ -123,7 +131,7 @@ const validateField = (name, value) => {
     if (dobFlag && !formData.dob) errors.dob = 'Date of birth is required';
     if (!formData.address) errors.address = 'Address is required';
     if (residentialPincodeFlag && !formData.pincode) errors.pincode = 'Pincode is required';
-    else if (!/^\d{6}$/.test(formData.pincode)) errors.pincode = 'Invalid pincode';
+    else if (residentialPincodeFlag && !/^\d{6}$/.test(formData.pincode)) errors.pincode = 'Invalid pincode';
     
     if (!formData.companyName) errors.companyName = 'Company name is required';
     if (!formData.officePincode) errors.officePincode = 'Office pincode is required';

@@ -562,7 +562,7 @@ export default function BLPageFirst() {
                       ...formErrors,
                       PaymentType: e.target.value
                         ? ""
-                        : "PaymentType is required",
+                        : "Payment Type is required",
                     })
                   }
                   >

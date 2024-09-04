@@ -164,6 +164,15 @@ const BLApplyLenders = ({companies, onGetLoan, lenderProduct, setLenderProduct, 
     const [cpi, setCpi] = useState('0');
 
 
+     // ......................................steps count code---------------------------------------
+
+ const handleDataLayerStage = (stage) => {
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({'stage': stage});
+};
+
+
+
   
   return(
     <>
@@ -177,7 +186,8 @@ const BLApplyLenders = ({companies, onGetLoan, lenderProduct, setLenderProduct, 
           <div style={{ padding: '10px', paddingTop: '0px' }}>
         {companies.lender_details.map((lender, index) => (
           <div key={index} className={lender.product_id} >
-            <div className="card-container">
+            <div className="card-container" style={{fontFamily:'sans-serif'}}>
+              {/* "Open sans, Sans-serif" */}
               <div className="card-content">
                 <div className="" style={{ width: '50%', float: 'left', margin: 'auto' }}>
                   <div className="text-content" style={{ width: '50%', padding: '10px', margin: 'auto', marginLeft: '0px' }}>
@@ -186,27 +196,27 @@ const BLApplyLenders = ({companies, onGetLoan, lenderProduct, setLenderProduct, 
                   </div>
                 </div>
                 <div className="text-content" style={{ width: '50%', float: 'right' }}>
-                  <Typography variant="h5" component="div" className="title" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
+                  <Typography style={{fontFamily:'sans-serif'}} variant="h5" component="div" className="title" >
                     {lender.product}
                   </Typography>
-                  <Typography variant="body2" color="textSecondary" className="data" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
+                  <Typography variant="body2" color="textSecondary" className="data" >
                     {lender.description}
                   </Typography>
                 </div>
               </div>
               <div className="details">
                 <div className="detail">
-                  <Typography variant="body2" color="textSecondary" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
+                  <Typography variant="body2" color="textSecondary" >
                     <span className="detail-label">{lender.maxloanamount}</span> <br />Max Amount
                   </Typography>
                 </div>
                 <div className="detail">
-                  <Typography variant="body2" color="textSecondary" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
+                  <Typography variant="body2" color="textSecondary" >
                     <span className="detail-labels" >{lender.tenure}</span> <br />Tenure
                   </Typography>
                 </div>
                 <div className="detail">
-                  <Typography variant="body2" color="textSecondary" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
+                  <Typography variant="body2" color="textSecondary" >
                     <span className="detail-labels" >{lender.interest}</span> <br />Interest
                   </Typography>
                 </div>

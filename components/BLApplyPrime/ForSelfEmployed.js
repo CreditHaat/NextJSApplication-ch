@@ -74,7 +74,7 @@ const handleChange = (e) => {
         if (!value.trim()) {
           errors.email = 'Email is required';
         } else if (!/\S+@\S+\.\S+/.test(value)) {
-          errors.email = 'Invalid email address';
+          errors.email = 'Email address is invalid';
         } else {
           delete errors.email; // Remove error if valid
         }

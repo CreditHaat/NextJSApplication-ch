@@ -124,7 +124,13 @@ const validateField = (name, value) => {
   const validateForm = () => {
     const errors = {};
   
-    if (!formData.pan) errors.pan = 'PAN is required';
+    
+   // PAN Validation
+  if (!formData.pan) {
+    errors.pan = 'PAN is required';
+  } else if (!/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(formData.pan)) {
+    errors.pan = 'Invalid PAN format';
+  } 
     if (!formData.email) errors.email = 'Email is required';
     else if (!/\S+@\S+\.\S+/.test(formData.email)) errors.email = 'Invalid email address';
   

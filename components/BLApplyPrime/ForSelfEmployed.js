@@ -42,20 +42,85 @@ useEffect(() => {
 }, [formData]);
 
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+const handleChange = (e) => {
+  const { name, value } = e.target;
 
-    if (name === 'pincode') {
-      // Remove non-digit characters and restrict to 6 digits
-      const cleanedValue = value.replace(/\D/g, '').slice(0, 6);
-      setFormData((prevData) => ({ ...prevData, [name]: cleanedValue }));
-    } else if (name === 'itr') {
-      // Handle ITR radio button change
-      setFormData((prevData) => ({ ...prevData, [name]: value }));
-    } else {
-      setFormData((prevData) => ({ ...prevData, [name]: value }));
+  let updatedValue = value;
+
+  if (name === 'pincode') {
+    updatedValue = value.replace(/\D/g, '').slice(0, 6);
+  } else if (name === 'pan') {
+    updatedValue = value.toUpperCase();
+  }
+
+  setFormData((prevData) => ({ ...prevData, [name]: updatedValue }));
+  validateField(name, updatedValue); // Validate field on change
+};
+
+  const validateField = (name, value) => {
+    let errors = { ...formErrors };
+  
+    switch (name) {
+      case 'pan':
+        if (!value.trim()) {
+          errors.pan = 'PAN is required';
+        } else if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(value)) {
+          errors.pan = 'PAN is invalid';
+        } else {
+          delete errors.pan; // Remove error if valid
+        }
+        break;
+      case 'email':
+        if (!value.trim()) {
+          errors.email = 'Email is required';
+        } else if (!/\S+@\S+\.\S+/.test(value)) {
+          errors.email = 'Invalid email address';
+        } else {
+          delete errors.email; // Remove error if valid
+        }
+        break;
+      case 'dob':
+        if (dobFlag) {
+          if (!value.trim()) {
+            errors.dob = 'Date of birth is required';
+          } else {
+            delete errors.dob; // Remove error if valid
+          }
+        }
+        break;
+      case 'address':
+        if (!value.trim()) {
+          errors.address = 'Address is required';
+        } else {
+          delete errors.address; // Remove error if valid
+        }
+        break;
+      case 'pincode':
+        if (residentialPincodeFlag) {
+          if (!value.trim()) {
+            errors.pincode = 'Pincode is required';
+          } else if (!/^\d{6}$/.test(value)) {
+            errors.pincode = 'Invalid pincode';
+          } else {
+            delete errors.pincode; // Remove error if valid
+          }
+        }
+        break;
+      case 'itr':
+        if (!value) {
+          errors.itr = 'ITR status is required';
+        } else {
+          delete errors.itr; // Remove error if valid
+        }
+        break;
+      default:
+        break;
     }
+  
+    setFormErrors(errors);
+    return !errors[name]; // Return true if no error for the field
   };
+  
 
   const updateProgress = () => {
     const totalFields = Object.keys(formData).length;
@@ -71,7 +136,11 @@ useEffect(() => {
   const validateForm = () => {
     const errors = {};
 
-    if (!formData.pan) errors.pan = 'PAN is required';
+    if (!formData.pan.trim()) {
+      errors.pan = 'PAN is required';
+    } else if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(formData.pan)) {
+      errors.pan = 'PAN is invalid';
+    }
     if (!formData.email) errors.email = 'Email is required';
     else if (!/\S+@\S+\.\S+/.test(formData.email)) errors.email = 'Invalid email address';
 
@@ -103,16 +172,17 @@ useEffect(() => {
 };
 
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      // Process form data and navigate to the next page
-      handleDataLayerStage(4); // Track step 2 when the form is submitted
-      StoreDataToBackendForSelfEmployed(e);
-      console.log('Form data:', formData);
-      // router.push('/next-page'); // Uncomment and modify the route as needed
-    }
-  };
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  if (validateForm()) {
+    handleDataLayerStage(4); // Track step 2 when the form is submitted
+    StoreDataToBackendForSelfEmployed(e);
+    console.log('Form data:', formData);
+    // router.push('/next-page'); // Uncomment and modify the route as needed
+  }
+};
+
 
   const handlePreviousClick = () => {
     // Navigate to the lenders list page

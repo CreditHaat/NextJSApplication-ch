@@ -45,17 +45,64 @@ useEffect(() => {
 
 
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+const handleChange = (e) => {
+  const { name, value } = e.target;
 
-    if (name === 'pincode' || name === 'officePincode') {
-      // Remove non-digit characters and restrict to 6 digits
-      const cleanedValue = value.replace(/\D/g, '').slice(0, 6);
-      setFormData((prevData) => ({ ...prevData, [name]: cleanedValue }));
-    } else {
-      setFormData((prevData) => ({ ...prevData, [name]: value }));
-    }
-  };
+  if (name === 'pincode' || name === 'officePincode') {
+    // Remove non-digit characters and restrict to 6 digits
+    const cleanedValue = value.replace(/\D/g, '').slice(0, 6);
+    setFormData((prevData) => ({ ...prevData, [name]: cleanedValue }));
+  } else {
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  }
+
+  // Validate the specific field
+  validateField(name, value);
+};
+
+const validateField = (name, value) => {
+  const errors = { ...formErrors };
+
+  switch (name) {
+    case 'pan':
+      const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
+      if (!value) errors.pan = 'PAN is required';
+      else if (!panRegex.test(value)) errors.pan = 'Invalid PAN format';
+      else delete errors.pan;
+      break;
+    case 'email':
+      if (!value) errors.email = 'Email is required';
+      else if (!/\S+@\S+\.\S+/.test(value)) errors.email = 'Invalid email address';
+      else delete errors.email;
+      break;
+    case 'dob':
+      if (dobFlag && !value) errors.dob = 'Date of birth is required';
+      else delete errors.dob;
+      break;
+    case 'address':
+      if (!value) errors.address = 'Address is required';
+      else delete errors.address;
+      break;
+    case 'pincode':
+      if (residentialPincodeFlag && !value) errors.pincode = 'Pincode is required';
+      else if (!/^\d{6}$/.test(value)) errors.pincode = 'Invalid pincode';
+      else delete errors.pincode;
+      break;
+    case 'companyName':
+      if (!value) errors.companyName = 'Company name is required';
+      else delete errors.companyName;
+      break;
+    case 'officePincode':
+      if (!value) errors.officePincode = 'Office pincode is required';
+      else delete errors.officePincode;
+      break;
+    default:
+      break;
+  }
+
+  setFormErrors(errors);
+};
+
 
   const updateProgress = () => {
     const totalFields = Object.keys(formData).length;
@@ -68,33 +115,23 @@ useEffect(() => {
 
   const validateForm = () => {
     const errors = {};
-
+  
     if (!formData.pan) errors.pan = 'PAN is required';
     if (!formData.email) errors.email = 'Email is required';
     else if (!/\S+@\S+\.\S+/.test(formData.email)) errors.email = 'Invalid email address';
-
-
-    if(dobFlag){
-      // console.log("Inside if")
-      if (!formData.dob) errors.dob = 'Date of birth is required';
-    // Add more validation for DOB if needed
-    }
-    
-
+  
+    if (dobFlag && !formData.dob) errors.dob = 'Date of birth is required';
     if (!formData.address) errors.address = 'Address is required';
-
-    if(residentialPincodeFlag){
-      if (!formData.pincode) errors.pincode = 'Pincode is required';
+    if (residentialPincodeFlag && !formData.pincode) errors.pincode = 'Pincode is required';
     else if (!/^\d{6}$/.test(formData.pincode)) errors.pincode = 'Invalid pincode';
-
-    }
     
-    if (!formData.companyName ) errors.companyName = 'Company name is required';
-    if (!formData.officePincode ) errors.officePincode = 'Office pincode is required';
-
+    if (!formData.companyName) errors.companyName = 'Company name is required';
+    if (!formData.officePincode) errors.officePincode = 'Office pincode is required';
+  
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
+  
 
   const handleDateChange2 = (date) => {
     console.log("Inside handle date change");
@@ -297,6 +334,7 @@ useEffect(() => {
               value={formData.pan}
               onChange={handleChange}
               placeholder="PAN"
+              maxLength="10"
             />
             {formErrors.pan && <span className="error">{formErrors.pan}</span>}
           </div>

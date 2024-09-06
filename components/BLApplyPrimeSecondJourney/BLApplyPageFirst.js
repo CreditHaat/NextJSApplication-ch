@@ -14,6 +14,11 @@ import Loader from "./LendersLoader";
 import OtpVerifyLoader from "./OtpVerifyLoader";
 import ForSelfEmployed from './ForSelfEmployed';
 import ForSalaried from "./ForSalaried";
+// import ApplicationPopup from "../../components/BLApplyPrime/ApplicationPopup";
+import ApplicationLoader from './ApplicationLoader';
+import RedirectionLoader from "./RedirectionLoader";
+import ApplicationPopup from './ApplicationPopup';
+import ErrorPopup from './ErrorPopup';
 
 export default function BLPageFirst() {
   const [formData, setFormData] = useState({
@@ -50,6 +55,12 @@ export default function BLPageFirst() {
 
   const [dobFlag,setDobFlag] = useState(false);
   const [residentialPincodeFlag, setResidentialPincodeFlag] = useState(false);
+  const [apiExecutionLoader, setApiExecutionLoader] = useState(false);
+  const[redirectionLinkLoader, setRedirectionLinkLoader] = useState(false);
+
+  const [errorPopup, setErrorPopup] = useState(false);
+  const[applicationPopup ,setApplicationPopup] = useState(false);
+  const [link, setLink] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top of the page when component mounts
@@ -79,7 +90,7 @@ export default function BLPageFirst() {
       if (sanitizedValue.trim() === '') {
         setFormErrors(prevErrors => ({
           ...prevErrors,
-          pan: 'Name is required'
+           pan: 'Name is required'
         }));
       } else {
         setFormErrors(prevErrors => ({
@@ -321,8 +332,13 @@ export default function BLPageFirst() {
         setOtpStatus("");
         setOtpLoader(false);
         // setActiveContainer("LendersList");
-        getLendersList(e);
+        // getLendersList(e);
         handleDataLayerStage(2);
+        if(formData.occupation === "Salaried"){
+          setActiveContainer("forSalaried");
+        }else{
+          setActiveContainer("forSelfEmployed");
+        }
 
         // setActiveContainer("")
         // setOtpModal(false);
@@ -332,23 +348,38 @@ export default function BLPageFirst() {
         setOtpStatus("");
         setOtpLoader(false);
         // setActiveContainer("LendersList");
-        getLendersList(e);
+        // getLendersList(e);
         handleDataLayerStage(2);
+        if(formData.occupation === "Salaried"){
+          setActiveContainer("forSalaried");
+        }else{
+          setActiveContainer("forSelfEmployed");
+        }
       } else if (response.data.code === 2) {
         setDobFlag(false);
         setResidentialPincodeFlag(true);
         setOtpStatus("");
         setOtpLoader(false);
         // setActiveContainer("LendersList");
-        getLendersList(e);
+        // getLendersList(e);
         handleDataLayerStage(2);
+        if(formData.occupation === "Salaried"){
+          setActiveContainer("forSalaried");
+        }else{
+          setActiveContainer("forSelfEmployed");
+        }
       } else if (response.data.code === 3) {
         setDobFlag(true);
         setResidentialPincodeFlag(true);
         setOtpStatus("");
         setOtpLoader(false);
         // setActiveContainer("LendersList");
-        getLendersList(e);
+        // getLendersList(e);
+        if(formData.occupation === "Salaried"){
+          setActiveContainer("forSalaried");
+        }else{
+          setActiveContainer("forSelfEmployed");
+        }
         handleDataLayerStage(2);
       }else {
         setOtpStatus("Incorrect OTP! Try Again.");
@@ -400,18 +431,21 @@ export default function BLPageFirst() {
     }
   };
 
-  const redirectLinkMethod=(applicationLink)=>{                        
-
+  const redirectLinkMethod=(lenderProduct,applicationLink)=>{                        
+    console.log("Lender Product Is :::::: ",lenderProduct);
+    console.log("Application LInk is :::::::: ",applicationLink);
     setCpi(1);//HERE WE SET THE CPI to see if we have to redirect the user or to hit the api if cpi is 1 then we will set the redirection link else we will hit the api
     console.log("Inside the redirect link method");
     localStorage.setItem('applicationLink', applicationLink);
-    if(formData.occupation === "Salaried"){
-      handleDataLayerStage(3); // Track step 2 when the form is submitted
-      setActiveContainer("forSalaried");
-    }else{
-      setActiveContainer("forSelfEmployed");
-      handleDataLayerStage(3);
-    }
+    handleDataLayerStage(4);
+    apiExecutionBackend(lenderProduct, 1);
+    // if(formData.occupation === "Salaried"){
+    //   handleDataLayerStage(3); // Track step 2 when the form is submitted
+    //   setActiveContainer("forSalaried");
+    // }else{
+    //   setActiveContainer("forSelfEmployed");
+    //   handleDataLayerStage(3);
+    // }
     
 
   }
@@ -420,20 +454,113 @@ export default function BLPageFirst() {
 
     setCpi(0);
     setLenderProduct(lenderProduct);
-    handleDataLayerStage(3); // Track step 2 when the form is submitted
-    setActiveContainer("forSalaried");
-    if(formData.occupation === "Salaried"){
-      setActiveContainer("forSalaried");
-    }else{
-      setActiveContainer("forSelfEmployed");
-    }
+    handleDataLayerStage(4); // Track step 2 when the form is submitted
+    // setActiveContainer("forSalaried");
+    apiExecutionBackend(lenderProduct, 0);
+    // if(formData.occupation === "Salaried"){
+    //   getLendersList(e)
+    //   setActiveContainer("forSalaried");
+    // }else{
+    //   setActiveContainer("forSelfEmployed");
+    // }
 
   }
+
+  const apiExecutionBackend = async (productname, lenderCpi) => {
+
+    console.log(productname);
+  
+    // If lenderCpi is 1, redirect to lender.applicationlink
+
+    console.log(cpi);
+
+    if (lenderCpi === 1) {
+      setRedirectionLinkLoader(true);
+      const timer = setTimeout(() => {
+        // setRedirectionLinkLoader(false);
+        const lenderApplicationLink = localStorage.getItem('applicationLink');
+        window.location.href = lenderApplicationLink;
+        // window.location.href = lenderApplicationLink;
+      }, 3000);
+        
+        // setRedirectionLinkLoader(false);
+        // return; // Exit the function to avoid further execution
+    }else{
+      console.log("Inside get Loan Backend");
+    // e.preventDefault();
+
+    setApiExecutionLoader(true);
+
+    console.log("Inside get Loan Backend");
+
+    try {
+      const formData1 = new FormData();
+      formData1.append('mobilenumber', formData.mobileNumber);
+      formData1.append('product', productname);
+
+      // setlenderName(productname);
+
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}apiExecution_bl_apply_prime_master`, formData1, {
+        headers: {
+          'Content-Type': 'application/json',
+          'token': 'Y3JlZGl0aGFhdHRlc3RzZXJ2ZXI=' // Add your token here
+        }
+      });
+
+      if (response.data.code === 0) {
+        console.log("Inside get Loan Backend when code is 0");
+        // setIsCameFromBackend(true);
+        setApplicationPopup(true);
+        const timer = setTimeout(() => {
+          setApiExecutionLoader(false);
+        }, 3000);
+        var redirectionlink = response.data.data.lender_details[0].applicationlink;
+        setLink(redirectionlink);
+        // {!setIsLoading && <ApplicationPopup link={link}/>}
+      }
+      else if (response.data.code === -1) {
+        console.log(-1);
+        setErrorPopup(true);
+        const timer = setTimeout(() => {
+          setApiExecutionLoader(false);
+        }, 3000);
+
+        // setErrorPopup(true); //This will be true when the code will be -1
+      } else {
+        const timer = setTimeout(() => {
+          setApiExecutionLoader(false);
+        }, 3000);
+      }
+
+      console.log("for partner page", response);
+
+    } catch (error) {
+
+    }
+    }
+
+    
+  };
+
 
   
 
   return (
     <>
+    {
+      errorPopup && <ErrorPopup lenderName={lenderProduct} formData={formData} setErrorPopup={setErrorPopup} />
+    }
+    {
+  applicationPopup && <ApplicationPopup link={link}/>
+}
+
+{
+      apiExecutionLoader && <ApplicationLoader/>
+    }
+    {
+      redirectionLinkLoader && <RedirectionLoader/>
+    }
+
     {
       activeContainer !== 'LendersList' && 
       <NewNavBar />
@@ -442,12 +569,12 @@ export default function BLPageFirst() {
 
       {
         activeContainer === "forSelfEmployed" &&
-        <ForSelfEmployed cpi={cpi} lenderProduct={lenderProduct} mainFormData={formData} dobFlag={dobFlag} residentialPincodeFlag={residentialPincodeFlag} setActiveContainer={setActiveContainer}/>//here we will be calling sendin this api to the next page 
+        <ForSelfEmployed cpi={cpi} lenderProduct={lenderProduct} mainFormData={formData} dobFlag={dobFlag} residentialPincodeFlag={residentialPincodeFlag} setActiveContainer={setActiveContainer} getLendersList={getLendersList}/>//here we will be calling sendin this api to the next page 
       }
 
 {
         activeContainer === "forSalaried" &&
-        <ForSalaried cpi={cpi} lenderProduct={lenderProduct} mainFormData={formData} dobFlag={dobFlag} residentialPincodeFlag={residentialPincodeFlag} setActiveContainer={setActiveContainer} />
+        <ForSalaried cpi={cpi} lenderProduct={lenderProduct} mainFormData={formData} dobFlag={dobFlag} residentialPincodeFlag={residentialPincodeFlag} setActiveContainer={setActiveContainer} getLendersList={getLendersList} />
       }
 
       {
@@ -563,7 +690,7 @@ export default function BLPageFirst() {
                       ...formErrors,
                       PaymentType: e.target.value
                         ? ""
-                        : "Payment Type is required",
+                        : "PaymentType is required",
                     })
                   }
                   >

@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation'; // Import useRouter for navigation
-import './ForSalaried.css'; // Import the CSS module from the same directory
+import './ForSelfEmployed.css'; // Import the CSS module from the same directory
 import NewNavBar from "../NewPersonalLoan/Other Components/Navbar";
 import SmartCoinFooter from "../SmartCoin/SmartCoinFooter";
 import axios from 'axios';
@@ -13,26 +13,24 @@ import ApplicationPopup from "../../components/BLApplyPrime/ApplicationPopup";
 import ApplicationLoader from './ApplicationLoader';
 import RedirectionLoader from "./RedirectionLoader";
 
-export default function ForSalaried({cpi, lenderProduct, mainFormData, dobFlag, residentialPincodeFlag, setActiveContainer }) {
+export default function ForSelfEmployed({cpi, lenderProduct, mainFormData, dobFlag, residentialPincodeFlag, setActiveContainer, getLendersList }) {
   const [formData, setFormData] = useState({
     pan: '',
     email: '',
     dob: '',
     address: '',
     pincode: '',
-    companyName: '', // New field for Company Name
-    officePincode: '', // New field for Office Pincode
+    itr: '' // New field for ITR
   });
 
   const [formErrors, setFormErrors] = useState({});
-  // const [isOfficialInfoVisible, setOfficialInfoVisible] = useState(false); // Manage collapsible state
   const router = useRouter(); // Initialize useRouter
 
   const [errorPopup, setErrorPopup] = useState(false);
   const[applicationPopup ,setApplicationPopup] = useState(false);
   const [link, setLink] = useState(null);
-  const[redirectionLinkLoader, setRedirectionLinkLoader] = useState(false);
   const [apiExecutionLoader, setApiExecutionLoader] = useState(false);
+  const [redirectionLinkLoader, setRedirectionLinkLoader] = useState(false);
   const [progress, setProgress] = useState(50); // Initial progress
 
   useEffect(() => {
@@ -44,73 +42,85 @@ useEffect(() => {
 }, [formData]);
 
 
-
 const handleChange = (e) => {
   const { name, value } = e.target;
 
   let updatedValue = value;
 
-  if(name==='pan'){
+  if (name === 'pincode') {
+    updatedValue = value.replace(/\D/g, '').slice(0, 6);
+  } else if (name === 'pan') {
     updatedValue = value.toUpperCase();
-    setFormData((prevData) => ({ ...prevData, [name]: updatedValue }));
   }
 
-  if (name === 'pincode' || name === 'officePincode') {
-    // Remove non-digit characters and restrict to 6 digits
-    const cleanedValue = value.replace(/\D/g, '').slice(0, 6);
-    setFormData((prevData) => ({ ...prevData, [name]: cleanedValue }));
-  } else {
-    setFormData((prevData) => ({ ...prevData, [name]: updatedValue }));
-  }
+  setFormData((prevData) => ({ ...prevData, [name]: updatedValue }));
+  validateField(name, updatedValue); // Validate field on change
+};
 
-  // Validate the specific field
+  const validateField = (name, value) => {
+    let errors = { ...formErrors };
   
-  validateField(name, updatedValue);
-};
-
-const validateField = (name, value) => {
-  const errors = { ...formErrors };
-
-  switch (name) {
-    case 'pan':
-      const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
-      if (!value) errors.pan = 'PAN is required';
-      else if (!panRegex.test(value)) errors.pan = 'Invalid PAN format';
-      else delete errors.pan;
-      break;
-    case 'email':
-      if (!value) errors.email = 'Email is required';
-      else if (!/\S+@\S+\.\S+/.test(value)) errors.email = 'Invalid email address';
-      else delete errors.email;
-      break;
-    case 'dob':
-      if (dobFlag && !value) errors.dob = 'Date of birth is required';
-      else delete errors.dob;
-      break;
-    case 'address':
-      if (!value) errors.address = 'Address is required';
-      else delete errors.address;
-      break;
-    case 'pincode':
-      if (residentialPincodeFlag && !value) errors.pincode = 'Pincode is required';
-      else if (residentialPincodeFlag && !/^\d{6}$/.test(value)) errors.pincode = 'Invalid pincode';
-      else delete errors.pincode;
-      break;
-    case 'companyName':
-      if (!value) errors.companyName = 'Company name is required';
-      else delete errors.companyName;
-      break;
-    case 'officePincode':
-      if (!value) errors.officePincode = 'Office pincode is required';
-      else delete errors.officePincode;
-      break;
-    default:
-      break;
-  }
-
-  setFormErrors(errors);
-};
-
+    switch (name) {
+      case 'pan':
+        if (!value.trim()) {
+          errors.pan = 'PAN is required';
+        } else if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(value)) {
+          errors.pan = 'PAN is invalid';
+        } else {
+          delete errors.pan; // Remove error if valid
+        }
+        break;
+      case 'email':
+        if (!value.trim()) {
+          errors.email = 'Email is required';
+        } else if (!/\S+@\S+\.\S+/.test(value)) {
+          errors.email = 'Email address is invalid';
+        } else {
+          delete errors.email; // Remove error if valid
+        }
+        break;
+      case 'dob':
+        if (dobFlag) {
+          if (!value.trim()) {
+            errors.dob = 'Date of birth is required';
+          } else {
+            delete errors.dob; // Remove error if valid
+          }
+        }
+        break;
+      case 'address':
+        if (!value.trim()) {
+          errors.address = 'Address is required';
+        } else {
+          delete errors.address; // Remove error if valid
+        }
+        break;
+      case 'pincode':
+        if (residentialPincodeFlag) {
+          if (!value.trim()) {
+            errors.pincode = 'Pincode is required';
+          } else if (!/^\d{6}$/.test(value)) {
+            errors.pincode = 'Invalid pincode';
+          } else {
+            delete errors.pincode; // Remove error if valid
+          }
+        }
+        break;
+      case 'itr':
+        if (!value) {
+          errors.itr = 'ITR status is required';
+        } else {
+          delete errors.itr; // Remove error if valid
+        }
+        break;
+      default:
+        break;
+    }
+  
+    setFormErrors(errors);
+    return !errors[name]; // Return true if no error for the field
+  };
+  
 
   const updateProgress = () => {
     const totalFields = Object.keys(formData).length;
@@ -121,34 +131,59 @@ const validateField = (name, value) => {
     setProgress(Math.min(progressPercentage, 100));
   };
 
+
+
   const validateForm = () => {
     const errors = {};
-  
-    
-   // PAN Validation
-  if (!formData.pan) {
-    errors.pan = 'PAN is required';
-  } else if (!/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(formData.pan)) {
-    errors.pan = 'Invalid PAN format';
-  } 
+
+    if (!formData.pan.trim()) {
+      errors.pan = 'PAN is required';
+    } else if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(formData.pan)) {
+      errors.pan = 'PAN is invalid';
+    }
     if (!formData.email) errors.email = 'Email is required';
     else if (!/\S+@\S+\.\S+/.test(formData.email)) errors.email = 'Invalid email address';
-  
-    if (dobFlag && !formData.dob) errors.dob = 'Date of birth is required';
-    if (!formData.address) errors.address = 'Address is required';
-    if (residentialPincodeFlag && !formData.pincode) errors.pincode = 'Pincode is required';
-    else if (residentialPincodeFlag && !/^\d{6}$/.test(formData.pincode)) errors.pincode = 'Invalid pincode';
+
+    if(dobFlag){
+      if (!formData.dob) errors.dob = 'Date of birth is required';
+    // Add more validation for DOB if needed
+    }
     
-    if (!formData.companyName) errors.companyName = 'Company name is required';
-     // Office Pincode Validation
-  if (!formData.officePincode) errors.officePincode = 'Office pincode is required';
-  else if (!/^\d{6}$/.test(formData.officePincode)) {
-    errors.officePincode = 'Invalid office pincode';
-  }
+
+    if (!formData.address) errors.address = 'Address is required';
+
+    if(residentialPincodeFlag){
+      if (!formData.pincode) errors.pincode = 'Pincode is required';
+    else if (!/^\d{6}$/.test(formData.pincode)) errors.pincode = 'Invalid pincode';
+    }
+    
+
+    if (!formData.itr) errors.itr = 'ITR status is required';
+
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
-  
+
+ // ......................................steps count code---------------------------------------
+
+ const handleDataLayerStage = (stage) => {
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({'stage': stage});
+};
+
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  if (validateForm()) {
+    handleDataLayerStage(3); // Track step 2 when the form is submitted
+    StoreDataToBackendForSelfEmployed(e);
+    // getLendersList(e);
+    // setActiveContainer('LendersList');
+    console.log('Form data:', formData);
+    // router.push('/next-page'); // Uncomment and modify the route as needed
+  }
+};
 
   const handleDateChange2 = (date) => {
     console.log("Inside handle date change");
@@ -172,39 +207,10 @@ const validateField = (name, value) => {
     today.getDate()
   );
 
-  // ......................................steps count code---------------------------------------
+  // Here we will write a finction which will add the data to the backend and call the api if the cpi is 1 else will redirect to that particular page of the lender
 
-  const handleDataLayerStage = (stage) => {
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({'stage': stage});
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      // Process form data and navigate to the next page
-      handleDataLayerStage(4); // Track step 2 when the form is submitted
-      console.log('Form data:', formData);
-      StoreDataToBackendForSalaried(e);
-      // router.push('/next-page'); // Uncomment and modify the route as needed
-    }
-  };
-
-  const handlePreviousClick = () => {
-    // Navigate to the lenders list page
-    // console.log("Previous button clicked");
-    // router.push('/BLApplyLenders');
-    setActiveContainer("LendersList");
-    
-  };
-
-  const toggleOfficialInfo = () => {
-    setOfficialInfoVisible((prev) => !prev);
-  };
-
-  const StoreDataToBackendForSalaried = async (e) => {
+  const StoreDataToBackendForSelfEmployed = async (e) => {
     // setIsLoading2(true);
-    console.log("Inside handle form submit")
     e.preventDefault();
     try {
       const formData1 = new FormData();
@@ -214,24 +220,21 @@ const validateField = (name, value) => {
       formData1.append("dob",formData.dob);
       formData1.append("homePin",formData.pincode);
       formData1.append("address",formData.address);
-      formData1.append("companyName",formData.companyName);
-      formData1.append("officePincode",formData.officePincode);
+      formData1.append("itr",formData.itr);
 
 
       // setIsLoadingforLoader(true);
 
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}BLApplyPrime_Salaried`,
+        `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}BLApplyPrime_SelfEmployed`,
         formData1
       );
 
-      // if(cpi===1){
-        apiExecutionBackend(lenderProduct);
-      // }
+      // apiExecutionBackend(e);
 
       if (response.data.code === 0) {
         //Here when the code is 0 we are calling lendersList backend which will give us lendersList accrding to user
-        // getLendersList(e);
+        getLendersList(e);
         // getLoanBackend(e);
       }
 
@@ -255,10 +258,9 @@ const validateField = (name, value) => {
     if (cpi === 1) {
       setRedirectionLinkLoader(true);
       const timer = setTimeout(() => {
-        // setRedirectionLinkLoader(false);
+        setRedirectionLinkLoader(false);
         const lenderApplicationLink = localStorage.getItem('applicationLink');
         window.location.href = lenderApplicationLink;
-        // window.location.href = lenderApplicationLink;
       }, 3000);
         
         //setRedirectionLinkLoader(false);
@@ -320,13 +322,14 @@ const validateField = (name, value) => {
     
   };
 
+
   return (
     <>
     {
-      apiExecutionLoader && <ApplicationLoader/>
+      redirectionLinkLoader && <RedirectionLoader/>
     }
     {
-      redirectionLinkLoader && <RedirectionLoader/>
+      apiExecutionLoader && <ApplicationLoader/>
     }
 
 {
@@ -336,14 +339,14 @@ const validateField = (name, value) => {
       errorPopup && <ErrorPopup lenderName={lenderProduct} formData={mainFormData} setErrorPopup={setErrorPopup} />
     }
       {/* <NewNavBar /> */}
-      <div className="blapply-salariedpage">
+      <div className="blapply-selfemployedpage">
       <div className="progress-container">
          <div className="progress-bar" style={{ width: `${progress}%` }}></div>
       </div>
         <form onSubmit={handleSubmit}>
-          {/* <h2>Check eligibility in 3 steps</h2> */}
+          {/* <h2 style={{textAlign:""}}>Details</h2> */}
 
-          <div className="blapply-salaried-group">
+          <div className="blapply-selfemployed-group">
             <input
               type="text"
               id="pan"
@@ -351,12 +354,11 @@ const validateField = (name, value) => {
               value={formData.pan}
               onChange={handleChange}
               placeholder="PAN"
-              maxLength="10"
             />
             {formErrors.pan && <span className="error">{formErrors.pan}</span>}
           </div>
 
-          <div className="blapply-salaried-group">
+          <div className="blapply-selfemployed-group">
             <input
               type="text"
               id="email"
@@ -370,7 +372,7 @@ const validateField = (name, value) => {
 
           {/* {
             dobFlag && 
-            <div className="blapply-salaried-group">
+            <div className="blapply-selfemployed-group">
             <input
               type="text"
               id="dob"
@@ -383,7 +385,7 @@ const validateField = (name, value) => {
           </div>
           } */}
 
-{
+          {
             dobFlag &&
             <>
             <div className="blapply-selfemployed-group">
@@ -405,10 +407,9 @@ const validateField = (name, value) => {
                   </div>
             </>
           }
-
           
 
-          <div className="blapply-salaried-group">
+          <div className="blapply-selfemployed-group">
             <input
               type="text"
               id="address"
@@ -422,7 +423,7 @@ const validateField = (name, value) => {
 
 {
   residentialPincodeFlag &&
-  <div className="blapply-salaried-group">
+<div className="blapply-selfemployed-group">
             <input
               type="text"
               id="pincode"
@@ -438,42 +439,33 @@ const validateField = (name, value) => {
 }
           
 
-          <div className="blapply-salaried-group">
-            {/* <button type="button" className="collapsible-button" onClick={toggleOfficialInfo}> */}
-              {/* {isOfficialInfoVisible ? '-' : '+'} Official Information */}
-            {/* </button> */}
-            {/* {isOfficialInfoVisible && ( */}
-              <div className="collapsible-content">
-                <div className="blapply-salaried-group">
-                  <input
-                    type="text"
-                    id="companyName"
-                    name="companyName"
-                    value={formData.companyName}
-                    onChange={handleChange}
-                    placeholder="Company Name"
-                  />
-                  {formErrors.companyName && <span className="error">{formErrors.companyName}</span>}
-                </div>
-
-                <div className="blapply-salaried-group">
-                  <input
-                    type="text"
-                    id="officePincode"
-                    name="officePincode"
-                    value={formData.officePincode}
-                    onChange={handleChange}
-                    placeholder="Office Pincode"
-                    maxLength="6" // Restrict input to 6 characters
-                    inputMode="numeric" // Restrict to numeric input
-                  />
-                  {formErrors.officePincode && <span className="error">{formErrors.officePincode}</span>}
-                </div>
-              </div>
-            {/* )} */}
+          <div className="blapply-selfemployed-group">
+            <p>ITR?</p>
+            <div className="radio-group">
+              <label>
+                <input
+                  type="radio"
+                  name="itr"
+                  value="yes"
+                  checked={formData.itr === 'yes'}
+                  onChange={handleChange}
+                />
+                Yes
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="itr"
+                  value="no"
+                  checked={formData.itr === 'no'}
+                  onChange={handleChange}
+                />
+                No
+              </label>
+            </div>
+            {formErrors.itr && <span className="error">{formErrors.itr}</span>}
           </div>
-          <button type="button" className="blapply-salariedp-button" onClick={handlePreviousClick} style={{color:"#3e2780", marginRight: "10px"}}>Previous</button>
-          <button type="submit" className="blapply-salaried-button" style={{color:"#3e2780"}}>Submit</button>
+          <button type="submit" className="blapply-selfemployed-button" style={{color:"#3e2780"}}>Submit</button>
         </form>
       </div>
       <SmartCoinFooter />

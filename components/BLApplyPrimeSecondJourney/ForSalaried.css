@@ -1,0 +1,174 @@
+.body{
+  font-family:  'Open Sans', sans-serif;
+}
+@media (min-width: 769px){
+
+    .react-datepicker-wrapper {
+      display: inline-block;
+      padding: 0;
+      border: 0;
+      width: 100%;
+  }
+
+.blapply-salaried-button:hover {
+    background-color: #F9BA45;
+}
+}
+
+@media (max-width: 768px) {
+  /* .react-datepicker__input-container input {
+    width: 177px;
+    } */
+
+    .react-datepicker__input-container input {
+      /* border: none; */
+      /* width: 177px; */
+  
+      width: 100%;
+      box-sizing: border-box;
+  
+      }
+
+      .react-datepicker-wrapper {
+        display: inline-block;
+        padding: 0;
+        border: 0;
+        width: 95%;
+    }
+  }
+
+.blapply-salariedpage {
+    padding: 0 15px;
+    padding-left: 5%;
+    max-width: 50%;
+    margin-left: 25%;
+  }
+  .blapply-salariedpage form{
+    background-color: #fff;
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    
+  }
+  .blapply-salariedpage h1{
+   
+    color: #3e2780;
+    font-size: 3rem;
+    font-weight: normal;
+  }
+  .blapply-salariedpage h2{
+   
+    color: #3e2780;
+    font-size: 2rem;
+    font-weight: normal;
+  }
+  .blapply-salaried-group {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #000000a6;
+}
+  .blapply-salaried-group input,
+  .blapply-salaried-group select {
+      width: calc(100% - 16px); /* Adjust width to account for padding and border */
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box; /* Ensures padding and border are included in the element's total width */
+  }
+  
+  .blapply-invalid-feedback {
+      color: #dc3545;
+      font-size: 0.875rem;
+  }
+  
+  .blapply-salaried-button {
+      padding: 10px 20px;
+      padding: 10px 20px;
+      background-color: #F9BA45;      ;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%; /* Full width of the container */
+  }
+  
+  .blapply-salaried-button:hover {
+      background-color: #F9BA45;
+  }
+  .error {
+    color: red;
+    font-size: 0.875rem;
+  }
+  /* Container for the radio button group */
+.radio-group {
+    display: flex; /* Ensure radio buttons and labels are displayed in a row */
+    align-items: center; /* Center-align items vertically */
+    gap: 80px; /* Adjust spacing between radio buttons */
+  }
+  
+  /* Style for the custom radio button */
+  .radio-group input[type="radio"] {
+    margin-right: 8px; /* Space between the radio button and its label */
+    cursor: pointer; /* Change cursor to pointer to indicate clickable items */
+  }
+  
+  .radio-group label {
+    display: flex;
+    align-items: center;
+    cursor: pointer; /* Change cursor to pointer to indicate clickable items */
+    font-size: 16px; /* Adjust text size if needed */
+  }
+  
+  /* Remove margin-right from label as spacing is handled by gap */
+  .radio-group label:not(:last-child) {
+    margin-right: 20px; /* Space between the radio buttons and labels */
+  }
+ /* Style for the collapsible button */
+.collapsible-button {
+    cursor: pointer;
+    padding: 10px;
+    width: 97%;
+    text-align: right;
+    margin-bottom: 10px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  @media (max-width:768px){
+    .blapply-salariedpage {
+      padding: 0 15px;
+      padding-left: 5%;
+      max-width: 90%;
+      margin-left: 5%;
+    }
+     /* Style for the collapsible button */
+.collapsible-button {
+  cursor: pointer;
+  padding: 10px;
+  width: 95%;
+  text-align: right;
+  margin-bottom: 10px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.blapply-salaried-button {
+  padding: 10px 20px;
+  background-color: #F9BA45;      ;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%; /* Full width of the container */
+}
+
+
+  }

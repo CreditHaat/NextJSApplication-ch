@@ -13,7 +13,7 @@ import ApplicationPopup from "../../components/BLApplyPrime/ApplicationPopup";
 import ApplicationLoader from './ApplicationLoader';
 import RedirectionLoader from "./RedirectionLoader";
 
-export default function ForSalaried({cpi, lenderProduct, mainFormData, dobFlag, residentialPincodeFlag, setActiveContainer }) {
+export default function ForSalaried({cpi, lenderProduct, mainFormData, dobFlag, residentialPincodeFlag, setActiveContainer, getLendersList }) {
   const [formData, setFormData] = useState({
     pan: '',
     email: '',
@@ -34,6 +34,7 @@ export default function ForSalaried({cpi, lenderProduct, mainFormData, dobFlag, 
   const[redirectionLinkLoader, setRedirectionLinkLoader] = useState(false);
   const [apiExecutionLoader, setApiExecutionLoader] = useState(false);
   const [progress, setProgress] = useState(50); // Initial progress
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top of the page when component mounts
@@ -47,12 +48,9 @@ useEffect(() => {
 
 const handleChange = (e) => {
   const { name, value } = e.target;
-
   let updatedValue = value;
-
-  if(name==='pan'){
+  if (name === 'pan') {
     updatedValue = value.toUpperCase();
-    setFormData((prevData) => ({ ...prevData, [name]: updatedValue }));
   }
 
   if (name === 'pincode' || name === 'officePincode') {
@@ -64,7 +62,6 @@ const handleChange = (e) => {
   }
 
   // Validate the specific field
-  
   validateField(name, updatedValue);
 };
 
@@ -93,7 +90,7 @@ const validateField = (name, value) => {
       break;
     case 'pincode':
       if (residentialPincodeFlag && !value) errors.pincode = 'Pincode is required';
-      else if (residentialPincodeFlag && !/^\d{6}$/.test(value)) errors.pincode = 'Invalid pincode';
+      else if ( residentialPincodeFlag && !/^\d{6}$/.test(value)) errors.pincode = 'Invalid pincode';
       else delete errors.pincode;
       break;
     case 'companyName':
@@ -122,15 +119,16 @@ const validateField = (name, value) => {
   };
 
   const validateForm = () => {
+
+    console.log("Inside validate form");
     const errors = {};
   
-    
-   // PAN Validation
+    // PAN Validation
   if (!formData.pan) {
     errors.pan = 'PAN is required';
   } else if (!/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(formData.pan)) {
     errors.pan = 'Invalid PAN format';
-  } 
+  }
     if (!formData.email) errors.email = 'Email is required';
     else if (!/\S+@\S+\.\S+/.test(formData.email)) errors.email = 'Invalid email address';
   
@@ -140,12 +138,15 @@ const validateField = (name, value) => {
     else if (residentialPincodeFlag && !/^\d{6}$/.test(formData.pincode)) errors.pincode = 'Invalid pincode';
     
     if (!formData.companyName) errors.companyName = 'Company name is required';
-     // Office Pincode Validation
+   // Office Pincode Validation
   if (!formData.officePincode) errors.officePincode = 'Office pincode is required';
   else if (!/^\d{6}$/.test(formData.officePincode)) {
     errors.officePincode = 'Invalid office pincode';
   }
+  
     setFormErrors(errors);
+
+    console.log("before return");
     return Object.keys(errors).length === 0;
   };
   
@@ -179,23 +180,26 @@ const validateField = (name, value) => {
     window.dataLayer.push({'stage': stage});
   };
 
+
+  
   const handleSubmit = (e) => {
+
+    console.log("Inside handle Submit")
     e.preventDefault();
     if (validateForm()) {
+      console.log("Inside validate form");
       // Process form data and navigate to the next page
-      handleDataLayerStage(4); // Track step 2 when the form is submitted
+      handleDataLayerStage(3); // Track step 2 when the form is submitted
+      console.log("After Data layer stage");
       console.log('Form data:', formData);
       StoreDataToBackendForSalaried(e);
+      // getLendersList(e);
+      // setActiveContainer('LendersList');
+      
       // router.push('/next-page'); // Uncomment and modify the route as needed
+    }else{
+      console.log("form not validated");
     }
-  };
-
-  const handlePreviousClick = () => {
-    // Navigate to the lenders list page
-    // console.log("Previous button clicked");
-    // router.push('/BLApplyLenders');
-    setActiveContainer("LendersList");
-    
   };
 
   const toggleOfficialInfo = () => {
@@ -226,12 +230,12 @@ const validateField = (name, value) => {
       );
 
       // if(cpi===1){
-        apiExecutionBackend(lenderProduct);
+        // apiExecutionBackend(lenderProduct);
       // }
 
       if (response.data.code === 0) {
         //Here when the code is 0 we are calling lendersList backend which will give us lendersList accrding to user
-        // getLendersList(e);
+        getLendersList(e);
         // getLoanBackend(e);
       }
 
@@ -261,7 +265,7 @@ const validateField = (name, value) => {
         // window.location.href = lenderApplicationLink;
       }, 3000);
         
-        //setRedirectionLinkLoader(false);
+        // setRedirectionLinkLoader(false);
         // return; // Exit the function to avoid further execution
     }else{
       console.log("Inside get Loan Backend");
@@ -472,7 +476,6 @@ const validateField = (name, value) => {
               </div>
             {/* )} */}
           </div>
-          <button type="button" className="blapply-salariedp-button" onClick={handlePreviousClick} style={{color:"#3e2780", marginRight: "10px"}}>Previous</button>
           <button type="submit" className="blapply-salaried-button" style={{color:"#3e2780"}}>Submit</button>
         </form>
       </div>

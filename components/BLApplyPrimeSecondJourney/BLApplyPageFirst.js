@@ -19,8 +19,9 @@ import ApplicationLoader from './ApplicationLoader';
 import RedirectionLoader from "./RedirectionLoader";
 import ApplicationPopup from './ApplicationPopup';
 import ErrorPopup from './ErrorPopup';
+import bannerimg from "./BLApplyImages/ganeshjibanner.jpg";
 
-export default function BLPageFirst() {
+export default function BLPageFirst({ params, searchParams }) {
   const [formData, setFormData] = useState({
     pan: '',
     mobileNumber: '',
@@ -29,6 +30,9 @@ export default function BLPageFirst() {
     profession: '',
     PaymentType: ''
   });
+
+  const queryParams = Object.fromEntries(new URLSearchParams(searchParams));
+  const header = queryParams.banner;
 
   const [otpModal, setOtpModal] = useState(false);
   const [otpInputs, setOtpInputs] = useState(["", "", "", "", "", ""]);
@@ -542,6 +546,17 @@ export default function BLPageFirst() {
     
   };
 
+  // Step 1: Create a reference to the footer or bottom of the page
+  const footerRef = useRef(null);
+
+  // Step 2: Define a function that scrolls to the footer when called
+  const scrollToFooter = (e) => {
+    e.preventDefault(); // Prevent default anchor behavior
+    if (footerRef.current) {
+      footerRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
 
   
 
@@ -599,7 +614,32 @@ export default function BLPageFirst() {
           <div className="blapplyrow">
             <div className="blapply-col-md-6">
               <div className="blapply-image-container">
-                <Image src={blimage1} alt="Placeholder" width={500} height={500} />
+
+              {header !== "yes" || !header ? (
+                  <>
+                    <Image
+                      src={blimage1}
+                      alt="Placeholder"
+                      width={500}
+                      height={500}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <Image
+                      src={bannerimg}
+                      alt="Placeholder"
+                      width={700}
+                      height={700}
+                    />
+                    <div style={{ textAlign: "left" }}>
+                      <a href="#" onClick={scrollToFooter}>
+                        <u>T&C</u>
+                      </a>
+                    </div>
+                  </>
+                )}
+
               </div>
             </div>
             <div className="blapply-col-md-6-pl">
@@ -771,6 +811,35 @@ export default function BLPageFirst() {
           <div className='blapply-textsection'>
             CreditHaat does not charge any fees from the user. A sample loan calculation for ₹1,00,000 borrowed for 1 year, with interest rate @13% per annum*, is as provided below: Processing fee (@ 2%) = ₹2,000 + GST = ₹2,360 Interest = ₹7,181 EMI = ₹8,932 Total amount to be repaid after a year = ₹1,10,129/- *Interest Rate varies based on your risk profile The maximum Annual Interest Rate (APR) can go up to 36%
           </div>
+
+
+          {header === "yes" ? (
+            <>
+              <div>
+                <div
+                  ref={footerRef}
+                  id="footer"
+                  // style="border:none;font-size:12px;"
+                  style={{ marginTop: "50px", fontSize: "12px" }}
+                >
+                  <ul>
+                    <li>Offer valid on new loans sourced through CreditHaat</li>
+                    <li>
+                      Offer is provided from CreditHaat’s lending partners
+                    </li>
+                    <li>
+                      In case user is not eligible for lender’s offers on
+                      processing fees; CreditHaat would process a cash back to
+                      the user once loan has been availed.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
+
           <SmartCoinFooter />
         </div>
 

@@ -20,6 +20,7 @@ import RedirectionLoader from "./RedirectionLoader";
 import ApplicationPopup from './ApplicationPopup';
 import ErrorPopup from './ErrorPopup';
 import bannerimg from "./BLApplyImages/ganeshjibanner.jpg";
+import RCSImg from "./BLApplyImages/RCSImg.png";
 
 export default function BLPageFirst({ params, searchParams }) {
   const [formData, setFormData] = useState({
@@ -33,6 +34,7 @@ export default function BLPageFirst({ params, searchParams }) {
 
   const queryParams = Object.fromEntries(new URLSearchParams(searchParams));
   const header = queryParams.banner;
+  const header2 = queryParams.campaignBL;
 
   const [otpModal, setOtpModal] = useState(false);
   const [otpInputs, setOtpInputs] = useState(["", "", "", "", "", ""]);
@@ -615,8 +617,10 @@ export default function BLPageFirst({ params, searchParams }) {
             <div className="blapply-col-md-6">
               <div className="blapply-image-container">
 
-              {header !== "yes" || !header ? (
+              {/* {(header !== "yes" && header2 !== "yes") || !header || !header2 ? (
                   <>
+                  {console.log("header 2 is :: ",header2)}
+                  {console.log("header is :: ",header)}
                     <Image
                       src={blimage1}
                       alt="Placeholder"
@@ -624,7 +628,7 @@ export default function BLPageFirst({ params, searchParams }) {
                       height={500}
                     />
                   </>
-                ) : (
+                ) : (header === "yes")?(
                   <>
                     <Image
                       src={bannerimg}
@@ -638,7 +642,50 @@ export default function BLPageFirst({ params, searchParams }) {
                       </a>
                     </div>
                   </>
-                )}
+                ):(<>
+                      <Image
+                      src={RCSImg}
+                      alt="Placeholder"
+                      width={700}
+                      height={700}
+                    />
+                </>)} */}
+
+                {
+                  (header==="yes")?(
+                  <>
+                    <Image
+                      src={bannerimg}
+                      alt="Placeholder"
+                      width={700}
+                      height={700}
+                    />
+                    <div style={{ textAlign: "left" }}>
+                      <a href="#" onClick={scrollToFooter}>
+                        <u>T&C</u>
+                      </a>
+                    </div>
+                  </>
+                ):(header2 === "yes")?(
+                  <>
+                    <Image
+                      src={RCSImg}
+                      alt="Placeholder"
+                      width={700}
+                      height={700}
+                    />
+                  </>
+                ):(
+                  <>
+                    <Image
+                      src={blimage1}
+                      alt="Placeholder"
+                      width={500}
+                      height={500}
+                    />
+                  </>
+                )
+                }
 
               </div>
             </div>

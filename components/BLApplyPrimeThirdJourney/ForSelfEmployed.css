@@ -1,0 +1,166 @@
+
+@media (min-width: 769px){
+  /* .react-datepicker__input-container input {
+    /* border: none; */
+    /* width: 177px; */
+
+    /* width: 100%; */
+    /* box-sizing: border-box; */
+
+    /* }  */
+
+    .react-datepicker-wrapper {
+      display: inline-block;
+      padding: 0;
+      border: 0;
+      width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  /* .react-datepicker__input-container input {
+    width: 177px;
+    } */
+
+    .react-datepicker__input-container input {
+      /* border: none; */
+      /* width: 177px; */
+  
+      width: 100%;
+      box-sizing: border-box;
+  
+      }
+
+      .react-datepicker-wrapper {
+        display: inline-block;
+        padding: 0;
+        border: 0;
+        width: 95%;
+    }
+  }
+
+
+.pploan-form-group {
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #000000a6;
+}
+
+  .blapply-selfemployedpage {
+    padding: 0 15px;
+    padding-left: 5%;
+    max-width: 50%;
+    margin-left: 25%;
+  }
+  .blapply-selfemployedpage form{
+    background-color: #fff;
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    
+  }
+  .blapply-selfemployedpage h1{
+   
+    color: #3e2780;
+    font-size: 3rem;
+    font-weight: normal;
+  }
+  .blapply-selfemployedpage h2{
+   
+    color: #3e2780;
+    font-size: 2rem;
+    font-weight: normal;
+  }
+  .blapply-selfemployed-group {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #000000a6;
+}
+  .blapply-selfemployed-group input,
+  .blapply-selfemployed-group select {
+      width: calc(100% - 16px); /* Adjust width to account for padding and border */
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box; /* Ensures padding and border are included in the element's total width */
+  }
+  
+  .blapply-invalid-feedback {
+      color: #dc3545;
+      font-size: 0.875rem;
+  }
+  
+  .blapply-selfemployed-button {
+      padding: 10px 20px;
+      background-color: #F9BA45;      ;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 40%; /* Full width of the container */
+      margin-left: 70px;
+  }
+  
+  .blapply-selfemployed-button:hover {
+      background-color: #F9BA45;
+  }
+  .blapply-selfemployedp-button {
+    padding: 10px 20px;
+    background-color: #F9BA45;      ;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 40%; /* Full width of the container */
+}
+
+.blapply-selfemployedp-button:hover {
+    background-color: #F9BA45;
+}
+  .error {
+    color: red;
+    font-size: 0.875rem;
+  }
+  /* Container for the radio button group */
+.radio-group {
+    display: flex; /* Ensure radio buttons and labels are displayed in a row */
+    align-items: center; /* Center-align items vertically */
+    gap: 80px; /* Adjust spacing between radio buttons */
+  }
+  
+  /* Style for the custom radio button */
+  .radio-group input[type="radio"] {
+    margin-right: 8px; /* Space between the radio button and its label */
+    cursor: pointer; /* Change cursor to pointer to indicate clickable items */
+  }
+  
+  .radio-group label {
+    display: flex;
+    align-items: center;
+    cursor: pointer; /* Change cursor to pointer to indicate clickable items */
+    font-size: 16px; /* Adjust text size if needed */
+  }
+  
+  /* Remove margin-right from label as spacing is handled by gap */
+  .radio-group label:not(:last-child) {
+    margin-right: 20px; /* Space between the radio buttons and labels */
+  }
+  @media (max-width:768px){
+    .blapply-selfemployedpage {
+      padding: 0 15px;
+      padding-left: 5%;
+      max-width: 90%;
+      margin-left: 5%;
+    }
+    .blapply-selfemployed-button {
+      padding: 10px 20px;
+      background-color: #F9BA45;      ;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 40%; /* Full width of the container */
+      margin-left: 30px;
+  }
+  }

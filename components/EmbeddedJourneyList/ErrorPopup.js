@@ -1,5 +1,6 @@
 import React from "react";
 import $ from 'jquery';
+import {roboto} from "./fonts";
 
 function ErrorPopup({setErrorPopup, lenderName, setErrorPopup2, lender_id}) {
 
@@ -14,7 +15,9 @@ function ErrorPopup({setErrorPopup, lenderName, setErrorPopup2, lender_id}) {
       };
 
     return (
-        <div style={{
+        <div
+        className={`${roboto.className}`} 
+        style={{
             position: "fixed",
             top: 0,
             left: 0,

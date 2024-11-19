@@ -339,7 +339,7 @@ export default function BLPageFirst() {
         // setResidentialPincodeFlag(false);
         setOtpStatus("");
         setOtpLoader(false);
-        window.location.href = `https://app.credithaat.com/embedded_journey?sso=yes&ch_header=no&mobilenumber=${formData.mobileNumber}&ch_header=no&sso=yes`;
+        window.location.href = `https://app.credithaat.com/embedded_journey?sso=yes&ch_header=no&mobilenumber=${formData.mobileNumber}&ch_header=no&sso=yes&chaid=true`;
         // setActiveContainer("LendersList");
         // getLendersList(e);
         handleDataLayerStage(2);
@@ -359,7 +359,7 @@ export default function BLPageFirst() {
         setOtpLoader(false);
         // setActiveContainer("LendersList");
         // getLendersList(e);
-        window.location.href = `https://app.credithaat.com/embedded_journey?sso=yes&ch_header=no&mobilenumber=${formData.mobileNumber}&ch_header=no&sso=yes`;
+        window.location.href = `https://app.credithaat.com/embedded_journey?sso=yes&ch_header=no&mobilenumber=${formData.mobileNumber}&ch_header=no&sso=yes&chaid=true`;
         handleDataLayerStage(2);
       } else if (response.data.code === 2) {
         setDobFlag(false);
@@ -368,7 +368,7 @@ export default function BLPageFirst() {
         setOtpLoader(false);
         // setActiveContainer("LendersList");
         getLendersList(e);
-        window.location.href = `https://app.credithaat.com/embedded_journey?sso=yes&ch_header=no&mobilenumber=${formData.mobileNumber}&ch_header=no&sso=yes`;
+        window.location.href = `https://app.credithaat.com/embedded_journey?sso=yes&ch_header=no&mobilenumber=${formData.mobileNumber}&ch_header=no&sso=yes&chaid=true`;
         handleDataLayerStage(2);
       } else if (response.data.code === 3) {
         setDobFlag(true);
@@ -377,7 +377,7 @@ export default function BLPageFirst() {
         setOtpLoader(false);
         // setActiveContainer("LendersList");
         getLendersList(e);
-        window.location.href = `https://app.credithaat.com/embedded_journey?sso=yes&ch_header=no&mobilenumber=${formData.mobileNumber}&ch_header=no&sso=yes`;
+        window.location.href = `https://app.credithaat.com/embedded_journey?sso=yes&ch_header=no&mobilenumber=${formData.mobileNumber}&ch_header=no&sso=yes&chaid=true`;
         handleDataLayerStage(2);
       }else {
         setOtpStatus("Incorrect OTP! Try Again.");

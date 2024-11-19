@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+import { Google } from '@mui/icons-material';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -15,6 +16,7 @@ const nextConfig = {
         config.resolve.alias['@components'] = path.join(__dirname, 'components');
         return config;
     },
+
 };
 
 export default nextConfig;

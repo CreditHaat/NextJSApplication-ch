@@ -5,14 +5,17 @@ import { useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import OTPBottomSheet from './OTPBottomSheet';
 import LinkLoader from './LinkLoader';
-import ApplicationPopup from '../NewPersonalLoan/Other Components/ApplicationPopup';
-import ApplicationLoader from '../NewPersonalLoan/Other Components/ApplicationLoader';
-import OtpVerifyLoader from '../NewPersonalLoan/Other Components/OtpVerifyLoader';
+// import ApplicationPopup from '../NewPersonalLoan/Other Components/ApplicationPopup';
+// import ApplicationLoader from '../NewPersonalLoan/Other Components/ApplicationLoader';
+// import OtpVerifyLoader from '../NewPersonalLoan/Other Components/OtpVerifyLoader';
+import ApplicationLoader from '../EmbeddedJourneyList/ApplicationLoader';
+import ApplicationPopup from '../EmbeddedJourneyList/ApplicationPopup';
+import OtpVerifyLoader from '../EmbeddedJourneyList/OtpVerifyLoader';
 import ErrorPopup from './ErrorPopup';
 import Temporary from './temporary';
 import EmbeddedGetLoanButton from './embeddedGetLoanButton';
 
-const GetLoanButton = ({ lender }) => {
+const GetLoanButton = ({ lender, productId }) => {
 
     const [lenderProduct, setLenderProduct] = useState('');
     const [lenderCpi, setLenderCpi] = useState('');
@@ -26,6 +29,7 @@ const GetLoanButton = ({ lender }) => {
     const searchParams = useSearchParams();
     const mobileNumber = searchParams.get('mobilenumber');
     const SSO = searchParams.get('sso');
+    const chaid = searchParams.get('chaid');
 
     const [stgOneHitId, setStgOneHitId] = useState(null);
     const [stgTwoHitId, setstgTwoHitId] = useState(null);
@@ -51,12 +55,19 @@ const GetLoanButton = ({ lender }) => {
         // getLendersList();
         localStorage.setItem('verifiedOTP',false);
 
+        console.log("Inside The get loan button");
+
         if (SSO === 'yes') {
             setIsOtpVerified(true);
             localStorage.setItem('verifiedOTP',true);
         }
 
     }, []);
+
+    const handleNavigation = (redirectionLink) => {
+        router.push(`/SuccessPage?link=${encodeURIComponent(redirectionLink)}&lenderName=${encodeURIComponent(lenderName)}`);
+        // router.push('/SuccessPage'); // Navigate to a different page
+    };
 
     
 
@@ -68,6 +79,30 @@ const GetLoanButton = ({ lender }) => {
 
         if (lenderCpi === 1) {
             setRedirectionLinkLoader(true);
+
+            if(productId === 138431539){
+                console.log("Product id is :: ",productId);
+
+                formData1.append('productId', productId);
+                formData1.append('userId', 1);
+                formData1.append('phone', mobileNumber);
+                formData1.append('channel', 'credithaat');
+
+                const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}h5/cpiClickNew_hdfc`, formData1);
+
+                console.log("The response from h5/cpiClickNew_hdfc is :: ",response);
+
+            }else{
+                const formData2 = new FormData();
+      formData2.append("userId","");
+      formData2.append("phone", mobileNumber );
+      formData2.append("productId", productId);
+      formData2.append("channel", "creditHaat");
+
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}h5/cpiClickNew`, formData2);
+            }
+
+
             const timer = setTimeout(() => {
                 setRedirectionLinkLoader(false);
                 window.location.href = lenderApplicationLink;
@@ -82,6 +117,7 @@ const GetLoanButton = ({ lender }) => {
             setApiExecutionLoader(true);
 
             console.log("Inside get Loan Backend");
+            console.log("Chaid is :: ",chaid);
 
             try {
                 const formData1 = new FormData();
@@ -90,6 +126,12 @@ const GetLoanButton = ({ lender }) => {
                 console.log("mobileNumber after is : ", mobileNumber);
                 formData1.append('product', productname);
                 console.log("product name after is : ", productname);
+                if(chaid!=null)
+                {
+                    formData1.append('chaid',chaid);
+                }else{
+                    formData1.append('chaid',"false");
+                }
 
                 setlenderName(productname);
 
@@ -115,10 +157,18 @@ const GetLoanButton = ({ lender }) => {
                     }, 3000);
                     var redirectionlink = response.data.data.lender_details[0].applicationlink;
                     setLink(redirectionlink);
-                    // {!setIsLoading && <ApplicationPopup link={link}/>}
+
+                    // handleNavigation(redirectionlink); //we will add this if we want the success page on this 
+
+                    {!setIsLoading && <ApplicationPopup link={link}/>}
                 }
                 else if (response.data.code === -1) {
                     console.log(-1);
+
+                    // window.location.href = "https://app.credithaat.com/RejectionPage";
+
+                    // window.location.href = "http://localhost:3000/RejectionPage";
+
                     setErrorPopup(true);
                     const timer = setTimeout(() => {
                         setApiExecutionLoader(false);

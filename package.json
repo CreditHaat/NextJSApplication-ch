@@ -14,6 +14,7 @@
     "@mui/icons-material": "^5.16.7",
     "@mui/joy": "^5.0.0-beta.48",
     "@mui/material": "^5.16.4",
+    "@next/font": "^14.2.15",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
@@ -32,7 +33,9 @@
     "react-dom": "^18",
     "react-icons": "^5.2.1",
     "react-multi-carousel": "^2.8.5",
+    "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.25.1",
+    "react-swipeable": "^7.0.1",
     "sharp": "^0.33.4",
     "tw-elements": "^2.0.0",
     "zustand": "^4.5.4"

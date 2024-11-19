@@ -2,6 +2,7 @@
 
 import React, { useEffect } from "react";
 import {useClient,useState} from 'react';
+import {roboto} from "./fonts";
 
 function Loader() {
 
@@ -17,6 +18,7 @@ function Loader() {
     <>
       {showLoader && 
       <div
+      className={`${roboto.className}`} 
       style={{
         position: "fixed",
         top: 0,

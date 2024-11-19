@@ -127,9 +127,10 @@ const OTPGenerate = async () => {
 };
 
   return (
-    <div className="action-button">
+    <div  >
 
                 <button size="small"
+                className="card-button" 
                     onClick={(e) => {
                         setLenderProduct(lender.product);
                         setProductsArr((prevProductsArr) => [...prevProductsArr, lender.product]);
@@ -139,7 +140,8 @@ const OTPGenerate = async () => {
                         // handleOTPComponent();
                     }}
                     variant="contained"
-                    className="getLoanButton">
+                    // className="getLoanButton"
+                    >
 
                     Get Loan
                 </button>

@@ -1,0 +1,32 @@
+.partner-navbar {
+    background-color: #fff; /* Example background color */
+    padding: 10px; /* Example padding */
+    /* position: fixed; */
+    width: 100%;
+  
+  }
+  
+  .partner-navbar-container {
+    display: flex; /* Use flexbox for layout */
+   
+  }
+  
+  .partner-logo {
+    display: flex; /* Use flexbox for layout */
+    align-items: center; /* Center items vertically */
+  }
+  
+  .nav-logo {
+    /* width: 100px; Example width */
+    /* height: 100px; Example height */
+    /* border-radius: 50%; Make the images round */
+    margin: 0 10px; /* Example margin to separate the logos */
+  }
+  
+  
+  /* Adjustments for mobile view */
+  @media (max-width: 768px) {
+    .nav-logo {
+        margin: 5px; /* Example margin for spacing between logos */
+    }
+  }

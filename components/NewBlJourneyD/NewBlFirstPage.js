@@ -157,10 +157,16 @@ const NewBlFirstPage = () => {
 
     e.preventDefault();
 
-    function handleDataLayerStart(flag,mobile_number, emptype,PaymentType, monthlyincome) {
-      console.log("INside handledatalayer , ",flag, mobile_number, emptype);
+    // function handleDataLayerStart(flag,mobile_number, emptype,PaymentType, monthlyincome) {
+    //   console.log("INside handledatalayer , ",flag, mobile_number, emptype);
+    //   window.dataLayer = window.dataLayer || [];
+    //   window.dataLayer.push({'mobileNumber' : mobile_number, 'flag':flag, 'employmentType': emptype, 'PaymentType': PaymentType, 'monthlyincome': monthlyincome  });
+    // }
+
+    function handleDataLayerStart(flag,mobile_number, emptype,PaymentType, businessTurnover, availableBusinessDocuments, businessAge, businessType) {
+      console.log("INside handledatalayer , ",flag, mobile_number, emptype, PaymentType, businessTurnover, availableBusinessDocuments, businessAge, businessType);
       window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({'mobileNumber' : mobile_number, 'flag':flag, 'employmentType': emptype, 'PaymentType': PaymentType, 'monthlyincome': monthlyincome  });
+      window.dataLayer.push({'mobileNumber' : mobile_number, 'flag':flag, 'employmentType': emptype, 'PaymentType': PaymentType, 'businessTurnover': businessTurnover, 'availableBusinessDocuments': availableBusinessDocuments, 'businessAge': businessAge, 'businessType': businessType });
     }
 
     try{
@@ -201,7 +207,8 @@ const NewBlFirstPage = () => {
 
         console.log("user_exist is :: ",response.data.obj.user_exist);
         console.log("Data added successfully");
-        handleDataLayerStart(response.data.obj.user_exist,mobile,'Business', 'Bank Transfer', turnover); 
+        // handleDataLayerStart(response.data.obj.user_exist,mobile,'Business', 'Bank Transfer', turnover); 
+        handleDataLayerStart(response.data.obj.user_exist,mobile,'Business', 'Bank Transfer', turnover, documents, businessAge, businessType);
         getLendersList(e);
         handleDataLayerStage(1);
       }else{

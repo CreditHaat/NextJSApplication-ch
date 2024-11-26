@@ -30,20 +30,27 @@ const getData = async ({searchParams}) => {
 
     const formData1 = new FormData();
     formData1.append('mobilenumber',searchParams.mobilenumber);
+
+    try{
+      const response =await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}lenderslist1`, formData1, {
+        headers: {
+          'Content-Type': 'application/json',
+          'token': 'Y3JlZGl0aGFhdHRlc3RzZXJ2ZXI=' // Add your token here
+        }
+      })
+      return response.data;
+    }catch(error){
+      console.log(error);
+    }
     
-    const response =await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}lenderslist1`, formData1, {
-                headers: {
-                  'Content-Type': 'application/json',
-                  'token': 'Y3JlZGl0aGFhdHRlc3RzZXJ2ZXI=' // Add your token here
-                }
-              })
+    return null;
 
     // if(!response.ok){
     //     throw Error;
         
     // }
     // return response.json();
-    return response.data;
+    
 }
 
 const getUrlLink = (searchParams) => {
@@ -188,8 +195,8 @@ const ServerSidePropsFunction = async ({params, searchParams}) => {
           
             // <CHEmbeddedListCards json1 = {response.data}/>
         }
-        {
-          <CHEmbeddedListCards json1={response.data} mobile={mobile}/>
+        {(response!==null)?(<CHEmbeddedListCards json1={response.data} mobile={mobile}/>):(<CHEmbeddedListCards json1={null} mobile={mobile}/>)
+          
         }
       </div>
     </div>

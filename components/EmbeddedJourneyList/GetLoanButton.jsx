@@ -14,8 +14,29 @@ import OtpVerifyLoader from '../EmbeddedJourneyList/OtpVerifyLoader';
 import ErrorPopup from './ErrorPopup';
 import Temporary from './temporary';
 import EmbeddedGetLoanButton from './embeddedGetLoanButton';
+import { useRouter } from 'next/router';
+import RejectionPage from "../../components/RejectionPage/RejectionPage";
 
 const GetLoanButton = ({ lender, productId }) => {
+
+
+    // useEffect(() => {
+    //     const router = useRouter();
+    // }, [])
+
+    // const router = useRouter()
+    
+    // const navigateToEmbeddedJourney = () => {
+    //   router.push({
+    //     pathname: '/RejectionPage',
+    //     query: {
+    //       mobilenumber: '1234567891', 
+    //       sso: 'yes'
+    //     }
+    //   })
+    // }
+
+    const [showRejectionPage, setShowRejectionPage] = useState(false);
 
     const [lenderProduct, setLenderProduct] = useState('');
     const [lenderCpi, setLenderCpi] = useState('');
@@ -152,6 +173,8 @@ const GetLoanButton = ({ lender, productId }) => {
                     console.log("Inside get Loan Backend when code is 0");
                     setIsCameFromBackend(true);
 
+                    //Here we will be adding the successPage instead of the applicationPopup
+
                     const timer = setTimeout(() => {
                         setApiExecutionLoader(false);
                     }, 3000);
@@ -165,11 +188,22 @@ const GetLoanButton = ({ lender, productId }) => {
                 else if (response.data.code === -1) {
                     console.log(-1);
 
-                    // window.location.href = "https://app.credithaat.com/RejectionPage";
+                    localStorage.setItem('mobileNumberForRejection', mobileNumber);          
+                    window.location.href = "https://app.credithaat.com/RejectionPage";
+                    // setShowRejectionPage(true);
 
                     // window.location.href = "http://localhost:3000/RejectionPage";
+                    // router.push({
+                    //     pathname: '/RejectionPage',
+                    //     query: {
+                    //       mobilenumber: '1234567891', 
+                    //       sso: 'yes'
+                    //     }
+                    //   })
 
-                    setErrorPopup(true);
+                    // navigateToEmbeddedJourney();
+
+                    // setErrorPopup(true);
                     const timer = setTimeout(() => {
                         setApiExecutionLoader(false);
                     }, 3000);
@@ -249,6 +283,10 @@ const GetLoanButton = ({ lender, productId }) => {
 
     return (
         <>
+
+            {/* {
+                showRejectionPage && <RejectionPage mobileNumber={mobileNumber}/>
+            } */}
             {
                 <EmbeddedGetLoanButton lenderProduct={lenderProduct} lenderCpi={lenderCpi} lenderApplicationLink={lenderApplicationLink} lender_id={lender_id} setLenderProduct={setLenderProduct} setLenderApplicationLink={setLenderApplicationLink} setLenderCpi={setLenderCpi} setLender_id={setLender_id} setProductsArr={setProductsArr} lender={lender} isOtpVerified={isOtpVerified} setIsVisible={setIsVisible} mobileNumber={mobileNumber} setStgOneHitId={setStgOneHitId} setstgTwoHitId={setstgTwoHitId} sett_experian_log_id={sett_experian_log_id} setIsOtpVerified={setIsOtpVerified} getLoanBackend={getLoanBackend}/>
             }

@@ -220,12 +220,13 @@
       /* Other existing styles remain unchanged */
       
     .sect5logo{
-        margin-left: 70%;
+        margin-left: 55%;
         margin-top: -10px;
     }
     .cardimgtext5{
         color: #fff;
         font-size: 1.5rem;
+        margin-top: 10%;
     }
     .rejsect5image{
         margin-left: 40%;
@@ -285,11 +286,12 @@
     }
     .cardimgtext6t{
         max-width: 50%;
-        font-size: 2.5rem;
+        /* font-size: 2.5rem; */
+        font-size: 1.5rem;
     }
     .rejsect6image{
         margin-left: 40%;
-        margin-top: -50%;
+        margin-top: -10%;
         /* max-width: 50%; */
     }
     /* ---------------------------------------------------------------------------------- */
@@ -794,7 +796,7 @@
       /* Other existing styles remain unchanged */
       
     .sect5logo{
-        margin-left: 55%;
+        margin-left: 35%;
         margin-top: -20px;
     }
     .cardimgtextt{
@@ -805,8 +807,16 @@
     
     .cardimgtext5t{
         color: #fff;
-        font-size: 1.5rem;
+        font-size: 1rem;
+        /* line-height: 1.5; */
         /* max-width: 50%; */
+    }
+    .cardimgtext5t p {
+      white-space: normal; /* Allow text to wrap normally on mobile */
+      word-wrap: break-word; /* Break long words if needed */
+      word-break: break-word; /* Break words at the end of the line to avoid overflow */
+      font-size: 14px; /* Adjust the font size for readability on mobile */
+      line-height: 1.5; /* Adjust line height for better spacing between lines */
     }
     .rejsect5image{
         margin-left: 23%;
@@ -988,7 +998,7 @@
         justify-content: center;
         background-color: #f0f0f0; /* Optional: Add background to the back */
     }
-    * Add this to your RejectionPage.css */
+    /* Add this to your RejectionPage.css */
     
     .card-fade-in {
         animation: fadeIn 0.5s ease-in forwards; /* Fade-in effect */

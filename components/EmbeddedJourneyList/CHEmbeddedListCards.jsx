@@ -24,6 +24,7 @@ const CHEmbeddedListCards = ({ json1, mobile }) => {
       (json1=== null)?
       (<>
         {/* <OTPComponent mobile={mobile}/> */}
+        <div>No Data To Display</div>
       </>)
       :
       (<>

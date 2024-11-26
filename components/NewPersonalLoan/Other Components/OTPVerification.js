@@ -55,7 +55,7 @@ function OTPVerification({ verifyOTP, handleOtpChange, upotp, otpStatus, formDat
     e.preventDefault();
     const enteredOTP = otp.join("");
 
-    alert('OTP submitted: ' + enteredOTP);
+   
 
     // Check OTP here and redirect if successful
     // if (enteredOTP === "123456") {

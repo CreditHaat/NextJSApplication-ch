@@ -39,8 +39,11 @@ function RejectPage() {
       </div>
       <div className="lapnewfirstcard-container">
       <div className="laptext1">
-       <h1><span style={{fontWeight: 'bold', marginLeft:'30%'}}>Sorry, </span> <br/> <br/> unfortunately, your application has not been accepted at this time.
-       Thank you for your interest, and we wish you the best in your future endeavors.</h1>
+        <div style={{width:"100%", display:"flex", justifyContent:"center", fontSize:"25px"}}>
+          Sorry
+        </div>
+        <p style={{textAlign:"center"}}>unfortunately, your application has not been accepted at this time.
+       Thank you for your interest, and we wish you the best in your future endeavors.</p>
       </div>
     </div>
     </div>

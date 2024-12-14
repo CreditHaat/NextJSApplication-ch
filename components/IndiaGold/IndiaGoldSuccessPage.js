@@ -41,7 +41,10 @@ function IndiaGoldSuccessPage() {
       </div>
       <div className="lapnewfirstcard-container">
       <div className="laptext1">
-       <h1><span style={{fontWeight: 'bold', marginLeft:'30%'}}>Thank you!</span> <br/> <br/> Your application for a loan against property has been received. Our team would contact you shortly to take the process forward.</h1>
+      <div style={{width:"100%", display:"flex", justifyContent:"center", fontSize:"25px"}}>
+          Thank You!
+        </div>
+        <p style={{textAlign:"center"}}>Your application for a IndiaGold has been received. Our team would contact you shortly to take the process forward.</p>
       </div>
     </div>
     </div>
@@ -49,4 +52,4 @@ function IndiaGoldSuccessPage() {
   )
 }
 
-export default IndiaGoldSuccessPage
+export default IndiaGoldSuccessPage;

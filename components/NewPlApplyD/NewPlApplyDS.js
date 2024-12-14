@@ -1,0 +1,855 @@
+"use client"
+import React, { useState, useRef, useEffect } from "react";
+import './NewPlApplyDS.css';
+import listimage1 from './newplimages/newchange11.png';
+import listimage2 from './newplimages/newchange3.png';
+import listimage3 from './newplimages/plimage33.png';
+import styles from './NewPlFirstPage.module.css';
+import EmblaCarousel from './Emblacarousel/js/EmblaCarousel';
+import NewBlListPage from "../NewBlJourneyD/NewBlListPage";
+import axios from "axios";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { format } from "date-fns";
+import Loader from "../NewBlJourneyD/LendersLoader";
+import RedirectionLoader from "../NewBlJourneyD/RedirectionLoader";
+import ApplicationLoader from "../NewBlJourneyD/ApplicationLoader";
+import { FaEnvelope, FaHome, FaBuilding, FaCalendar, FaMapPin } from 'react-icons/fa'; // Font Awesome icons for React
+import ErrorPopup from '../NewBlJourneyD/ErrorPopup';
+// import {Roboto} from '@next/font/google';
+import { Roboto } from '@next/font/google';
+
+const roboto = Roboto({
+  weight: ['400', '700'],
+  subsets: ['latin'],
+});
+
+const OPTIONS = { direction: 'rtl', loop: true };
+const SLIDES = [
+  { imageUrl: listimage1 },
+  { imageUrl: listimage2 },
+  { imageUrl: listimage3 },
+];
+
+
+
+const NewPlApplyDS = ({ dobFlag, mainFormData, getLendersList, genderFlag, addressFlag, residentialPincodeFlag, }) => {
+  const [formErrors, setFormErrors] = useState({
+
+    email: "",
+    address: "",
+    dob: "",
+    gender: "",
+    residentialPincode: "",
+    // officeemail: "",
+    companyName: "",
+    officePincode: "",
+    ITR: "",
+  });
+
+  const [formData, setFormData] = useState({
+    email: "",
+    address: "",
+    dob: "",
+    gender: "",
+    residentialPincode: "",
+    // officeemail: "",
+    companyName: "",
+    officePincode: "",
+    ITR: "",
+  });
+
+  const [consent, setConsent] = useState(false);
+  const [terms, setTerms] = useState(false);
+  const [showFullConsent, setShowFullConsent] = useState(false);
+  const [showConsent, setShowConsent] = useState(false);
+  const [errors, setErrors] = useState({}); // Object to store error messages
+  const formRef = useRef(null);
+
+  const [ActiveContainer, setActiveContainer] = useState("NewBlFirstPage");
+  const [isLoading, setIsLoading] = useState(false);
+  var json = null;
+  const [lenderDetails, setLenderDetails] = useState(null);
+
+  const [lenderProduct, setLenderProduct] = useState(null);
+  const [cpi, setCpi] = useState(0);
+  const [redirectionLinkLoader, setRedirectionLinkLoader] = useState(false);
+  const [apiExecutionLoader, setApiExecutionLoader] = useState(false);
+  const [errorPopup, setErrorPopup] = useState(false);
+  const [applicationPopup, setApplicationPopup] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+
+  const validateForm = () => {
+    let valid = true;
+    const errors = {
+
+      email: "",
+      address: "",
+      dob: "",
+      gender: "",
+      residentialPincode: "",
+      // officeemail: "",
+      companyName: "",
+      officePincode: "",
+      ITR: "",
+    };
+
+
+    if (dobFlag && !formData.dob) {
+      errors.dob = 'Date of birth is required';
+      valid = false;
+    }
+
+    if (!formData.email) {
+      errors.email = 'Email is required';
+      valid = false;
+    }
+    else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      errors.email = 'Invalid email address';
+      valid = false;
+    }
+
+
+    if (addressFlag) {
+      // Validate Address
+      if (!formData.address.trim()) {
+        errors.address = "Address is required";
+        valid = false;
+      }
+    }
+
+
+    if (genderFlag) {
+      if (!formData.gender) {
+        errors.gender = 'Gender is required';
+        valid = false;
+      }
+    }
+
+
+
+    if (!formData.ITR) {
+      errors.ITR = 'ITR is required';
+      valid = false;
+    }
+
+
+    // Validate Company Name
+    if (!formData.companyName.trim()) {
+      errors.companyName = "Company Name is required";
+      valid = false;
+    }
+
+    // if (!formData.officeemail) errors.officeemail = 'Office Email is required';
+    // else if (!/\S+@\S+\.\S+/.test(formData.officeemail)) errors.officeemail = 'Invalid email address';
+
+
+    // Validate Office Pincode
+    if (!formData.officePincode.trim()) {
+      errors.officePincode = "Office Pincode is required";
+      valid = false;
+    } else if (
+      formData.officePincode.length !== 6 ||
+      !/^\d{6}$/.test(formData.officePincode)
+    ) {
+      errors.officePincode = "Invalid pincode format";
+      valid = false;
+    }
+
+    if (residentialPincodeFlag) {
+      // Validate Office Pincode
+      if (!formData.residentialPincode.trim()) {
+        errors.residentialPincode = "Office Pincode is required";
+        valid = false;
+      } else if (
+        formData.residentialPincode.length !== 6 ||
+        !/^\d{6}$/.test(formData.residentialPincode)
+      ) {
+        errors.residentialPincode = "Invalid pincode format";
+        valid = false;
+      }
+    }
+
+    setFormErrors(errors);
+    return valid;
+  };
+
+
+  const handleDateChange2 = (date) => {
+    console.log("Inside handle date change");
+    const formattedDate = date ? format(date, "yyyy-MM-dd") : null;
+    setFormData({ ...formData, dob: formattedDate });
+
+    console.log("The changed date is :: ", formattedDate);
+
+    // (date) => setFormData({ ...formData, dob: date })
+  };
+
+  const today = new Date();
+  const eighteenYearsAgo = new Date(
+    today.getFullYear() - 18,
+    today.getMonth(),
+    today.getDate()
+  );
+  const sixtyYearsAgo = new Date(
+    today.getFullYear() - 60,
+    today.getMonth(),
+    today.getDate()
+  );
+
+  const handleDataLayerStage = (stage) => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ 'stage': stage });
+  };
+
+  const handleSubmit = (e) => {
+
+    console.log("Inside handle Submit")
+    e.preventDefault();
+    if (validateForm()) {
+      console.log("Inside validate form");
+      // Process form data and navigate to the next page
+      handleDataLayerStage(3); // Track step 2 when the form is submitted
+      console.log("After Data layer stage");
+      console.log('Form data:', formData);
+      StoreDataToBackendForSalaried(e);
+      // getLendersList(e);
+      // setActiveContainer('LendersList');
+
+      // router.push('/next-page'); // Uncomment and modify the route as needed
+    } else {
+      console.log("form not validated");
+    }
+  };
+
+
+  const toggleOfficialInfo = () => {
+    setOfficialInfoVisible((prev) => !prev);
+  };
+
+  const StoreDataToBackendForSalaried = async (e) => {
+    // setIsLoading2(true);
+    console.log("Inside handle form submit")
+    e.preventDefault();
+    try {
+      const formData1 = new FormData();
+      formData1.append("mobileNumber", mainFormData.mobileNumber);
+      formData1.append("gender", formData.gender);
+      formData1.append("address", formData.address);
+      formData1.append("dob", formData.dob);
+      formData1.append("email", formData.email);
+      // formData1.append("officeemail",formData.officeemail);
+      formData1.append("companyName", formData.companyName);
+      formData1.append("officePincode", formData.officePincode);
+      formData1.append("pincode", formData.residentialPincode);
+      formData1.append("itr", formData.ITR);
+
+
+      // setIsLoadingforLoader(true);
+
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}PlApplyNew_SelfEmployed`,
+        formData1
+      );
+
+      // if(cpi===1){
+      // apiExecutionBackend(lenderProduct);
+      // }
+
+      if (response.data.code === 0) {
+        //Here when the code is 0 we are calling lendersList backend which will give us lendersList accrding to user
+        getLendersList(e);
+        // getLoanBackend(e);
+      }
+
+      if (response.status === 200) {
+      } else {
+        console.error("Submission failed:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
+
+
+  const getLoanBackendMethod = (e, lenderProduct) => {
+
+    setCpi(0);
+    setLenderProduct(lenderProduct);
+    handleDataLayerStage(2); // Track step 2 when the form is submitted
+    apiExecutionBackend(lenderProduct, 0, 0);
+
+  }
+
+
+
+  const apiExecutionBackend = async (productname, lenderCpi, productId) => {
+
+    console.log(productname);
+
+    console.log("Cpi is : ", lenderCpi);
+    console.log("product id :: ", productId);
+
+    // If lenderCpi is 1, redirect to lender.applicationlink
+
+    console.log(cpi);
+
+    if (lenderCpi === 1) {
+      setRedirectionLinkLoader(true);
+
+
+
+      try {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}h5/cpiClickNew_bl`, formData1);
+        // console.log("The response is : ",response);
+
+        console.log("After h5");
+
+      } catch (error) {
+        console.log("The error is : ", error);
+      }
+
+
+
+      console.log("After response of cpiClickNew_bl")
+
+      const timer = setTimeout(() => {
+        setRedirectionLinkLoader(false);
+        console.log("Before redirect");
+        const lenderApplicationLink = localStorage.getItem('applicationLink');
+        console.log("Before getting application link");
+        window.location.href = lenderApplicationLink;
+        console.log("After Redirect");
+        // window.location.href = lenderApplicationLink;
+      }, 3000);
+
+      // setRedirectionLinkLoader(false);
+      // return; // Exit the function to avoid further execution
+    } else {
+      console.log("Inside get Loan Backend");
+      // e.preventDefault();
+
+      setApiExecutionLoader(true);
+
+      console.log("Inside get Loan Backend");
+
+      try {
+        const formData1 = new FormData();
+        formData1.append('mobilenumber', mobile);
+        formData1.append('product', productname);
+
+        // setlenderName(productname);
+
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}apiExecution_bl_apply_prime_master`, formData1, {
+          headers: {
+            'Content-Type': 'application/json',
+            'token': 'Y3JlZGl0aGFhdHRlc3RzZXJ2ZXI=' // Add your token here
+          }
+        });
+
+        if (response.data.code === 0) {
+          console.log("Inside get Loan Backend when code is 0");
+          // setIsCameFromBackend(true);
+          setApplicationPopup(true);
+          const timer = setTimeout(() => {
+            setApiExecutionLoader(false);
+          }, 3000);
+          var redirectionlink = response.data.data.lender_details[0].applicationlink;
+          setLink(redirectionlink);
+          // {!setIsLoading && <ApplicationPopup link={link}/>}
+        }
+        else if (response.data.code === -1) {
+          console.log(-1);
+          setErrorPopup(true);
+          const timer = setTimeout(() => {
+            setApiExecutionLoader(false);
+          }, 3000);
+
+          // setErrorPopup(true); //This will be true when the code will be -1
+        } else {
+          const timer = setTimeout(() => {
+            setApiExecutionLoader(false);
+          }, 3000);
+        }
+
+        console.log("for partner page", response);
+
+      } catch (error) {
+
+      }
+    }
+
+
+  };
+  // Function to handle form field changes
+  const handleFieldChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+
+  // Calculate the completion percentage whenever formData changes
+  useEffect(() => {
+    const totalFields = Object.keys(formData).length;
+    const filledFields = Object.values(formData).filter(value => value !== '').length;
+    const completionPercentage = (filledFields / totalFields) * 100;
+
+    setProgress(completionPercentage);
+  }, [formData]);
+
+  return (
+    <>
+      {
+        errorPopup && <ErrorPopup lenderName={lenderProduct} mobileNumber={mobile} setErrorPopup={setErrorPopup} />
+      }
+      {
+        apiExecutionLoader && <ApplicationLoader />
+      }
+      {
+        redirectionLinkLoader && <RedirectionLoader />
+      }
+
+      {
+        applicationPopup && <ApplicationPopup link={link} />
+      }
+      {
+        ActiveContainer === "NewBlListPage" &&
+        // <LendersList companies={lenderDetails} formData={formData} redirectLinkMethod={redirectLinkMethod} getLoanBackendMethod={getLoanBackendMethod}/> 
+        <NewBlListPage companies={lenderDetails} redirectLinkMethod={redirectLinkMethod} getLoanBackendMethod={getLoanBackendMethod} mobileNumber={mobile} />
+      }
+      {
+        isLoading && <Loader />
+      }
+      {/* {
+        ActiveContainer === 'NewBlListPage' && 
+        <NewBlListPage/>
+    } */}
+      {
+        ActiveContainer === 'NewBlFirstPage' &&
+
+        <div className={`${roboto.className} page-container`}>
+          <div className="carousel-background">
+            <EmblaCarousel slides={SLIDES} options={OPTIONS} />
+          </div>
+          <div className="newfirstcard-container" style={{ boxSizing: 'content-box' }}>
+            <form ref={formRef} onSubmit={handleSubmit} className={styles.form}>
+
+
+
+              <div className="progress-bar-container">
+                <div className="progress-bar">
+                  <div className="step-number">1</div>
+                  <div className="progress-bar-fill"></div>
+                </div>
+                <div className="progress-bar">
+                  <div className="step-number">2</div>
+                  <div className="progress-bar-fill" style={{ width: `${progress}%` }}></div>
+                </div>
+              </div>
+
+
+
+
+              <div className={styles.formGroup}>
+                <div className={styles.inputWrapper} style={{ position: 'relative' }}>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter Email"
+                    value={formData.email}
+                    className={styles.input}
+                    onChange={(e) => {
+                      setFormData({ ...formData, email: e.target.value });
+                      if (formErrors.email) {
+                        setFormErrors({ ...formErrors, email: "" });
+                      }
+                    }}
+                  />
+                  <span
+                    className={styles.icon}
+                    style={{
+                      position: 'absolute',
+                      right: '10px',
+                      top: '50%',
+                      color: '#00000061',
+                      transform: 'translateY(-50%)',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <FaEnvelope />
+                  </span>
+                </div>
+                {formErrors.email && <span className="error">{formErrors.email}</span>}
+              </div>
+
+
+              {
+                addressFlag &&
+                <>
+                  <div className={styles.formGroup}>
+                    <div className={styles.inputWrapper} style={{ position: 'relative' }}>
+                      <input
+                        type="text"
+                        id="address"
+                        name="address"
+                        placeholder="Enter residential address"
+                        value={formData.address}
+                        className={styles.input}
+                        onChange={(e) => {
+                          setFormData({ ...formData, address: e.target.value });
+                          if (formErrors.address) {
+                            setFormErrors({ ...formErrors, address: "" });
+                          }
+                        }}
+                      />
+                      <span
+                        className={styles.icon}
+                        style={{
+                          position: 'absolute',
+                          right: '10px',
+                          top: '50%',
+                          color: '#00000061', // Adjusting the icon color
+                          transform: 'translateY(-50%)', // Center the icon vertically
+                          cursor: 'pointer',
+                        }}
+                      >
+                        <FaHome />
+                      </span>
+                    </div>
+                    {formErrors.address && (
+                      <span className="error">{formErrors.address}</span>
+                    )}
+                  </div>
+                </>
+              }
+
+
+              {
+                genderFlag &&
+                <>
+                  <div className={styles.formGroup}>
+                    <label style={{ fontWeight: 'bold' }}>Gender</label>
+                    <div className={styles.radioGroup}>
+                      {['Male', 'Female', 'Other'].map((gender) => (
+                        <label style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }} key={gender}>
+                          <input
+                            type="radio"
+                            value={gender}
+                            checked={formData.gender === gender}
+                            onChange={(e) => {
+                              setFormData({ ...formData, gender: e.target.value });
+                              setFormErrors({ ...formErrors, gender: "" });
+                            }}
+                            style={{ marginRight: '8px' }}
+                          />
+                          {gender}
+                        </label>
+                      ))}
+                    </div>
+                    {formErrors.gender && <p style={{ color: 'red' }}>{formErrors.gender}</p>}
+                  </div>
+                </>
+              }
+
+
+
+
+
+              {
+                dobFlag && (
+                  <>
+                    <div className={styles.formGroup}>
+                      <div className={styles.inputWrapper} style={{ position: 'relative' }}>
+                        <DatePicker
+                          selected={formData.dob}
+                          onChange={handleDateChange2}
+                          type="Date"
+                          className={styles.input}
+                          dateFormat="dd/MM/yyyy"
+                          placeholderText="DD/MM/YYYY"
+                          showYearDropdown
+                          scrollableYearDropdown
+                          yearDropdownItemNumber={150}
+                          maxDate={eighteenYearsAgo}
+                          minDate={sixtyYearsAgo}
+                        />
+                        <span
+                          className={styles.icon}
+                          style={{
+                            position: 'absolute',
+                            right: '10px',
+                            top: '50%',
+                            color: '#00000061',
+                            transform: 'translateY(-50%)',
+                            cursor: 'pointer',
+                          }}
+                        >
+                          <FaCalendar />
+                        </span>
+                      </div>
+                      {formErrors.dob && <div className="pploan-invalid-feedback">{formErrors.dob}</div>}
+                    </div>
+                  </>
+                )
+              }
+
+
+              <>
+                <div className={styles.formGroup}>
+                  <div className={styles.inputWrapper} style={{ position: 'relative' }}>
+                    <input
+                      type="text"
+                      id="companyName"
+                      name="companyName"
+                      placeholder="Enter Company Name"
+                      value={formData.companyName}
+                      className={styles.input}
+                      onChange={(e) => {
+                        setFormData({ ...formData, companyName: e.target.value });
+                        if (formErrors.companyName) {
+                          setFormErrors({ ...formErrors, companyName: "" });
+                        }
+                      }}
+                    />
+                    <span
+                      className={styles.icon}
+                      style={{
+                        position: 'absolute',
+                        right: '10px',
+                        top: '50%',
+                        color: '#00000061',
+                        transform: 'translateY(-50%)',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <FaBuilding />
+                    </span>
+                  </div>
+                  {formErrors.companyName && (
+                    <span className="error">{formErrors.companyName}</span>
+                  )}
+                </div>
+
+
+
+                {/* <div className={styles.formGroup}>
+  <div className={styles.inputWrapper} style={{ position: 'relative' }}>
+    <input
+      type="email"
+      id="officeemail"
+      name="officeemail"
+      placeholder="Enter Work Email"
+      value={formData.officeemail}
+      className={styles.input}
+      onChange={(e) => {
+        setFormData({ ...formData, officeemail: e.target.value });
+        if (formErrors.officeemail) {
+          setFormErrors({ ...formErrors, officeemail: "" });
+        }
+      }}
+    />
+    <span
+      className={styles.icon}
+      style={{
+        position: 'absolute',
+        right: '10px',
+        top: '50%',
+        color: '#00000061',
+        transform: 'translateY(-50%)',
+        cursor: 'pointer',
+      }}
+    >
+      <FaEnvelope /> 
+    </span>
+  </div>
+  {formErrors.officeemail && (
+    <span className="error">{formErrors.officeemail}</span>
+  )}
+</div> */}
+
+
+                <div className={styles.formGroup}>
+                  <div className={styles.inputWrapper} style={{ position: 'relative' }}>
+                    <input
+                      type="text"
+                      id="officePincode"
+                      name="officePincode"
+                      placeholder="Enter work Pincode"
+                      value={formData.officePincode}
+                      className={styles.input}
+                      onChange={(e) => {
+                        const value = e.target.value.replace(/\D/g, "").slice(0, 6); // Keep only digits and limit to 6
+                        setFormData({ ...formData, officePincode: value });
+                        if (formErrors.officePincode) {
+                          setFormErrors({ ...formErrors, officePincode: "" });
+                        }
+                      }}
+                    />
+                    <span
+                      className={styles.icon}
+                      style={{
+                        position: 'absolute',
+                        right: '10px',
+                        top: '50%',
+                        color: '#00000061',
+                        transform: 'translateY(-50%)',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <FaMapPin /> {/* Map pin (location) icon */}
+                    </span>
+                  </div>
+                  {formErrors.officePincode && (
+                    <span className="error">{formErrors.officePincode}</span>
+                  )}
+                </div>
+
+                {
+                  residentialPincodeFlag &&
+                  <>
+                    <div className={styles.formGroup}>
+                      <div className={styles.inputWrapper} style={{ position: 'relative' }}>
+                        <input
+                          type="text"
+                          id="residentialPincode"
+                          name="residentialPincode"
+                          placeholder="Enter home Pincode"
+                          value={formData.residentialPincode}
+                          className={styles.input}
+                          onChange={(e) => {
+                            const value = e.target.value.replace(/\D/g, "").slice(0, 6); // Keep only digits and limit to 6
+                            setFormData({ ...formData, residentialPincode: value });
+                            if (formErrors.residentialPincode) {
+                              setFormErrors({ ...formErrors, residentialPincode: "" });
+                            }
+                          }}
+                        />
+                        <span
+                          className={styles.icon}
+                          style={{
+                            position: 'absolute',
+                            right: '10px',
+                            top: '50%',
+                            color: '#00000061',
+                            transform: 'translateY(-50%)',
+                            cursor: 'pointer',
+                          }}
+                        >
+                          <FaMapPin /> {/* Map pin (location) icon */}
+                        </span>
+                      </div>
+                      {formErrors.residentialPincode && (
+                        <span className="error">{formErrors.residentialPincode}</span>
+                      )}
+                    </div>
+                  </>
+                }
+
+
+
+                <div className={styles.formGroup}>
+                  <label style={{ fontWeight: 'bold' }}>ITR available for last 2 years</label>
+                  <div className={styles.radioGroup}>
+                    {['Yes', 'No'].map((ITR) => (
+                      <label style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }} key={ITR}>
+                        <input
+                          type="radio"
+                          value={ITR}
+                          checked={formData.ITR === ITR}
+                          onChange={(e) => {
+                            setFormData({ ...formData, ITR: e.target.value });
+                            setFormErrors({ ...formErrors, ITR: "" });
+                          }}
+                          style={{ marginRight: '8px' }}
+                        />
+                        {ITR}
+                      </label>
+                    ))}
+                  </div>
+                  {formErrors.ITR && <p style={{ color: 'red' }}>{formErrors.ITR}</p>}
+                </div>
+
+              </>
+
+              {/* <div className={styles.formGroup}>
+            <label> */}
+              {/* <input
+                type="checkbox"
+                checked={consent}
+                onChange={(e) => {
+                  setConsent(e.target.checked);
+                  setErrors((prevErrors) => ({ ...prevErrors, consent: "" }));
+                }}
+              /> */}
+              {/* {showFullConsent ? (
+                <>
+                 You hereby consent to CreditHaat being appointed as your authorized representative
+              to receive your Credit Information from Experian for the purpose of accessing credit worthiness and availing pre-approved offers (“End Use Purpose”). You hereby agree to Terms and Conditions.
+              I authorize CreditHaat, its partner financial institutes/lenders and their representatives to Call, SMS or communicate via WhatsApp regarding my application. This consent overrides any registration for DNC / NDNC.
+              I confirm I am in India, I am a major and a resident of India and I have read and I accept CreditHaat Privacy Policy Click here to read the PRIVACY POLICY & TERMS OF SERVICE
+                  <span onClick={() => setShowFullConsent(false)} style={{ color: "blue", cursor: "pointer", textDecoration: "none" }}>
+                    Show Less
+                  </span>
+                </>
+              ) : (
+                <>
+                 You hereby consent to CreditHaat being appointed as your authorized representative...
+                  <span onClick={() => setShowFullConsent(true)} style={{ color: "blue", cursor: "pointer", textDecoration: "none" }}>
+                    Read More
+                  </span>
+                </>
+              )} */}
+              {/* </label>
+            {errors.consent && <p style={{ color: 'red' }}>{errors.consent}</p>}
+          </div> */}
+
+              {/* <div className={styles.formGroup}>
+            <label> */}
+              {/* <input
+                type="checkbox"
+                checked={terms}
+                onChange={(e) => {
+                  setTerms(e.target.checked);
+                  setErrors((prevErrors) => ({ ...prevErrors, terms: "" }));
+                }}
+              /> */}
+              {/* {showConsent ? (
+                <>
+                  By agreeing and accepting the terms and conditions set out herein, you provide your express consent to Social Worth Technologies Private Limited, Whizdm Innovations Pvt Ltd, Upwards Fintech Services Pvt Ltd, Tata Capital Financial Services Ltd, SmartCoin Financials Pvt Ltd, MWYN Tech Pvt Ltd, L&T Finance Ltd, Krazybee Services Pvt Ltd, Infocredit Services Pvt. Ltd, Incred Financial Services, IIFL Finance Ltd, EQX Analytics Pvt Ltd, EPIMoney Pvt Ltd, Bhanix finance and Investment LTd, Aditya Birla Finance Ltd to access the credit bureaus and credit information report and credit score. You also hereby irrevocably and unconditionally consent to usage of such credit information being provided by credit bureaus.                  
+                  <span onClick={() => setShowConsent(false)} style={{ color: "blue", cursor: "pointer", textDecoration: "none" }}>
+                    Show Less
+                  </span>
+                </>
+              ) : (
+                <>
+                  By agreeing and accepting the terms and conditions set out herein, you provide your...
+                  <span onClick={() => setShowConsent(true)} style={{ color: "blue", cursor: "pointer", textDecoration: "none" }}>
+                    Read More
+                  </span>
+                </>
+              )} */}
+              {/* </label>
+            {errors.terms && <p style={{ color: 'red' }}>{errors.terms}</p>}
+          </div> */}
+              {/* <div style={{marginBottom:"50px"}}>
+          Calculation:<br/> CreditHaat does not charge any fees from the user.<br/> A sample loan calculation for ₹1,00,000 borrowed for 1 year, with interest rate @13% per annum*, is as provided below: <br/>
+          Processing fee (@ 2%) = ₹2,000 + GST = ₹2,360
+          </div> */}
+              <div className={styles.stickyButton}>
+                <button type="submit" className={`${styles.button} ${styles.submitButton}`}>Next</button>
+                {/* className={`w-full  ${styles.submitButton}`} */}
+              </div>
+
+            </form>
+          </div>
+        </div>
+      }
+    </>
+  );
+};
+
+export default NewPlApplyDS;

@@ -243,7 +243,7 @@ const GetLoanButton = ({ lender, productId }) => {
             formData1.append('stgTwoHitId', stgTwoHitId);
             formData1.append('t_experian_log_id', t_experian_log_id);
 
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}verifyOTPEmbedded`, formData1);
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}verifyOTPNewPersonalloan`, formData1);
 
             if (response.data.code === 0) {
                 console.log("Inside when data.code is 0");

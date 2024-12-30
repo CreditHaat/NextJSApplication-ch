@@ -10,6 +10,7 @@ const nextConfig = {
         domains: [
             'credithaatimages.s3.ap-south-1.amazonaws.com',
             'chdocsusers.s3.ap-south-1.amazonaws.com'
+            
         ],
     },
     webpack: (config) => {

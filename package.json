@@ -36,6 +36,7 @@
     "react-multi-carousel": "^2.8.5",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.25.1",
+    "react-select": "^5.9.0",
     "react-swipeable": "^7.0.1",
     "sharp": "^0.33.4",
     "tw-elements": "^2.0.0",

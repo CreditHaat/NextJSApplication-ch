@@ -1,0 +1,328 @@
+.successclasspage {
+    font-family: sans-serif;
+    margin-top: -5%;
+    width: 100%; /* Take full width */
+    overflow: hidden;
+    margin-left: -12%;
+  }
+  
+  /* ... (previous styles remain the same) ... */
+  
+  .carousel3dWrapper {
+    perspective: 1000px;
+    margin-top: 80px;
+    position: relative;
+    height: 400px;
+    width: 100%;
+  }
+  
+  .carousel3d {
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .carousel3d.animating {
+    transition: transform 0.5s;
+  }
+  
+  .carouselCard {
+    position: absolute;
+    /* width: 300px; */
+    /* height: 300px; */
+    /* top: 20%; */
+    left: 15%;
+    transform-origin: center;
+    transition: transform 0.5s, opacity 0.5s;
+  }
+  
+  .carouselCard.active {
+    z-index: 10;
+  }
+  
+  .rejsect4card {
+    background: linear-gradient(180deg, #64ABFD 0%, #3C6697 100%);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    color: white;
+    text-align: center;
+  }
+  
+  .carouselButton {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    /* background-color: #3e2780; */
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 20;
+    border-radius: 10px;
+    background: none;
+
+  }
+  .carouselButtonnext {
+    position: absolute;
+    top: 60%;
+    transform: translateY(-50%);
+    /* background-color: #3e2780; */
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 20;
+  }
+  /* .prevButton {
+    left: 80px;
+  } */
+  
+  .nextButton {
+    right: -230px;
+  }
+  
+  .paginationDots {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #c4c4c4;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .dot.active {
+    background-color: #3e2780;
+  }
+  
+  @media (max-width: 768px) {
+    /* ... (previous mobile styles remain the same) ... */
+
+    .successclasspage {
+      font-family: sans-serif;
+      margin-top: -5%;
+      width: 100%; /* Take full width */
+      overflow: hidden;
+      margin-left: 1%;
+    }
+  
+    .carousel3dWrapper {
+      height: 300px;
+    }
+  
+    .carouselCard {
+      width: 250px;
+      height: 200px;
+    }
+  
+    .carouselButton {
+      padding: 12px 10px;
+      font-size: 14px;
+    
+    }
+    .nextButton {
+      right: 20px; /* Position the button slightly outside the carousel */
+    }
+   /* .prevButton {
+    left: 50px;
+  }  */
+    .cardLogo{
+      margin-left: 70%;
+      margin-top: -10px;
+    }
+    .cardLogo img {
+      width: 80px; /* Adjust the width of the logo */
+      height: auto;
+      object-fit: contain;
+    }
+    .cardText {
+      margin-bottom: 20px;
+      /* text-align:justify; */
+      font-size: 14px;
+      color: #fff;
+      line-height: 1.5;
+    }
+    .cardButton{
+      margin-left: -50%;
+    }
+    .applyNowButton{
+      background-color: #6039D2;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 5px;
+    }
+    .cardImage {
+      margin-top: 80px;
+      /* margin-left: 50px; */
+      max-width: 50%;
+    }
+    
+    /* Style for the card image */
+    .cardImage img {
+      width: 100px; /* Adjust the image width */
+      height: auto;
+      object-fit: cover; /* Cover the container without stretching */
+    }
+   .imgtbflex{
+    display: flex;
+   }
+  }
+
+
+  /* Desktop-specific styles */
+@media (min-width: 769px) {
+  .successclasspage {
+    font-family: sans-serif;
+    margin-top: -10%;
+    width: 100%; /* Take full width */
+    overflow: hidden;
+    margin-left: -12%;
+  }
+  .carousel3dWrapper {
+    height: 600px; /* Increase height for desktop */
+    /* width: 60%; Adjust width for desktop */
+    margin: 0 auto; /* Center the carousel on the page */
+    perspective: 1200px;
+  }
+
+  .carouselCard {
+    width: 300px; /* Increase card width */
+    height: 400px; /* Increase card height */
+    top: 30%; /* Adjust position for better alignment */
+    left: 27%;
+    transform-origin: center;
+  }
+
+  .rejsect4card {
+    padding: 30px; /* Increase padding for more spacing */
+    background: linear-gradient(180deg, #64ABFD 0%, #3C6697 100%);
+    border-radius: 15px; /* Larger border radius for a smoother look */
+    color: white;
+    text-align: left; /* Align text to the left */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .carouselButton {
+    top: 100%; /* Place buttons below the carousel */
+    padding: 14px 24px; /* Adjust padding for bigger buttons */
+    font-size: 16px; /* Increase font size for readability */
+  }
+
+  .carouselButtonnext {
+    padding: 14px 24px; /* Maintain same padding as prev button */
+    font-size: 16px; /* Increase font size */
+  }
+
+  .prevButton {
+    left: 50px; /* Position the button slightly outside the carousel */
+  }
+
+  .nextButton {
+    right: -80px; /* Position the button slightly outside the carousel */
+  }
+
+  .paginationDots {
+    margin-top: 40px; /* Increase spacing from carousel */
+  }
+
+  .dot {
+    width: 15px; /* Increase size of dots */
+    height: 15px; /* Increase size of dots */
+  }
+
+  .dot.active {
+    background-color: #3e2780;
+  }
+
+  .cardLogo {
+    margin-left: 70%;
+    margin-top: -30px; /* Adjust margin for better placement */
+  }
+
+  .cardLogo img {
+    width: 80px; /* Increase size of logo */
+    height: auto;
+  }
+
+  .imgtbflex {
+    display: flex;
+    justify-content: space-between; /* Space between content and image */
+    align-items: center; /* Center align vertically */
+  }
+
+  .cardContent {
+    flex: 1;
+    margin-right: 30px; /* Add some spacing to the right */
+  }
+
+  .cardText {
+    font-size: 14px;
+    color: white;
+    /* line-height: 1.8; Adjust line height for better readability */
+  }
+
+  .cardButton {
+    margin-top: 20px; /* Add space above the button */
+    margin-left: 0; /* Reset margin */
+  }
+  .applyNowButton{
+    background-color: #6039D2;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+  }
+  .cardImage {
+    margin-top: 80px;
+    /* margin-left: 50px; */
+    max-width: 50%;
+  }
+  
+  /* Style for the card image */
+  .cardImage img {
+    width: 80px; /* Adjust the image width */
+    height: auto;
+    object-fit: cover; /* Cover the container without stretching */
+  }
+  .carouselButton {
+    position: absolute;
+    top: 60%;
+    transform: translateY(-50%);
+    /* background-color: #3e2780; */
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 20;
+    border-radius: 10px;
+
+  }
+  .carouselButtonnext {
+    position: absolute;
+    top: 100%;
+    transform: translateY(-50%);
+    background-color: #3e2780;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 20;
+  }
+  .nextButton {
+    right: -20px; /* Position the button slightly outside the carousel */
+  }
+
+}

@@ -1,8 +1,8 @@
 "use client"
 import React, { useState, useRef, useEffect } from "react";
 import './NewPlApplyDS.css';
-import listimage1 from './newplimages/newchange11.png';
-import listimage2 from './newplimages/newchange3.png';
+import listimage1 from './newplimages/finalimage2.png';
+import listimage2 from './newplimages/finalimage3.png';
 import listimage3 from './newplimages/plimage33.png';
 import styles from './NewPlFirstPage.module.css';
 import EmblaCarousel from './Emblacarousel/js/EmblaCarousel';
@@ -14,7 +14,7 @@ import { format } from "date-fns";
 import Loader from "../NewBlJourneyD/LendersLoader";
 import RedirectionLoader from "../NewBlJourneyD/RedirectionLoader";
 import ApplicationLoader from "../NewBlJourneyD/ApplicationLoader";
-import { FaEnvelope, FaHome, FaBuilding, FaCalendar, FaMapPin } from 'react-icons/fa'; // Font Awesome icons for React
+import { FaEnvelope, FaHome, FaBuilding, FaCalendar, FaMapPin, FaArrowLeft } from 'react-icons/fa'; // Font Awesome icons for React
 import ErrorPopup from '../NewBlJourneyD/ErrorPopup';
 // import {Roboto} from '@next/font/google';
 import { Roboto } from '@next/font/google';
@@ -33,7 +33,7 @@ const SLIDES = [
 
 
 
-const NewPlApplyDS = ({ dobFlag, mainFormData, getLendersList, genderFlag, addressFlag, residentialPincodeFlag, }) => {
+const NewPlApplyDS = ({ dobFlag, mainFormData, getLendersList, genderFlag, addressFlag, residentialPincodeFlag, setActiveContainer }) => {
   const [formErrors, setFormErrors] = useState({
 
     email: "",
@@ -66,7 +66,7 @@ const NewPlApplyDS = ({ dobFlag, mainFormData, getLendersList, genderFlag, addre
   const [errors, setErrors] = useState({}); // Object to store error messages
   const formRef = useRef(null);
 
-  const [ActiveContainer, setActiveContainer] = useState("NewBlFirstPage");
+  // const [ActiveContainer, setActiveContainer] = useState("NewBlFirstPage");
   const [isLoading, setIsLoading] = useState(false);
   var json = null;
   const [lenderDetails, setLenderDetails] = useState(null);
@@ -79,6 +79,9 @@ const NewPlApplyDS = ({ dobFlag, mainFormData, getLendersList, genderFlag, addre
   const [applicationPopup, setApplicationPopup] = useState(false);
   const [progress, setProgress] = useState(0);
 
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top of the page when component mounts
+  }, []);
 
   const validateForm = () => {
     let valid = true;
@@ -282,6 +285,26 @@ const NewPlApplyDS = ({ dobFlag, mainFormData, getLendersList, genderFlag, addre
 
   }
 
+  const dobInputRef = useRef(null);  // Reference for the DatePicker input element
+
+  // Handle gender selection
+  const handleGenderChange = (e) => {
+    const genderValue = e.target.value;
+    setFormData({ ...formData, gender: genderValue });
+
+    // Clear gender error
+    setFormErrors({ ...formErrors, gender: "" });
+
+    // Focus on DOB field after gender is selected
+    if (dobInputRef.current) {
+      // Add a small delay before focusing on the DOB input to ensure it's rendered
+      setTimeout(() => {
+        if (dobInputRef.current) {
+          dobInputRef.current.setFocus(); // Focus on the DatePicker input element
+        }
+      }, 100); // Small delay of 100ms to ensure the DatePicker is rendered
+    }
+  };
 
 
   const apiExecutionBackend = async (productname, lenderCpi, productId) => {
@@ -400,6 +423,10 @@ const NewPlApplyDS = ({ dobFlag, mainFormData, getLendersList, genderFlag, addre
     setProgress(completionPercentage);
   }, [formData]);
 
+  const handleBackButton = () => {
+    setActiveContainer('newplfirstpage'); // Switch the active container to 'NewPlPage'
+  };
+
   return (
     <>
       {
@@ -415,11 +442,11 @@ const NewPlApplyDS = ({ dobFlag, mainFormData, getLendersList, genderFlag, addre
       {
         applicationPopup && <ApplicationPopup link={link} />
       }
-      {
-        ActiveContainer === "NewBlListPage" &&
+      {/* {
+        activeContainer === "NewBlListPage" &&
         // <LendersList companies={lenderDetails} formData={formData} redirectLinkMethod={redirectLinkMethod} getLoanBackendMethod={getLoanBackendMethod}/> 
         <NewBlListPage companies={lenderDetails} redirectLinkMethod={redirectLinkMethod} getLoanBackendMethod={getLoanBackendMethod} mobileNumber={mobile} />
-      }
+      } */}
       {
         isLoading && <Loader />
       }
@@ -427,8 +454,6 @@ const NewPlApplyDS = ({ dobFlag, mainFormData, getLendersList, genderFlag, addre
         ActiveContainer === 'NewBlListPage' && 
         <NewBlListPage/>
     } */}
-      {
-        ActiveContainer === 'NewBlFirstPage' &&
 
         <div className={`${roboto.className} page-container`}>
           <div className="carousel-background">
@@ -528,75 +553,60 @@ const NewPlApplyDS = ({ dobFlag, mainFormData, getLendersList, genderFlag, addre
               }
 
 
-              {
-                genderFlag &&
-                <>
-                  <div className={styles.formGroup}>
-                    <label style={{ fontWeight: 'bold' }}>Gender</label>
-                    <div className={styles.radioGroup}>
-                      {['Male', 'Female', 'Other'].map((gender) => (
-                        <label style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }} key={gender}>
-                          <input
-                            type="radio"
-                            value={gender}
-                            checked={formData.gender === gender}
-                            onChange={(e) => {
-                              setFormData({ ...formData, gender: e.target.value });
-                              setFormErrors({ ...formErrors, gender: "" });
-                            }}
-                            style={{ marginRight: '8px' }}
-                          />
-                          {gender}
-                        </label>
-                      ))}
-                    </div>
-                    {formErrors.gender && <p style={{ color: 'red' }}>{formErrors.gender}</p>}
-                  </div>
-                </>
-              }
+<div>
+      {/* Gender Selection */}
+      {genderFlag && (
+        <div className={styles.formGroup}>
+          <label style={{ fontWeight: 'bold' }}>Gender</label>
+          <div className={styles.radioGroup}>
+            {['Male', 'Female', 'Other'].map((gender) => (
+              <label key={gender} style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+                <input
+                  type="radio"
+                  value={gender}
+                  checked={formData.gender === gender}
+                  onChange={handleGenderChange}
+                  style={{ marginRight: '8px' }}
+                />
+                {gender}
+              </label>
+            ))}
+          </div>
+          {formErrors.gender && <p style={{ color: 'red' }}>{formErrors.gender}</p>}
+        </div>
+      )}
 
-
-
-
-
-              {
-                dobFlag && (
-                  <>
-                    <div className={styles.formGroup}>
-                      <div className={styles.inputWrapper} style={{ position: 'relative' }}>
-                        <DatePicker
-                          selected={formData.dob}
-                          onChange={handleDateChange2}
-                          type="Date"
-                          className={styles.input}
-                          dateFormat="dd/MM/yyyy"
-                          placeholderText="DD/MM/YYYY"
-                          showYearDropdown
-                          scrollableYearDropdown
-                          yearDropdownItemNumber={150}
-                          maxDate={eighteenYearsAgo}
-                          minDate={sixtyYearsAgo}
-                        />
-                        <span
-                          className={styles.icon}
-                          style={{
-                            position: 'absolute',
-                            right: '10px',
-                            top: '50%',
-                            color: '#00000061',
-                            transform: 'translateY(-50%)',
-                            cursor: 'pointer',
-                          }}
-                        >
-                          <FaCalendar />
-                        </span>
-                      </div>
-                      {formErrors.dob && <div className="pploan-invalid-feedback">{formErrors.dob}</div>}
-                    </div>
-                  </>
-                )
-              }
-
+      {/* DOB Date Picker */}
+      {dobFlag && (
+       <div className={styles.formGroup}>
+          <label style={{ fontWeight: 'bold' }}>Date of Birth</label>
+          <div className="input-wrapper" style={{ position: 'relative' }}>
+            <DatePicker
+              selected={formData.dob}
+              onChange={handleDateChange2}
+              dateFormat="dd/MM/yyyy"
+              className={styles.input}
+              placeholderText="DD/MM/YYYY"
+              ref={dobInputRef}  // Use the ref for the actual input element
+            />
+            <span
+              className="icon"
+              style={{
+                position: 'absolute',
+                right: '10px',
+                top: '50%',
+                color: '#00000061',
+                transform: 'translateY(-50%)',
+                cursor: 'pointer',
+              }}
+            >
+              <FaCalendar />
+            </span>
+          </div>
+          {formErrors.dob && <div className="error-message">{formErrors.dob}</div>}
+        </div>
+      )}
+    </div>
 
               <>
                 <div className={styles.formGroup}>
@@ -680,6 +690,7 @@ const NewPlApplyDS = ({ dobFlag, mainFormData, getLendersList, genderFlag, addre
                       name="officePincode"
                       placeholder="Enter work Pincode"
                       value={formData.officePincode}
+                      inputMode="numeric"
                       className={styles.input}
                       onChange={(e) => {
                         const value = e.target.value.replace(/\D/g, "").slice(0, 6); // Keep only digits and limit to 6
@@ -775,6 +786,9 @@ const NewPlApplyDS = ({ dobFlag, mainFormData, getLendersList, genderFlag, addre
 
               </>
 
+              <button onClick={handleBackButton} className="back-button">
+  <FaArrowLeft />
+</button>
               {/* <div className={styles.formGroup}>
             <label> */}
               {/* <input
@@ -847,7 +861,6 @@ const NewPlApplyDS = ({ dobFlag, mainFormData, getLendersList, genderFlag, addre
             </form>
           </div>
         </div>
-      }
     </>
   );
 };

@@ -20,7 +20,7 @@
   /* Container for all cards */
   .newfirstcard-container {
     position: relative;
-    max-width: 340px;
+    max-width: 330px;
     width: 77%;
     margin: 0 auto;
     padding: 40px;
@@ -165,3 +165,39 @@
     background-color: #B69DFF;
     transition: width 0.5s ease-in-out;
   }
+   /* Basic button styling */
+.back-button {
+  /* padding: 10px 20px; */
+  font-size: 30px;
+  font-weight: bold;
+  color:white;
+  background-color: #6039D2; /* Red background */
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover effect */
+.back-button:hover {
+  background-color: #cccccc; /* Darker red on hover */
+  transform: scale(1.05); /* Slightly enlarge the button */
+}
+
+/* Active (pressed) effect */
+.back-button:active {
+  background-color:#cccccc; /* Even darker red when pressed */
+  transform: scale(0.98); /* Slightly shrink the button */
+}
+
+/* Disabled button (optional) */
+.back-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Small button (optional) */
+.back-button-small {
+  padding: 6px 12px;
+  font-size: 14px;
+}

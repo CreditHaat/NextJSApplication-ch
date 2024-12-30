@@ -1,4 +1,10 @@
 import React from "react";
+import {Roboto} from '@next/font/google';
+
+const roboto = Roboto({
+  weight: ['400', '700'],
+  subsets: ['latin'],
+});
 
 function RedirectionLoader() {
   return (
@@ -28,6 +34,7 @@ function RedirectionLoader() {
           position: "relative", // Relative positioning for nested elements
         }}
       >
+         <div className={`${roboto.className}`}>
         {/* Loader Text */}
         <div style={{ marginBottom: "20px" }}>
           <h2 style={{ fontSize: "1.5rem", margin: "0", color: "#3e2780" }}>
@@ -37,7 +44,7 @@ function RedirectionLoader() {
             Please wait while we redirect ......
           </p>
         </div>
-
+</div>
         {/* Horizontal Loader Bar */}
         <div
           style={{

@@ -1,8 +1,8 @@
 "use client"
 import React, { useState, useRef, useEffect } from "react";
 import './NewPlPage.css';
-import listimage1 from './newplimages/newchange11.png';
-import listimage2 from './newplimages/newchange3.png';
+import listimage1 from './newplimages/finalimage2.png';
+import listimage2 from './newplimages/finalimage3.png';
 import listimage3 from './newplimages/plimage33.png';
 import styles from '../NewBlJourneyD/NewBlFirstFormPage.module.css';
 import EmblaCarousel from './Emblacarousel/js/EmblaCarousel';
@@ -24,14 +24,14 @@ import { FaUser, FaPhone, FaBriefcase, FaDollarSign, FaIdCard, FaRupeeSign } fro
 import otpimage from "../SmartCoin/SmartCoin_Images/otpimage.png";
 // import {Roboto} from '@next/font/google';
 import {Roboto} from '@next/font/google';
-import OTPBottomSheet from '../EmbeddedJourneyList/OTPBottomSheet';
+import OTPBottomSheet from '../NewPlOtpBottomSheet/PlOTPBottomSheet';
 import ForSelfEmployed from '../BLApplyPrimeSecondJourney/ForSelfEmployed';
 import ForSalaried from "../BLApplyPrimeSecondJourney/ForSalaried";
 import NewPlPage2 from "./NewPlPage2";
 import NewPlApplyDS from './NewPlApplyDS';
 import debounce from 'lodash.debounce';
-import RejectionPage from '../../components/RejectionPage/RejectionPage';
-
+import RejectionPage from '../../components/NewPlRejectionPage/NewPlRejPage';
+import Select from 'react-select';
 const roboto = Roboto({
   weight: ['400', '700'],
   subsets: ['latin'],
@@ -44,8 +44,9 @@ const SLIDES = [
   { imageUrl: listimage3 },
 ];
 
-const NewPlPage = ({ params, searchParams }) => {
 
+
+const NewPlPage = ({ params, searchParams }) => {
 
   const [genderFlag, setGenderFlag] = useState(false);
   const [addressFlag,setAddressFlag] = useState(false);
@@ -110,34 +111,133 @@ const NewPlPage = ({ params, searchParams }) => {
   //   );
   // }, [otpInputs]);
 
-  // Debounced version of the onChange function
-  const handlePanChange = debounce((value) => {
-    setFormData({ ...formData, pan: value });
-    if (formErrors.pan) {
-      setFormErrors({ ...formErrors, pan: "" });
+  // const [panValue, setPanValue] = useState('');
+  const [panValue, setPanValue] = useState('');
+  const [inputStage, setInputStage] = useState('alphabets');
+
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top of the page when component mounts
+  }, []);
+
+const handlePanChange = (inputValue, e) => {
+  // Convert the input value to uppercase and limit it to 10 characters
+  const formattedValue = inputValue.toUpperCase().slice(0, 10); // Limit to 10 characters
+
+  // Check for deletion and adjust the input stage accordingly
+  if (formattedValue.length < panValue.length) {
+    setPanValue(formattedValue);
+    if (formattedValue.length < 5) {
+      setInputStage('alphabets');
+    } else if (formattedValue.length < 9) {
+      setInputStage('numbers');
+    } else {
+      setInputStage('lastAlphabet');
     }
-  }, 150); // Adjust debounce time (ms)
+    return;
+  }
 
-  const handleInputChange = (e) => {
-    const value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 10);
-    handlePanChange(value); // Call the debounced function
+  // Update the PAN value directly, without trimming it to alphabets or numbers only
+  setPanValue(formattedValue);
+
+  // Ensure proper formatting of PAN number:
+  let newFormattedValue = '';
+
+  if (formattedValue.length <= 10) {
+    // Handle first 5 characters (alphabets only)
+    if (formattedValue.length <= 5) {
+      newFormattedValue = formattedValue.replace(/[^A-Z]/g, ''); // Only allow uppercase alphabets
+      if (newFormattedValue.length === 5) {
+        setInputStage('numbers');
+      }
+    }
+
+    // Handle next 4 characters (numbers only)
+    else if (formattedValue.length <= 9) {
+      const alphabetPart = formattedValue.slice(0, 5); // First 5 alphabets
+      const numberPart = formattedValue.slice(5).replace(/[^0-9]/g, ''); // Next 4 numbers
+      newFormattedValue = alphabetPart + numberPart;
+      if (newFormattedValue.length === 9) {
+        setInputStage('lastAlphabet');
+      }
+    }
+
+    // Handle last character (alphabet only)
+    else {
+      const alphabetPart = formattedValue.slice(0, 5); // First 5 alphabets
+      const numberPart = formattedValue.slice(5, 9); // Next 4 numbers
+      const lastChar = formattedValue.slice(9).replace(/[^A-Z]/g, ''); // Last alphabet
+      newFormattedValue = alphabetPart + numberPart + lastChar;
+    }
+
+    setPanValue(newFormattedValue); // Update formatted value
+    setFormData((prevData) => ({
+      ...prevData,
+      pan: newFormattedValue,  // Update the form data
+    }));
+  }
+
+  // Clear errors if any exist
+  if (formErrors.pan) {
+    setFormErrors({ ...formErrors, pan: '' });
+  }
+};
+
+// Input change handler
+const handleInputChange = (e) => {
+  const inputValue = e.target.value; // Get the full value from the input field
+  handlePanChange(inputValue, e);  // Pass the input value to handlePanChange for further processing
+
+  // Close keyboard if PAN is complete (length 10)
+  if (inputValue.length === 10) {
+    e.target.blur();  // Remove focus, causing the keyboard to close
+  }
+};
+
+
+
+  // Determine inputMode based on the length of the PAN entered
+  const getInputMode = () => {
+    
+    // const panLength = formData.pan.length;
+    const panLength = panValue.length;
+
+    // Character input mode for the first 5 characters (letters)
+    if (panLength < 5) {   
+      return "text"; // Character keyboard
+    }
+
+    // Numeric input mode after 5 characters (numbers)
+    if (panLength >= 5 && panLength <= 8) {
+      return "numeric"; // Numeric keyboard
+    }
+
+    // Switch back to character input mode after entering 4 numbers (to allow the last character)
+    return "text"; // Character keyboard after 4 numbers
   };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
   
     if (name === 'fullname') {
       // Remove non-alphabetical characters except spaces
       const sanitizedValue = value.replace(/[^a-zA-Z\s]/g, '');
-      const nameParts = sanitizedValue.trim().split(' ');
+  
+      // Capitalize first letter of each word
+      const capitalizedValue = sanitizedValue
+        .split(' ') // Split the name by spaces
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize first letter and make the rest lowercase
+        .join(' '); // Join the words back into a single string
+  
+      // Split the capitalized value into first name and last name
+      const nameParts = capitalizedValue.trim().split(' ');
       const fname = nameParts.length > 0 ? nameParts[0] : '';
       const surname = nameParts.length > 1 ? nameParts[nameParts.length - 1] : '';
   
+      // Update first name and last name
       setLastname(surname);
       setFirstName(fname);
   
       // Validate name
-      if (sanitizedValue.trim() === '') {
+      if (capitalizedValue.trim() === '') {
         setFormErrors(prevErrors => ({
           ...prevErrors,
           fullname: 'Name is required'
@@ -148,10 +248,17 @@ const NewPlPage = ({ params, searchParams }) => {
           fullname: ''
         }));
       }
+  
+      // Update form data with the formatted capitalized name
+      setFormData((prevData) => ({ ...prevData, [name]: capitalizedValue }));
+    } else {
+      // For other fields (if needed)
+      setFormData((prevData) => ({ ...prevData, [name]: value }));
     }
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-    // updateProgress();
+  
+    // Optionally, you can call updateProgress() if necessary
   };
+  
   const handleKeyDown = (e) => {
     if (e.target.name === 'fullname' && !/^[a-zA-Z\s]*$/.test(e.key)) {
       e.preventDefault(); // Prevent input if the key is not a letter or space
@@ -169,7 +276,10 @@ const NewPlPage = ({ params, searchParams }) => {
       pan: "",
     };
 
-    if (!formData.fullname) errors.fullname = 'Name is required';
+    if (!formData.fullname){
+      errors.fullname = 'Name is required';
+      valid = false;
+    } 
 
     // Mobile Number validation
     if (!formData.mobileNumber.trim()) {
@@ -181,11 +291,13 @@ const NewPlPage = ({ params, searchParams }) => {
       valid = false;
     }
 
-    // Profession validation
-    if (!formData.profession.trim()) {
-      errors.profession = "Profession is required";
-      valid = false;
-    }
+     // Check profession validation again to ensure it's correct before moving forward
+  if (!formData.profession || formData.profession === 'NA') {
+    errors.profession = "Profession is required";  // Set the error message
+    valid = false;
+  } else {
+    errors.profession = "";  // Clear error if the profession is valid
+  }
 
     if (!formData.paymentType) {
         errors.paymentType = "Payment type is required";
@@ -200,6 +312,15 @@ const NewPlPage = ({ params, searchParams }) => {
     valid = false;
   } else if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(formData.pan.trim())) {
     // PAN format validation (5 letters, 4 digits, 1 letter)
+    errors.pan = "PAN should be in the format: AAAAA9999A";
+    valid = false;
+  }
+  if(!panValue)
+  {
+    errors.pan = "PAN is required";
+    valid = false;
+  }else if(!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(panValue.trim()))
+  {
     errors.pan = "PAN should be in the format: AAAAA9999A";
     valid = false;
   }
@@ -220,6 +341,7 @@ const NewPlPage = ({ params, searchParams }) => {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({'stage': stage});
   };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -232,6 +354,7 @@ const NewPlPage = ({ params, searchParams }) => {
  
 
   const handleNextClick = () => {
+    setUpOtp('');
     // Check if the form is valid before showing the OTP bottom sheet
     if (validateForm()) {
       // Show OTP Bottom Sheet if the form is valid
@@ -450,20 +573,204 @@ const redirectLinkMethod=(lenderProduct,applicationLink)=>{
   
 
 }
-  
+const nextInputRef = useRef(null); 
+const paymentTypeRef = useRef(null);
+const [isProfessionMenuOpen, setIsProfessionMenuOpen] = useState(false);
+const [isPaymentTypeMenuOpen, setIsPaymentTypeMenuOpen] = useState(false);
+const monthlyIncomeRef = useRef(null); // Reference for the monthly income field
+const mobileNumberRef = useRef(null);
 
-  const handleMobileNumberChange = (e) => {
-    // Remove any non-digit characters from the input value
-    const value = e.target.value.replace(/\D/g, "").slice(0, 10); // Keep only the first 10 digits
-    setFormData({ ...formData, mobileNumber: value });
+const CustomOption = (props) => {
+  const { data, innerRef, innerProps, selectOption, isSelected } = props;
 
-    // Clear error message when user starts typing valid input
-    if (formErrors.mobileNumber) {
-      setFormErrors({ ...formErrors, mobileNumber: "" });
-    }
+  return (
+    <div
+      ref={innerRef}
+      {...innerProps}
+      style={{
+        padding: '10px',
+        position: 'relative', // Ensures that the radio button is placed on the right side
+      }}
+    >
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between', // Space between label and radio button
+        alignItems: 'center',           // Aligns the label and radio button
+      }}>
+        <span>{data.label}</span> {/* Label on the left */}
+        <input
+          type="radio"
+          name="profession"
+          value={data.value}
+          checked={isSelected}
+          onChange={() => selectOption(data)} // Select option when radio button is clicked
+        />
+      </div>
+
+      {/* Horizontal line below the option and radio button */}
+      <hr
+        style={{
+          margin: '5px 0',
+          border: '0',
+          borderTop: '1px solid #ddd', // Optional styling for the horizontal line
+          width: '100%', // Ensure the line spans the entire width
+        }}
+      />
+    </div>
+  );
+};
+
+
+// Options for profession
+const professionOptions = [
+  { value: 'NA', label: 'Select occupation' },
+  { value: 'Salaried', label: 'Salaried' },
+  { value: 'Self employed', label: 'Self employed' },
+  { value: 'Other', label: 'Other' },
+];
+const paymentTypeOptions = [
+  { value: 'NA', label: 'Select Payment Type' },
+  { value: '2', label: 'Bank Transfer' },
+  { value: '1', label: 'Cheque' },
+  { value: '0', label: 'Cash' },
+];
+const customStyles = {
+ 
+  input: (provided) => ({
+    ...provided,
+    padding: '8px',  // Padding for input text
+    // borderRadius: '10px',  // Border radius for input
+    width: '100%',  // Full width
+    minHeight: '70px',
+    border: 'none',  // Remove border for input itself
+    cursor: 'pointer',
+    borderRadius: '50px',
+  }),
+  menu: (provided) => ({
+    ...provided,
+    position: 'fixed', // Make the dropdown fixed relative to the viewport
+    top: '50%',        // Vertically center the dropdown on the screen
+    left: '50%',       // Horizontally center the dropdown on the screen
+    transform: 'translate(-50%, -50%)', // Adjust the dropdown to be exactly centered
+    width: '80%',      // Set the width of the dropdown (you can adjust it)
+    maxWidth: '400px', // Set a max width for the dropdown
+    zIndex: 9999,      // Ensure the dropdown appears on top of other content
+    boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.2)', // Optional: Add shadow for a popup effect
+    borderRadius: '10px',
+  }),
+  control: (provided) => ({
+    ...provided,
+    width: '100%', // Full width of the control
+    borderRadius: '10px',
+    minHeight: '50px',
+  }),
+  placeholder: (provided) => ({
+    ...provided,
+    padding: '12px',  // Padding for placeholder text
+  }),
+  dropdownIndicator: (provided) => ({
+    ...provided,
+    padding: '0',  // Optional: Adjust padding of the dropdown indicator
+  }),
+  indicatorSeparator: () => ({
+    display: 'none',  // Hide the indicator separator (optional)
+  }),
+};
+
+// Handle changes in the mobile number
+const handleMobileNumberChange = (e) => {
+  const value = e.target.value.replace(/\D/g, "").slice(0, 10); // Allow only 10 digits
+  setFormData({ ...formData, mobileNumber: value });
+
+  if (formErrors.mobileNumber) {
+    setFormErrors({ ...formErrors, mobileNumber: "" });
+  }
+
+  if (value.length === 10) {
+    // Automatically focus and open the profession dropdown when mobile number has 10 digits
+    setTimeout(() => {
+      if (nextInputRef.current) {
+        mobileNumberRef.current.blur();
+        nextInputRef.current.focus(); // Focus on the Profession field
+        setIsProfessionMenuOpen(true); // Open the dropdown
+      }
+    }, 100); // Small delay to ensure focus is set first
+  }
+};
+
+const handleProfessionChange = (selectedOption) => {
+  setFormData({ ...formData, profession: selectedOption.value });
+
+  // Only clear the error if a valid profession is selected (not 'NA')
+  if (selectedOption.value !== 'NA') {
+    setFormErrors({ ...formErrors, profession: "" });  // Clear error for valid option
+  } else {
+    setFormErrors({ ...formErrors, profession: "Profession is required" });  // Show error if 'NA' is selected
+  }
+
+  setIsProfessionMenuOpen(false);  // Close the profession dropdown
+
+  // Automatically focus on the next field (paymentType)
+  if (paymentTypeRef.current) {
+    paymentTypeRef.current.focus();
+    setTimeout(() => {
+      setIsPaymentTypeMenuOpen(true); // Open payment type dropdown after focus
+    }, 100);
+  }
+};
+
+
+  // Handle profession field interactions
+  const handleProfessionFocus = () => {
+    setIsProfessionMenuOpen(true); // Open dropdown menu
   };
 
+  const handleProfessionBlur = () => {
+    setIsProfessionMenuOpen(false); // Close dropdown menu when focus leaves
+  };
+
+  const handleProfessionClick = (e) => {
+    e.stopPropagation(); // Prevent the keyboard from opening when clicking on the profession field
+    setIsProfessionMenuOpen(true); // Open dropdown menu
+  };
+
+  const handlePaymentTypeChange = (selectedOption) => {
+    // Set the form data with the selected value
+    setFormData({ ...formData, paymentType: selectedOption.value });
   
+    // Check if the selected value is not 'NA' (Select Payment Type)
+    if (selectedOption.value !== 'NA') {
+      // Clear any error if a valid option is selected
+      setFormErrors({ ...formErrors, paymentType: "" });
+    } else {
+      // Show error if 'Select Payment Type' is selected
+      setFormErrors({ ...formErrors, paymentType: "Payment type is required" });
+    }
+  
+    // Optionally close the menu after selection
+    setIsPaymentTypeMenuOpen(false);
+  
+    // Automatically focus on the monthly income field after selection
+    if (monthlyIncomeRef.current) {
+      monthlyIncomeRef.current.focus();
+    }
+  };
+  
+
+  // Handle Payment Type field interactions
+  const handlePaymentTypeFocus = () => {
+    setIsPaymentTypeMenuOpen(true); // Open dropdown menu when focused
+  };
+
+  const handlePaymentTypeBlur = () => {
+    setIsPaymentTypeMenuOpen(false); // Close dropdown menu when blurred
+  };
+
+  const handlePaymentTypeClick = (e) => {
+    e.stopPropagation(); // Prevent the keyboard from opening when clicking on the Payment Type field
+    setIsPaymentTypeMenuOpen(true); // Open dropdown menu
+  };
+
   function handleDataLayerStart(flag,mobile_number, emptype) {
     console.log("INside handledatalayer , ",flag, mobile_number, emptype);
     window.dataLayer = window.dataLayer || [];
@@ -520,7 +827,7 @@ const redirectLinkMethod=(lenderProduct,applicationLink)=>{
 
       // setlenderName(productname);
 
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}apiExecution_bl_apply_prime_master`, formData1, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}apiExecution`, formData1, {
         headers: {
           'Content-Type': 'application/json',
           'token': 'Y3JlZGl0aGFhdHRlc3RzZXJ2ZXI=' // Add your token here
@@ -653,6 +960,7 @@ const redirectLinkMethod=(lenderProduct,applicationLink)=>{
     className={styles.input}
     onChange={handleChange} 
     onKeyDown={handleKeyDown} 
+    autoCapitalize="words"
   />
   <span
     className={styles.icon}
@@ -674,69 +982,110 @@ const redirectLinkMethod=(lenderProduct,applicationLink)=>{
   )}
 </div>
 
-{/* Mobile Number Field */}
-<div className={styles.formGroup} style={{ position: 'relative' }}>
-  <input
-    type="text"
-    id="mobileNumber"
-    name="mobileNumber"
-    placeholder="Mobile number"
-    inputMode="numeric"
-    value={formData.mobileNumber}
-    className={styles.input}
-    onChange={handleMobileNumberChange}
-  />
-  <span
-    className={styles.icon}
-    style={{
-      position: 'absolute',
-      right: '15px',
-      top: '50%',
-      transform: 'translateY(-50%)',
-      cursor: 'pointer',
-      color: '#00000061',
-    }}
-  >
-    <FaPhone />
-  </span>
-  {formErrors.mobileNumber && (
-    <span className="error" style={{ position: 'absolute', top: '100%', left: 0 }}>
-      {formErrors.mobileNumber}
-    </span>
-  )}
-</div>
+<div>
+      {/* Mobile Number Field */}
+      <div className={styles.formGroup} style={{ position: 'relative' }}>
+        <input
+         ref={mobileNumberRef}
+          type="text"
+          id="mobileNumber"
+          name="mobileNumber"
+          placeholder="Mobile number"
+          inputMode="numeric"
+          value={formData.mobileNumber}
+          className={styles.input}
+          onChange={handleMobileNumberChange}
+        />
+        <span
+          className={styles.icon}
+          style={{
+            position: 'absolute',
+            right: '15px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            cursor: 'pointer',
+            color: '#00000061',
+          }}
+        >
+          <FaPhone />
+        </span>
+        {formErrors.mobileNumber && (
+          <span className="error" style={{ position: 'absolute', top: '100%', left: 0 }}>
+            {formErrors.mobileNumber}
+          </span>
+        )}
+      </div>
 
-{/* Profession Field */}
-<div className={styles.formGroup} style={{ position: 'relative' }}>
-  <select
-    id="profession"
-    name="profession"
-    value={formData.profession}
-    className={styles.input}
-    onChange={(e) => {
-      setFormData({ ...formData, profession: e.target.value });
-      setFormErrors({ ...formErrors, profession: "" }); // Clear profession error on change
-    }}
-    onBlur={(e) =>
-      setFormErrors({
-        ...formErrors,
-        profession: e.target.value
-          ? ""
-          : "Employment type is required",
-      })
-    }
-  >
-    <option value="NA">Occupation</option>
-    <option value="Salaried">Salaried</option>
-    <option value="Self employed">Self employed</option>
-    <option value="Other">Other</option>
-  </select>
-  {formErrors.profession && (
-    <span className="error" style={{ position: 'absolute', top: '100%', left: 0 }}>
-      {formErrors.profession}
-    </span>
-  )}
-</div>
+     
+      <div className={styles.formGroup} style={{ position: 'relative' }}>
+        <Select
+          id="profession"
+          name="profession"
+          value={professionOptions.find(option => option.value === formData.profession)}
+          options={professionOptions}
+          ref={nextInputRef}
+          onChange={handleProfessionChange}
+          styles={customStyles} 
+           placeholder="Select occupation"
+          // onBlur={() =>
+          //   // Only set the error if the user hasn't selected a valid profession
+          //   setFormErrors({
+          //     ...formErrors,
+          //     profession: formData.profession === "NA" ? "Employment type is required" : "",
+          //   })
+          // }
+          menuIsOpen={isProfessionMenuOpen} // Use isProfessionMenuOpen state
+         onFocus={handleProfessionFocus} // Open dropdown when focused
+          onBlur={handleProfessionBlur} // Close dropdown when blurred
+          onClick={handleProfessionClick} // Prevent keyboard opening when clicked
+          isSearchable={false} // Prevent searching in the dropdown
+          // menuPortalTarget={document.body} // Ensure the menu is rendered outside the container
+          menuPosition="absolute" // Position relative to the viewport
+          components={{ Option: CustomOption }} // Use the custom option component
+      
+        />
+        {formErrors.profession && (
+          <span className="error" style={{ position: 'absolute', top: '100%', left: 0 }}>
+            {formErrors.profession}
+          </span>
+        )}
+      </div>
+    </div>
+
+    {/* Payment Type Field (react-select) */}
+    <div className={styles.formGroup} style={{ position: 'relative' }}>
+        <Select
+          id="paymentType"
+        name="paymentType"
+          value={paymentTypeOptions.find(option => option.value === formData.paymentType)}
+          options={paymentTypeOptions}
+          ref={paymentTypeRef}
+          onChange={handlePaymentTypeChange}
+          styles={customStyles} 
+           placeholder="Select payment type"
+          // onBlur={() =>
+          //   // Only set the error if the user hasn't selected a valid profession
+          //   setFormErrors({
+          //     ...formErrors,
+          //     profession: formData.profession === "NA" ? "Employment type is required" : "",
+          //   })
+          // }
+          menuIsOpen={isPaymentTypeMenuOpen} // Use isPaymentTypeMenuOpen state
+          onFocus={handlePaymentTypeFocus} // Open dropdown when focused
+             onBlur={handlePaymentTypeBlur} // Close dropdown when blurred
+             onClick={handlePaymentTypeClick} // Prevent keyboard from opening when clicked
+          isSearchable={false} // Prevent searching in the dropdown
+          // menuPortalTarget={document.body} // Ensure the menu is rendered outside the container
+          menuPosition="absolute" // Position relative to the viewport
+          components={{ Option: CustomOption }} // Use the custom option component
+      
+        />
+        {formErrors.paymentType && (
+          <span className="error" style={{ position: 'absolute', top: '100%', left: 0 }}>
+            {formErrors.paymentType}
+          </span>
+        )}
+      </div>
 
 {/* Monthly Income Field */}
 <div className={styles.formGroup} style={{ position: 'relative' }}>
@@ -748,6 +1097,7 @@ const redirectLinkMethod=(lenderProduct,applicationLink)=>{
     value={formData.monthlyIncome}
     inputMode="numeric"
     className={styles.input}
+    ref={monthlyIncomeRef}
     onChange={(e) => {
       const value = e.target.value.replace(/\D/g, ""); // Allow only digits
       setFormData({ ...formData, monthlyIncome: value });
@@ -776,47 +1126,21 @@ const redirectLinkMethod=(lenderProduct,applicationLink)=>{
   )}
 </div>
 
-{/* Payment Type Field */}
-<div className={styles.formGroup} style={{ position: 'relative' }}>
-  <select
-    id="paymentType"
-    name="paymentType"
-    value={formData.paymentType}
-    className={styles.input}
-    onChange={(e) => {
-      setFormData({ ...formData, paymentType: e.target.value });
-      setFormErrors({ ...formErrors, paymentType: "" }); // Clear profession error on change
-    }}
-    onBlur={(e) =>
-      setFormErrors({
-        ...formErrors,
-        paymentType: e.target.value
-          ? ""
-          : "Income mode is required",
-      })
-    }
-  >
-    <option value="NA">Payment type</option>
-    <option value="2">Bank transfer</option>
-    <option value="1">Cheque</option>
-    <option value="0">Cash</option>
-  </select>
-  {formErrors.paymentType && (
-    <span className="error" style={{ position: 'absolute', top: '100%', left: 0 }}>
-      {formErrors.paymentType}
-    </span>
-  )}
-</div>
-
 <div className={styles.formGroup} style={{ position: 'relative' }}>
       <input
-        type="text"
+        // type="text"
+        type={inputStage === 'alphabets' ? 'text' : (inputStage === 'numbers' ? 'tel' : 'text')}
+        inputMode= "text"
         id="pan"
         name="pan"
         placeholder="Enter PAN"
-        value={formData.pan}
+        // value={formData.pan}
+        value={panValue}
         className={styles.input}
         onChange={handleInputChange}
+        pattern={inputStage === 'numbers' ? '[0-9]*' : undefined}
+        // inputMode={getInputMode()}
+        autoCapitalize="characters"
       />
       <span
         className={styles.icon}

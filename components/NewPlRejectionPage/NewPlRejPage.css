@@ -12,7 +12,7 @@
     position: absolute;
     top: 0px; /* Set it closer to the top of the page to avoid going off-screen */
     width: 100%;
-    max-width: 815px;
+    /* max-width: 815px; */
     z-index: 0; /* Place it behind the allnewcard-container */
     overflow: hidden;
   }

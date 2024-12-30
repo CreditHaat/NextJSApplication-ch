@@ -626,7 +626,7 @@ const professionOptions = [
   { value: 'NA', label: 'Select occupation' },
   { value: 'Salaried', label: 'Salaried' },
   { value: 'Self employed', label: 'Self employed' },
-  { value: 'Other', label: 'Other' },
+  { value: 'Business', label: 'Business' },
 ];
 const paymentTypeOptions = [
   { value: 'NA', label: 'Select Payment Type' },

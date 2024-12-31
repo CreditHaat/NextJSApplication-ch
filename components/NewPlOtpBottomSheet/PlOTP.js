@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import otpimage from  '../../images/otpimagess.png';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -14,6 +14,7 @@ const roboto = Roboto({
 
 
 function OTPVerification({ verifyOTP, upotp, otpStatus, setUpOtp }) {
+  const otpInputRefs = useRef(Array(6).fill().map(() => React.createRef()));
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const [tempOtp, setTempOtp] = useState("");
 
@@ -51,6 +52,135 @@ function OTPVerification({ verifyOTP, upotp, otpStatus, setUpOtp }) {
     }
   };
 
+//------------------Code for otp autofill-----------------------------------------------------
+
+const inputRef = useRef(null);
+const formRef = useRef(null);
+// const router = useRouter();
+// const [otp, setOTP] = useState('');
+const [otpMethod, setOtpMethod] = useState('manual');
+const [debugInfo, setDebugInfo] = useState('');
+
+useEffect(() => {
+    // Comprehensive Web OTP API support check
+    const checkWebOTPSupport = () => {
+        // Detailed debug information
+        const debugDetails = {
+            hasOTPCredential: 'OTPCredential' in window,
+            userAgent: navigator.userAgent,
+            isAndroid: /Android/i.test(navigator.userAgent),
+            isChrome: /Chrome/i.test(navigator.userAgent),
+            isSecureContext: window.isSecureContext
+        };
+
+        // Convert debug details to string for display
+        setDebugInfo(JSON.stringify(debugDetails, null, 2));
+
+        // Comprehensive check for Web OTP API
+        const checkConditions = () => {
+            // Check if the Web OTP API is supported
+            if (!('OTPCredential' in window)) {
+                console.log("Web OTP API not supported in this browser");
+                return false;
+            }
+
+            // Additional checks can be added here
+            const isAndroidChrome = 
+                /Android/i.test(navigator.userAgent) &&  
+                /Chrome/i.test(navigator.userAgent);  
+
+            if (!isAndroidChrome) {
+                console.log("Not Android Chrome");
+                return false;
+            }
+
+            // Ensure secure context (HTTPS)
+            if (!window.isSecureContext) {
+                console.log("Not in a secure context");
+                return false;
+            }
+
+            return true;
+        };
+
+        // Determine OTP method
+        if (checkConditions()) {
+            // alert('Web OTP API fully supported');
+            console.log('Web OTP API fully supported');
+            setupWebOTPRetrieval();
+        } else {
+            console.log('Web OTP API not fully supported');
+            setOtpMethod('manual');
+        }
+    };
+
+    const setupWebOTPRetrieval = () => {
+        const abortController = new AbortController();
+
+        const handleOTPRetrieval = async () => {
+            try {
+                if (abortController.signal.aborted) {
+                    // alert("Signal Already Aborted");
+                    console.log('Signal already aborted');
+                    return;
+                }
+
+                const credential = await navigator.credentials.get({
+                    otp: { transport: ['sms'] },
+                    signal: abortController.signal
+                });
+
+                if (inputRef.current && credential) {
+                    console.log("otp is :: ",credential.code);
+                    // alert(credential.code);
+                    // setOTP(credential.code || '');
+                    setOtpMethod('automatic');
+                }
+
+                if(otpInputRefs.current && credential){
+                  // alert(credential.code);
+                  // setOtpInputs(credential.code);
+                  const otpArray = credential.code.split('').slice(0, 6);
+            while (otpArray.length < 6) {
+                otpArray.push('');
+            }
+            
+            // setOtpInputs(otpArray);
+            setOtp(otpArray);
+            setUpOtp(otpArray);
+            setTempOtp(otpArray);
+                  setOtpMethod('automatic');
+                }
+            } catch (error) {
+                console.error('OTP Retrieval Error:', error);
+                setOtpMethod('manual');
+            }
+        };
+
+        handleOTPRetrieval();
+
+        return () => {
+            setTimeout(() => {
+                abortController.abort();
+            }, 5000);
+            
+        };
+    };
+
+    // Initial support check
+    checkWebOTPSupport();
+}, []);
+
+const handleOTPChange = (e) => {
+    const inputValue = e.target.value;
+    if (/^\d*$/.test(inputValue)) {
+        setOTP(inputValue);
+    }
+};
+
+
+
+//-------------------------------------------------------------------------------------------
 
   useEffect(() => {
     if (otpStatus === "Incorrect OTP! Try Again..") {

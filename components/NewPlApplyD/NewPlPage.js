@@ -31,6 +31,8 @@ import NewPlPage2 from "./NewPlPage2";
 import NewPlApplyDS from './NewPlApplyDS';
 import debounce from 'lodash.debounce';
 import RejectionPage from '../../components/NewPlRejectionPage/NewPlRejPage';
+import OtpVerifyLoader from "./OtpVerifyLoader";
+
 import Select from 'react-select';
 const roboto = Roboto({
   weight: ['400', '700'],
@@ -894,6 +896,8 @@ const handleProfessionChange = (selectedOption) => {
     setProgress(completionPercentage);
   }, [formData]);
 
+  
+
   return (
     <>
     {
@@ -916,6 +920,7 @@ const handleProfessionChange = (selectedOption) => {
       {
         isLoading && <Loader/>
       }
+      {otpLoader && <OtpVerifyLoader />}
       {
         activeContainer === "LendersList" && !rejectionPage &&
         // <LendersList companies={lenderDetails} formData={formData} redirectLinkMethod={redirectLinkMethod} getLoanBackendMethod={getLoanBackendMethod}/> 

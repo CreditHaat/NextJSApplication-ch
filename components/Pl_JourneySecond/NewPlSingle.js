@@ -12,7 +12,7 @@ import axios from "axios";
 // import otpimage from "./BLApplyImages/otpimage.jpeg";
 import LendersList from "../BLApplyPrimeThirdJourney/LendersList";
 import Loader from "../BLApplyPrimeThirdJourney/LendersLoader";
-import OtpVerifyLoader from "../BLApplyPrimeThirdJourney/OtpVerifyLoader";
+import OtpVerifyLoader from "../NewPlApplyD/OtpVerifyLoader";
 // import ForSelfEmployed from './ForSelfEmployed';
 // import ForSalaried from "./ForSalaried";
 // import ApplicationPopup from "../../components/BLApplyPrime/ApplicationPopup";
@@ -243,6 +243,7 @@ export default function NewPlSingle() {
 
     // Check if mobile number is valid (10 digits starting with 6,7,8,9)
     if (/^[6789]\d{9}$/.test(value)) {
+      // setIsOtpBottomSheetVisible(true);
       try {
         // Create proper form data
         const queryParams = new URLSearchParams(location.search);

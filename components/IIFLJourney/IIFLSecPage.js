@@ -10,8 +10,8 @@ import listimage3 from '../NewBlJourneyD/newblimages/newchange2.png';
 import styles from '../NewBlJourneyD/NewBlFirstFormPage.module.css';
 import { Roboto } from '@next/font/google';
 import axios from "axios";
-import IndiaGoldRejectPage from "../IndiaGold/RejectPage";
-import IndiaGoldSuccessPage from "../IndiaGold/IndiaGoldSuccessPage";
+import IndiaGoldRejectPage from "./IIFLRejectPage";
+import IndiaGoldSuccessPage from "./IIFLSuccessPage";
 
 // Import jewelry icons
 import banglesIcon from '../IndiaGold/NewJwellaryImages/bracelet.png';

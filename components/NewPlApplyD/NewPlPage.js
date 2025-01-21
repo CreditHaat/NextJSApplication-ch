@@ -4,7 +4,7 @@ import './NewPlPage.css';
 import listimage1 from './newplimages/finalimage2.png';
 import listimage2 from './newplimages/finalimage3.png';
 import listimage3 from './newplimages/plimage33.png';
-import styles from '../NewBlJourneyD/NewBlFirstFormPage.module.css';
+import styles from './NewPlFirstPage.module.css';
 import EmblaCarousel from './Emblacarousel/js/EmblaCarousel';
 import axios from "axios";
 import BLApplyLenders from "../BLApplyPrimeSecondJourney/BLApplyLenders";

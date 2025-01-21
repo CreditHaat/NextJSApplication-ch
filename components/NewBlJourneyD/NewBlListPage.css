@@ -9,7 +9,7 @@
 }
 
 /* Carousel background */
-.carousel-background {
+.listcarousel-background {
   position: absolute;
   top: 0px; /* Set it closer to the top of the page to avoid going off-screen */
   width: 100%;

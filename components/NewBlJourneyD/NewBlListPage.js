@@ -63,7 +63,7 @@ const NewBlListPage = ({ companies, getLoanBackendMethod, redirectLinkMethod, mo
     }
 
     <div className={`${roboto.className} listpage-container`}>
-      <div className="carousel-background">
+      <div className="listcarousel-background">
         <EmblaCarousel slides={SLIDES} options={OPTIONS} />
       </div>
 

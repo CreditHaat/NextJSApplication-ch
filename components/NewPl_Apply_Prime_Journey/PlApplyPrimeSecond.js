@@ -17,7 +17,7 @@ import ApplicationLoader from "../NewBlJourneyD/ApplicationLoader";
 import { FaEnvelope, FaHome, FaBuilding, FaCalendar, FaMapPin, FaArrowLeft, FaDollarSign } from 'react-icons/fa'; // Font Awesome icons for React
 import ErrorPopup from '../NewBlJourneyD/ErrorPopup';
 import Select from 'react-select';
-import IndiaGoldSuccessPage from "../IndiaGold/IndiaGoldSuccessPage";
+import IndiaGoldSuccessPage from "./NewPlSuccessPage";
 import RejectPage from "@components/IndiaGold/RejectPage";
 // import {Roboto} from '@next/font/google';
 import {Roboto} from '@next/font/google';
@@ -91,6 +91,7 @@ const PlApplyPrimeSecond = ({dobFlag, firstName, lastName, mainFormData, getLend
   const [progress, setProgress] = useState(0);
 const [successPage, setSuccessPage] = useState(false);
 const [rejectPage, setRejectPage] = useState(false);
+const [responseproductname, setResponseProductName] = useState('');
 
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top of the page when component mounts
@@ -209,6 +210,7 @@ const [rejectPage, setRejectPage] = useState(false);
     setProgress(completionPercentage);
   }, [formData]);
 
+
   const handleSubmit = (e) => {
 
     console.log("Inside handle Submit")
@@ -265,6 +267,8 @@ const [rejectPage, setRejectPage] = useState(false);
   }
       // setIsLoadingforLoader(true);
 
+    
+
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}NewPl_Apply_Prime_Second`,
         formData1
@@ -273,19 +277,27 @@ const [rejectPage, setRejectPage] = useState(false);
       // if(cpi===1){
         // apiExecutionBackend(lenderProduct);
       // } 
+
+      
+
       if(response.data.code === 0){
+        setResponseProductName("Prefr");
         setSuccessPage(true);
       }
       if(response.data.code === 116){
+        setResponseProductName("Incred");
         setSuccessPage(true);
       }
       if(response.data.code === 335){
+        setResponseProductName("EarlySalary");
         setSuccessPage(true);
       }
       if(response.data.code === 113){
+        setResponseProductName("SmartCoin");
         setSuccessPage(true);
       }
       if(response.data.code === 8900){
+        setResponseProductName("KreditBee");
         setSuccessPage(true);
       }
     //   if(response.data.code === 1111)
@@ -295,10 +307,10 @@ const [rejectPage, setRejectPage] = useState(false);
 
 
       if (response.data.code === 3200) {
-        //Here when the code is 0 we are calling lendersList backend which will give us lendersList accrding to user
+        //Here when the code is 3200 we are calling lendersList backend which will give us lendersList accrding to user
         getLendersList(e);
+        // setResponseProductName("KreditBee");
         // setSuccessPage(true);
-        // getLoanBackend(e);
       }
       if (response.status === 200) {
       } else {
@@ -338,7 +350,7 @@ const [rejectPage, setRejectPage] = useState(false);
     <>
     {successPage && 
       
-      <IndiaGoldSuccessPage/>}
+      <IndiaGoldSuccessPage product={responseproductname}/>}
       {rejectPage && 
       
       <RejectPage/>}

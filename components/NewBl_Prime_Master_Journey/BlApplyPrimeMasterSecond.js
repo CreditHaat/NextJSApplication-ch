@@ -17,7 +17,8 @@ import ApplicationLoader from "../NewBlJourneyD/ApplicationLoader";
 import { FaEnvelope, FaHome, FaBuilding, FaCalendar, FaMapPin, FaArrowLeft } from 'react-icons/fa'; // Font Awesome icons for React
 import ErrorPopup from '../NewBlJourneyD/ErrorPopup';
 import Select from 'react-select';
-import IndiaGoldSuccessPage from "../IndiaGold/IndiaGoldSuccessPage";
+import IndiaGoldSuccessPage from "./NewBlSuccessPage";
+import IndiaGoldRejectPage from './NewBlRejectPage';
 // import {Roboto} from '@next/font/google';
 import {Roboto} from '@next/font/google';
 const roboto = Roboto({
@@ -87,6 +88,8 @@ const BlApplyPrimeMasterSecond = ({dobFlag, firstName, lastName, mainFormData, g
   const[applicationPopup ,setApplicationPopup] = useState(false);
   const [progress, setProgress] = useState(0);
 const [successPage, setSuccessPage] = useState(false);
+const [rejectPage, setRejectPage] = useState(false);
+const [responseproductname, setResponseProductName] = useState('');
 
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top of the page when component mounts
@@ -498,8 +501,8 @@ const [isBusinessTypeMenuOpen, setIsBusinessTypeMenuOpen] = useState(false);
       if (response.data.code === 0) {
         //Here when the code is 0 we are calling lendersList backend which will give us lendersList accrding to user
         getLendersList(e);
-        // setSuccessPage(true);
-        // getLoanBackend(e);
+        // setResponseProductName("LTPL");
+        // setRejectPage(true);
       }
 
       if (response.data.code === 1111) {
@@ -507,39 +510,51 @@ const [isBusinessTypeMenuOpen, setIsBusinessTypeMenuOpen] = useState(false);
         //Here when the code is 0 we are calling lendersList backend which will give us lendersList accrding to user
         // getLendersList(e);
         // getLoanBackend(e);
+        setResponseProductName("LTPL");
         setSuccessPage(true);
       }
 
       if (response.data.code === 335) {
+        setResponseProductName("EarlySalary");
         setSuccessPage(true);
       }
       if (response.data.code === 116) {
+        setResponseProductName("Incred");
         setSuccessPage(true);
       }
       if (response.data.code === 112) {
+        setResponseProductName("CASHe");
         setSuccessPage(true);
       }
       if (response.data.code === 113) {
+        setResponseProductName("SmartCoin");
         setSuccessPage(true);
       }
       if (response.data.code === 114) {
+        setResponseProductName("Zype");
         setSuccessPage(true);
       }
       if (response.data.code === 102) {
+        setResponseProductName("Prefr");
         setSuccessPage(true);
       }
       if (response.data.code === 1) {
-        setSuccessPage(true);
+        setResponseProductName("IIFL-BL");
+        // setSuccessPage(true);
+        setRejectPage(true);
       }
       if (response.data.code === 111) {
+        setResponseProductName("IIFL");
         setSuccessPage(true);
       }
       if (response.data.code === 101) {
+        setResponseProductName("TataCapital");
         setSuccessPage(true);
       }
       if (response.data.code === -1) {
         // tata fail response
-        setSuccessPage(true);
+        // setSuccessPage(true);
+        setRejectPage(true);
       }
 
       if (response.status === 200) {
@@ -691,7 +706,10 @@ const [isBusinessTypeMenuOpen, setIsBusinessTypeMenuOpen] = useState(false);
     <>
     {successPage && 
       
-      <IndiaGoldSuccessPage/>}
+      <IndiaGoldSuccessPage product={responseproductname}/>}
+      {
+      rejectPage && <IndiaGoldRejectPage/>
+      }
  {
       apiExecutionLoader && <ApplicationLoader/>
     }
@@ -705,7 +723,7 @@ const [isBusinessTypeMenuOpen, setIsBusinessTypeMenuOpen] = useState(false);
     {
       errorPopup && <ErrorPopup lenderName={lenderProduct} formData={mainFormData} setErrorPopup={setErrorPopup} />
     }
-    {!successPage && 
+    {!successPage && !rejectPage &&
     <div className={`${roboto.className} page-container`}>
       <div className="carousel-background">
         <EmblaCarousel slides={SLIDES} options={OPTIONS} />

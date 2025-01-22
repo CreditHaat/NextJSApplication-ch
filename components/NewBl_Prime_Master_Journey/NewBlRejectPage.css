@@ -17,7 +17,7 @@
     overflow: hidden;
   }
   /* Container for all cards */
-  .goldnewfirstcard-container {
+  .newblfirstcard-container {
     position: relative;
     max-width: 420px;
     /* width: 100%; */
@@ -28,21 +28,19 @@
     background-color: #F7F6FD;
     ;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    /* display: flex; */
+    display: flex;
     flex-direction: column;
     gap: 20px;
-    margin-top: -100px;
+    margin-top: 110px;
     /* margin-top: 10px; */
     z-index: 1; /* Place it above the carousel */
   }
-  .goldtext1{
+  .newbltext1{
     margin-top: 15%;
     margin-left: 4%;
-    /* margin-top: 60%; */
-    margin-bottom: 65%;
-    /* font-weight: bold; */
+    font-weight: bold;
 }
-.goldtext1 h1{
+.newbltext1 h1{
  font-size: 27px;
 }
 .laptext2{
@@ -102,23 +100,18 @@ to {
 opacity: 0; /* Fade out to invisible */
 }
 }
-.successrimg{
-  margin-top: 50%;
-}
     }
     
     
     @media (max-width: 768px) {
-        .goldtext1{
-            /* margin-top: 10%; */
-            /* margin-top: 85%; */
-            margin-bottom: 90%;
+        .newbltext1{
+            margin-top: 10%;
             margin-left: 4%;
-            /* font-weight: bold; */
+            font-weight: bold;
             text-align: justify;
             padding: 10px;
         }
-        .goldtext1 h1{
+        .newbltext1 h1{
           font-size: 27px;
         }
         .laptext2{
@@ -177,7 +170,7 @@ opacity: 0; /* Fade out to invisible */
     }
   }
    /* Container for all cards */
-   .goldnewfirstcard-container {
+   .newblfirstcard-container {
     position: relative;
     /* max-width: 340px; */
     /* width: 100%; */
@@ -188,14 +181,12 @@ opacity: 0; /* Fade out to invisible */
     background-color: #F7F6FD;
     ;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    /* display: flex; */
+    display: flex;
     flex-direction: column;
     gap: 20px;
-    /* margin-top: 210px; */
-    /* margin-top: -20px; */
+    margin-top: 210px;
+    /* margin-top: 120px; */
     z-index: 1; /* Place it above the carousel */
   }
-  .successrimg{
-    margin-top: 80%;
-  }
+  
     }

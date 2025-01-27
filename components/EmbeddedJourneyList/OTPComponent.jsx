@@ -59,7 +59,7 @@ const OTPComponent = ({mobile}) => {
 
             const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}verifyOTPEmbedded`, formData1);
 
-            if (response.data.code === 0) {
+            if (response.data.code === 0 || response.data.code !== -1) {
                 console.log("Inside when data.code is 0");
                 // setIsOtpVerified(true);
                 setCheckVerifyFlag(true);
@@ -74,7 +74,7 @@ const OTPComponent = ({mobile}) => {
                 }, 1000);
 
 
-            } else {
+            } else if(response.data.code === -1){
                 // setOtpLoader(false);
                 console.log("Incorrect OTP");
                 setOtpStatus("Incorrect OTP! Try Again..");

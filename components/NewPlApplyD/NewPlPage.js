@@ -50,6 +50,8 @@ const SLIDES = [
 
 const NewPlPage = ({ params, searchParams }) => {
 
+  const [link, setLink] = useState();
+
   const [genderFlag, setGenderFlag] = useState(false);
   const [addressFlag,setAddressFlag] = useState(false);
 
@@ -844,6 +846,7 @@ const handleProfessionChange = (selectedOption) => {
           setApiExecutionLoader(false);
         }, 3000);
         var redirectionlink = response.data.data.lender_details[0].applicationlink;
+        console.log(redirectionlink);
         setLink(redirectionlink);
         // {!setIsLoading && <ApplicationPopup link={link}/>}
       }

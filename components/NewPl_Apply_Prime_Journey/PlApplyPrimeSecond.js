@@ -502,6 +502,9 @@ const [responseproductname, setResponseProductName] = useState('');
               className={styles.input}
               placeholderText="DD/MM/YYYY"
               ref={dobInputRef}  // Use the ref for the actual input element
+              showYearDropdown
+              yearDropdownItemNumber={50}
+              scrollableYearDropdown
             />
             <span
               className="icon"

@@ -51,6 +51,8 @@ const SLIDES = [
 
 const BlApplyPrimeMasterFirst = ({ params, searchParams }) => {
 
+ const [link, setLink] = useState(); 
+
   const [genderFlag, setGenderFlag] = useState(false);
   const [addressFlag,setAddressFlag] = useState(false);
 

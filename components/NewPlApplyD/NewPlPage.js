@@ -334,13 +334,6 @@ const handleInputChange = (e) => {
     return valid;
   };
 
-
-  // const handleCloseOTPModal = () => {
-  //   setShowOTPModal(false);
-  //   // Clear OTP inputs when modal is closed
-  //   setOtpInputs(["", "", "", "", "", ""]);
-  // };
-
   const handleDataLayerStage = (stage) => {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({'stage': stage});
@@ -419,46 +412,6 @@ const handleInputChange = (e) => {
       console.error("Error submitting form:", error);
     }
   };
-
- 
-  
-  // const handleOtpInputChange = (index, value) => {
-  //   // Update the OTP inputs state with the current input value
-  //   const updatedOtpInputs = [...otpInputs];
-  //   updatedOtpInputs[index] = value;
-  //   setOtpInputs(updatedOtpInputs);
-
-  //   // Always move cursor to the end of the current input field after any change
-  //   otpInputRefs.current[index].current.setSelectionRange(
-  //     value.length,
-  //     value.length
-  //   );
-
-  //   // Handle automatic focus based on user input
-  //   if (value === "") {
-  //     // If the current input is deleted, focus on the previous OTP input field if available
-  //     if (index > 0) {
-  //       // Use setTimeout to ensure the focus happens after the deletion event
-  //       setTimeout(() => {
-  //         otpInputRefs.current[index - 1].current.focus();
-  //         // Move cursor to the end of the previous input field after focusing
-  //         otpInputRefs.current[index - 1].current.setSelectionRange(
-  //           otpInputs[index - 1].length, // Move cursor to the end of the previous input
-  //           otpInputs[index - 1].length
-  //         );
-  //       }, 0);
-  //     }
-  //   } else {
-  //     // If the current input is not empty, move focus to the next OTP input field if available
-  //     if (index < otpInputs.length - 1) {
-  //       otpInputRefs.current[index + 1].current.focus();
-  //     }
-  //   }
-  // };
-  
-//   const toggleVisibility = () => {
-//     setIsVisible(!isVisible);
-// };
 
 const handleVerifyOTP = () => {
   verify_otp_credithaat_from_backend();
@@ -846,7 +799,7 @@ const handleProfessionChange = (selectedOption) => {
           setApiExecutionLoader(false);
         }, 3000);
         var redirectionlink = response.data.data.lender_details[0].applicationlink;
-        console.log(redirectionlink);
+        console.log(redirectionLink);
         setLink(redirectionlink);
         // {!setIsLoading && <ApplicationPopup link={link}/>}
       }

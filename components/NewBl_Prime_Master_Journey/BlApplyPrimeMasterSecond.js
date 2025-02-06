@@ -728,7 +728,7 @@ const [isBusinessTypeMenuOpen, setIsBusinessTypeMenuOpen] = useState(false);
       <div className="carousel-background">
         <EmblaCarousel slides={SLIDES} options={OPTIONS} />
       </div>
-      <div className="newfirstcard-container" style={{ boxSizing: 'content-box' }}>
+      <div className="blprimenewfirstcard-container" style={{ boxSizing: 'content-box' }}>
         <form ref={formRef} onSubmit={handleSubmit} className={styles.form}>
 
            
@@ -842,7 +842,7 @@ const [isBusinessTypeMenuOpen, setIsBusinessTypeMenuOpen] = useState(false);
               </label>
             ))}
           </div>
-          {formErrors.gender && <p style={{ color: 'red' }}>{formErrors.gender}</p>}
+          {formErrors.gender && <div className="error">{formErrors.gender}</div>}
         </div>
       {/* )} */}
 
@@ -858,9 +858,9 @@ const [isBusinessTypeMenuOpen, setIsBusinessTypeMenuOpen] = useState(false);
               className={styles.input}
               placeholderText="DD/MM/YYYY"
               ref={dobInputRef}  // Use the ref for the actual input element
-              showYearDropdown
-              yearDropdownItemNumber={50}
-              scrollableYearDropdown
+              showYearDropdown // This enables the year selection dropdown
+              yearDropdownItemNumber={50} // This controls how many years are shown in the dropdown
+              scrollableYearDropdown // Allows you to scroll through years in the dropdown
             />
             <span
               className="icon"
@@ -876,7 +876,7 @@ const [isBusinessTypeMenuOpen, setIsBusinessTypeMenuOpen] = useState(false);
               <FaCalendar />
             </span>
           </div>
-          {formErrors.dob && <div className="error-message">{formErrors.dob}</div>}
+          {formErrors.dob && <div className="error">{formErrors.dob}</div>}
         </div>
       {/* )} */}
     </div>

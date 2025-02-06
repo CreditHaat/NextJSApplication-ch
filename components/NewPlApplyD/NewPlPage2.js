@@ -440,7 +440,7 @@ const NewPlPage2 = ({dobFlag, mainFormData, getLendersList, genderFlag, addressF
       <div className="carousel-background">
         <EmblaCarousel slides={SLIDES} options={OPTIONS} />
       </div>
-      <div className="newfirstcard-container" style={{ boxSizing: 'content-box' }}>
+      <div className="plsecfnewfirstcard-container" style={{ boxSizing: 'content-box' }}>
         <form ref={formRef} onSubmit={handleSubmit} className={styles.form}>
 
            
@@ -524,7 +524,7 @@ const NewPlPage2 = ({dobFlag, mainFormData, getLendersList, genderFlag, addressF
       }}
     >   
       <FaHome />
-    </span>s
+    </span>
   </div>
   {formErrors.address && (
     <span className="error">{formErrors.address}</span>
@@ -560,36 +560,36 @@ const NewPlPage2 = ({dobFlag, mainFormData, getLendersList, genderFlag, addressF
 
       {/* DOB Date Picker */}
       {dobFlag && (
-       <div className={styles.formGroup}>
-          <label style={{ fontWeight: 'bold' }}>Date of Birth</label>
-          <div className="input-wrapper" style={{ position: 'relative' }}>
-            <DatePicker
-              selected={formData.dob}
-              onChange={handleDateChange2}
-              dateFormat="dd/MM/yyyy"
-              className={styles.input}
-              placeholderText="DD/MM/YYYY"
-              ref={dobInputRef}  // Use the ref for the actual input element
-              showYearDropdown
-              yearDropdownItemNumber={50}
-              scrollableYearDropdown
-            />
-            <span
-              className="icon"
-              style={{
-                position: 'absolute',
-                right: '10px',
-                top: '50%',
-                color: '#00000061',
-                transform: 'translateY(-50%)',
-                cursor: 'pointer',
-              }}
-            >
-              <FaCalendar />
-            </span>
-          </div>
-          {formErrors.dob && <div className="error-message">{formErrors.dob}</div>}
-        </div>
+     <div className={styles.formGroup}>
+     <label style={{ fontWeight: 'bold' }}>Date of Birth</label>
+     <div className="input-wrapper" style={{ position: 'relative' }}>
+       <DatePicker
+         selected={formData.dob}
+         onChange={handleDateChange2}
+         dateFormat="dd/MM/yyyy"
+         className={styles.input}
+         placeholderText="DD/MM/YYYY"
+         ref={dobInputRef} // Use the ref for the actual input element
+         showYearDropdown // This enables the year selection dropdown
+         yearDropdownItemNumber={50} // This controls how many years are shown in the dropdown
+         scrollableYearDropdown // Allows you to scroll through years in the dropdown
+       />
+       <span
+         className="icon"
+         style={{
+           position: 'absolute',
+           right: '10px',
+           top: '50%',
+           color: '#00000061',
+           transform: 'translateY(-50%)',
+           cursor: 'pointer',
+         }}
+       >
+         <FaCalendar />
+       </span>
+     </div>
+     {formErrors.dob && <div className="error-message">{formErrors.dob}</div>}
+   </div>
       )}
     </div>
 

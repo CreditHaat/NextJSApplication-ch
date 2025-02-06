@@ -29,7 +29,7 @@ import OTPBottomSheet from '../NewPlOtpBottomSheet/PlOTPBottomSheet';
 import ForSelfEmployed from '../BLApplyPrimeSecondJourney/ForSelfEmployed';
 import ForSalaried from "../BLApplyPrimeSecondJourney/ForSalaried";
 import NewPlPage2 from './BlApplyPrimeMasterSecond';
-import NewPlApplyDS from '../NewPlApplyD/NewPlApplyDS';
+// import NewPlApplyDS from '../NewPlApplyD/NewPlApplyDS';
 import debounce from 'lodash.debounce';
 import RejectionPage from '../../components/NewPlRejectionPage/NewPlRejPage';
 import OtpVerifyLoader from "../NewPlApplyD/OtpVerifyLoader";
@@ -51,7 +51,7 @@ const SLIDES = [
 
 const BlApplyPrimeMasterFirst = ({ params, searchParams }) => {
 
- const [link, setLink] = useState(); 
+  const [link, setLink] = useState();
 
   const [genderFlag, setGenderFlag] = useState(false);
   const [addressFlag,setAddressFlag] = useState(false);
@@ -914,10 +914,6 @@ const handleProfessionChange = (selectedOption) => {
         // <LendersList companies={lenderDetails} formData={formData} redirectLinkMethod={redirectLinkMethod} getLoanBackendMethod={getLoanBackendMethod}/> 
         <NewBlListPage companies={lenderDetails} formData={formData} redirectLinkMethod={redirectLinkMethod} getLoanBackendMethod={getLoanBackendMethod}  />
       }
-      {
-        activeContainer === "NewPlApplyDS" &&
-        <NewPlApplyDS cpi={cpi} lenderProduct={lenderProduct} mainFormData={formData} dobFlag={dobFlag} residentialPincodeFlag={residentialPincodeFlag} genderFlag={genderFlag} addressFlag={addressFlag} setActiveContainer={setActiveContainer} getLendersList={getLendersList} />
-      }
 
       {
         activeContainer === "NewPlPage2" &&
@@ -930,7 +926,7 @@ const handleProfessionChange = (selectedOption) => {
       <div className="carousel-background">
         <EmblaCarousel slides={SLIDES} options={OPTIONS} />
       </div>
-      <div className="newfirstcard-container" style={{ boxSizing: 'content-box' }}>
+      <div className="blprimenewfirstcard-container" style={{ boxSizing: 'content-box' }}>
       <div className="progress-bar-container">
             <div className="progress-bar">
             <div className="step-number">1</div>

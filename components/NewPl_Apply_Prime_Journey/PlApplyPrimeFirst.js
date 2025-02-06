@@ -891,7 +891,7 @@ const handleProfessionChange = (selectedOption) => {
       <div className="carousel-background">
         <EmblaCarousel slides={SLIDES} options={OPTIONS} />
       </div>
-      <div className="newfirstcard-container" style={{ boxSizing: 'content-box' }}>
+      <div className="plprimenewfirstcard-container" style={{ boxSizing: 'content-box' }}>
       <div className="progress-bar-container">
             <div className="progress-bar">
             <div className="step-number">1</div>

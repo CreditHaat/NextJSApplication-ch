@@ -146,6 +146,7 @@ const [responseproductname, setResponseProductName] = useState('');
       if(!formData.residentialPincode)
       {
         errors.residentialPincode = 'Home pincode is required';
+        valid=false;
       }
     // }
     
@@ -175,13 +176,21 @@ const [responseproductname, setResponseProductName] = useState('');
 
   const handleDateChange2 = (date) => {
     console.log("Inside handle date change");
+  
+    // If a date is selected, clear the error message for DOB
+    if (date) {
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        dob: "", // Clear the DOB error message
+      }));
+    }
+  
     const formattedDate = date ? format(date, "yyyy-MM-dd") : null;
     setFormData({ ...formData, dob: formattedDate });
-
+  
     console.log("The changed date is :: ", formattedDate);
-
-    // (date) => setFormData({ ...formData, dob: date })
   };
+  
 
   const today = new Date();
   const eighteenYearsAgo = new Date(
@@ -372,7 +381,7 @@ const [responseproductname, setResponseProductName] = useState('');
       <div className="carousel-background">
         <EmblaCarousel slides={SLIDES} options={OPTIONS} />
       </div>
-      <div className="newfirstcard-container" style={{ boxSizing: 'content-box' }}>
+      <div className="plprimenewfirstcard-container" style={{ boxSizing: 'content-box' }}>
         <form ref={formRef} onSubmit={handleSubmit} className={styles.form}>
 
            
@@ -486,7 +495,8 @@ const [responseproductname, setResponseProductName] = useState('');
               </label>
             ))}
           </div>
-          {formErrors.gender && <p style={{ color: 'red' }}>{formErrors.gender}</p>}
+          {/* {formErrors.gender && <p style={{ color: 'red' }}>{formErrors.gender}</p>} */}
+          {formErrors.gender && <div className="error">{formErrors.gender}</div>}
         </div>
       {/* )} */}
 
@@ -502,9 +512,9 @@ const [responseproductname, setResponseProductName] = useState('');
               className={styles.input}
               placeholderText="DD/MM/YYYY"
               ref={dobInputRef}  // Use the ref for the actual input element
-              showYearDropdown
-              yearDropdownItemNumber={50}
-              scrollableYearDropdown
+              showYearDropdown // This enables the year selection dropdown
+              yearDropdownItemNumber={50} // This controls how many years are shown in the dropdown
+              scrollableYearDropdown // Allows you to scroll through years in the dropdown
             />
             <span
               className="icon"
@@ -520,7 +530,7 @@ const [responseproductname, setResponseProductName] = useState('');
               <FaCalendar />
             </span>
           </div>
-          {formErrors.dob && <div className="error-message">{formErrors.dob}</div>}
+          {formErrors.dob && <div className="error">{formErrors.dob}</div>}
         </div>
       {/* )} */}
     </div>

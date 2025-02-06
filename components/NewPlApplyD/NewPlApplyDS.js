@@ -588,9 +588,9 @@ const NewPlApplyDS = ({ dobFlag, mainFormData, getLendersList, genderFlag, addre
               className={styles.input}
               placeholderText="DD/MM/YYYY"
               ref={dobInputRef}  // Use the ref for the actual input element
-              showYearDropdown
-              yearDropdownItemNumber={50}
-              scrollableYearDropdown
+              showYearDropdown // This enables the year selection dropdown
+              yearDropdownItemNumber={50} // This controls how many years are shown in the dropdown
+              scrollableYearDropdown // Allows you to scroll through years in the dropdown
             />
             <span
               className="icon"

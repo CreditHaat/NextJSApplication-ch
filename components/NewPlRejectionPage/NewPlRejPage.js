@@ -16,7 +16,7 @@ import walletimg3 from '../RejectionPage/Rejectionpageimages/walletimg3.png';
 import rejectionimage2 from '../RejectionPage/Rejectionpageimages/rejimagenew.png';
 import boatlogo from '../RejectionPage/Rejectionpageimages/boatlogo.png';
 import boatimage from '../RejectionPage/Rejectionpageimages/boatimage.png';
-import GoldCardImage from '../RejectionPage/Rejectionpageimages/securedecom.png';
+// import GoldCardImage from '../RejectionPage/Rejectionpageimages/securedecom.png';
 import { useSwipeable } from 'react-swipeable';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";

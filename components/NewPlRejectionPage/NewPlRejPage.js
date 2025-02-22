@@ -16,6 +16,7 @@ import walletimg3 from '../RejectionPage/Rejectionpageimages/walletimg3.png';
 import rejectionimage2 from '../RejectionPage/Rejectionpageimages/rejimagenew.png';
 import boatlogo from '../RejectionPage/Rejectionpageimages/boatlogo.png';
 import boatimage from '../RejectionPage/Rejectionpageimages/boatimage.png';
+import GoldCardImage from '../RejectionPage/Rejectionpageimages/securedecom.png';
 import { useSwipeable } from 'react-swipeable';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
@@ -448,10 +449,10 @@ return (
                             <Image
                               src={card.logo}
                               alt={`secured-card-logo-${index + 1}`}
-                              width={100}
+                              width={80}
                               height={200}
                               layout="intrinsic"
-                              style={{marginTop:"10px", marginBottom:"20px"}}
+                              style={{ marginBottom:"20px",marginTop:'5px'}}
 
                             />
                           </div>
@@ -459,7 +460,74 @@ return (
                             <div className="cardimgtext5t">
                               <p dangerouslySetInnerHTML={{ __html: card.description }} />
                             </div>
-                            <div className="rejsect5image">
+                            {/* {
+                    
+                              (card.product === "IndiaGold")?(<><div className="goldrejsect5image">
+                                <Image
+                                  src={GoldCardImage}
+                                  alt={`secured-card-image-${index + 1}`}
+                                  width={100}
+                                  height={400}
+                                  layout="intrinsic"
+                                />
+                              </div></>)
+                              :
+                                (card.product === "Rupeek")?
+                                (<><div className="goldrejsect5image">
+                                <Image
+                                  src={GoldCardImage}
+                                  alt={`secured-card-image-${index + 1}`}
+                                  width={100}
+                                  height={200}
+                                  layout="intrinsic"
+                                />
+                                </div></>)
+                                :
+                                (card.product === "iiflgoldloan")?
+                                (<><div className="goldrejsect5image">
+                                <Image
+                                  src={GoldCardImage}
+                                  alt={`secured-card-image-${index + 1}`}
+                                  width={100}
+                                  height={200}
+                                  layout="intrinsic"
+                                />
+                               </div> </>)
+                                :
+                                (card.product === "Abhiloans")?
+                                (<><div className="mutualrejsect5image">
+                                <Image
+                                  src={GoldCardImage}
+                                  alt={`secured-card-image-${index + 1}`}
+                                  width={100}
+                                  height={200}
+                                  layout="intrinsic"
+                                />
+                               </div> </>)
+                                :
+                                (card.product === "MeraKal")?
+                                (<><div className="mutualrejsect5image">
+                                <Image
+                                  src={GoldCardImage}
+                                  alt={`secured-card-image-${index + 1}`}
+                                  width={100}
+                                  height={200}
+                                  layout="intrinsic"
+                                />
+                               </div> </>)
+                                :
+                                (card.product === "EarlySalary")?
+                                (<><div className="mutualrejsect5image">
+                                <Image
+                                  src={GoldCardImage}
+                                  alt={`secured-card-image-${index + 1}`}
+                                  width={100}
+                                  height={200}
+                                  layout="intrinsic"
+                                />
+                               </div> </>)
+                                :
+                              (<><div className="rejsect5image">
                               <Image
                                 src={walletimg3}
                                 alt={`secured-card-image-${index + 1}`}
@@ -467,7 +535,8 @@ return (
                                 height={600}
                                 layout="intrinsic"
                               />
-                            </div>
+                            </div></>)
+                            } */}
                           </div>
                         </div>
                       </div>

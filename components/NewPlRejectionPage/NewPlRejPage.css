@@ -407,9 +407,22 @@
       }
       /* Other existing styles remain unchanged */
       
-    .sect5logo{
+    /* .sect5logo{
         margin-left: 55%;
         margin-top: -10px;
+    } */
+    .sect5logo {
+      width: 100px;  /* Fixed width for all logos */
+      height: auto;  /* Auto height to maintain aspect ratio */
+      margin-left: 55%;
+      margin-top: -10px;
+      overflow: hidden;  /* Hide any part of the image that overflows */
+    }
+    
+    .sect5logo img {
+      /* width: 100%;   */
+      height: auto;  
+      object-fit: contain;  
     }
     .cardimgtext5{
         color: #fff;
@@ -420,6 +433,16 @@
         margin-top: -23%;
         max-width: 50%;
     }
+    .goldrejsect5image{
+      margin-left: 40%;
+      /* margin-top: -23%; */
+      max-width: 50%;
+  }
+  .mutualrejsect5image{
+    margin-left: 40%;
+    margin-top: -10%;
+    max-width: 50%;
+}
     .rejsect5card {
         min-width: 300px; /* Adjust as necessary */
         margin: 0 10px; /* Space between cards */
@@ -1008,10 +1031,20 @@
       }
       /* Other existing styles remain unchanged */
       
-    .sect5logo{
-        margin-left: 35%;
+      .sect5logo {
+        width: 100px;  /* Fixed width for all logos */
+        height: auto;  /* Auto height to maintain aspect ratio */
+        margin-left: 30%;
         margin-top: -20px;
-    }
+        overflow: hidden;  /* Hide any part of the image that overflows */
+      }
+      
+      .sect5logo img {
+        width: 100%;  
+        height: auto;  
+        object-fit: contain;  
+      }
+      
     .cardimgtextt{
         color: #fff;
         font-size: 1.2rem;
@@ -1022,7 +1055,7 @@
         color: #fff;
         font-size: 1rem;
         /* line-height: 1.5; */
-        /* max-width: 50%; */
+        max-width: 100%;
         margin-left: -10px;
     }
     .cardimgtext5t p {
@@ -1031,6 +1064,8 @@
       word-break: break-word; /* Break words at the end of the line to avoid overflow */
       /* font-size: 14px; Adjust the font size for readability on mobile */
       line-height: 1.5; /* Adjust line height for better spacing between lines */
+      display: inline-block;
+      overflow-wrap: break-word;
     }
     .rejsect5image{
         margin-left: 23%;
@@ -1038,6 +1073,18 @@
         width: 70%;
         
     }
+    .goldrejsect5image{
+      margin-left: 23%;
+      /* margin-top: -10%; */
+      width: 70%;
+      
+  }
+  .mutualrejsect5image{
+    margin-left: 23%;
+    /* margin-top: -10%; */
+    width: 70%;
+    
+}
     .card-container-secured {
         display: flex;
         justify-content: space-around;/* Adjust space as needed */

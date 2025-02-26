@@ -306,6 +306,7 @@ const customStyles = {
 
   const handleLoanGuaranteeChange = (selectedOption) => {
     setFormData({ ...formData, loanGuarantee: selectedOption.value });
+    setTimeout(() => setIsLoanGuaranteeMenuOpen(false), 200);
 
     // Clear error if a valid selection is made
     if (selectedOption.value) {

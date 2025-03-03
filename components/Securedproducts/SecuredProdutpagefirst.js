@@ -20,6 +20,7 @@ import NewPlPage2 from "./SecuredProductpagesecond";
 import NewPlApplyDS from './SecuredProductpagesecond';
 import RejectionPage from '../../components/NewPlRejectionPage/NewPlRejPage';
 import OtpVerifyLoader from "../NewPlApplyD/OtpVerifyLoader";
+import { useSearchParams, useRouter } from "next/navigation";
 
 import Select from 'react-select';
 const roboto = Roboto({
@@ -44,6 +45,17 @@ const SecuredProductpagefirst = ({ params, searchParams }) => {
     const url = window.location.origin + window.location.pathname + window.location.search;
     // console.log("url is:", url);
     setFullUrl(url);
+  }, []);
+
+  const router = useRouter();
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const otpVerified = queryParams.get("otpVerified") === "true";
+    const mobileNumber = queryParams.get("mobileNumber");
+
+    if (otpVerified && mobileNumber) {
+      setActiveContainer("NewPlPage2"); // Show second page directly
+    }
   }, []);
 
   const [genderFlag, setGenderFlag] = useState(false);

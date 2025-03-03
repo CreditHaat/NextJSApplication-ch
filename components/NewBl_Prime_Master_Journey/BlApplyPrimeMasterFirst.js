@@ -838,6 +838,7 @@ const handleProfessionChange = (selectedOption) => {
       else if (response.data.code === -1) {
         console.log(-1);
         // setErrorPopup(true);
+        localStorage.setItem('mobileNumberForRejection',formData.mobileNumber);
         setRejectionPage(true);
         const timer = setTimeout(() => {
           setApiExecutionLoader(false);

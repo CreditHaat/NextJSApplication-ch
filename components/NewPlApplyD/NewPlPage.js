@@ -758,12 +758,14 @@ const NewPlPage = ({ params, searchParams }) => {
 
     if (lenderCpi === 1) {
       setRedirectionLinkLoader(true);
-      const timer = setTimeout(() => {
-        // setRedirectionLinkLoader(false);
-        const lenderApplicationLink = localStorage.getItem('applicationLink');
-        window.location.href = lenderApplicationLink;
-        // window.location.href = lenderApplicationLink;
-      }, 3000);
+      const lenderApplicationLink = localStorage.getItem('applicationLink');
+
+      // const timer = setTimeout(() => {
+      //   // setRedirectionLinkLoader(false);
+      //   const lenderApplicationLink = localStorage.getItem('applicationLink');
+      //   window.location.href = lenderApplicationLink;
+      //   // window.location.href = lenderApplicationLink;
+      // }, 3000);
 
       try{
 
@@ -779,6 +781,9 @@ const NewPlPage = ({ params, searchParams }) => {
       console.log("before cpiclikc");
       const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}h5/cpiClickNew`, formData2);
         console.log("after cpiclick");
+
+        // Call the SMS API before redirection
+        await sendSmsApi(formData.mobileNumber, productId);
 
             const timer = setTimeout(() => {
                 setRedirectionLinkLoader(false);
@@ -829,6 +834,7 @@ const NewPlPage = ({ params, searchParams }) => {
         else if (response.data.code === -1) {
           console.log(-1);
           // setErrorPopup(true);
+          localStorage.setItem('mobileNumberForRejection',formData.mobileNumber);
           setRejectionPage(true);
           const timer = setTimeout(() => {
             setApiExecutionLoader(false);
@@ -850,6 +856,24 @@ const NewPlPage = ({ params, searchParams }) => {
 
 
   };
+
+  // Function to send SMS via API
+const sendSmsApi = async (phone, productId) => {
+  try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}h5/sms_pl_journey`, {
+          params: {
+              phone: phone,
+              // link: link,
+              dsa: "214394238",
+              productId: productId
+          }
+      });
+
+      console.log("SMS API response:", response.data);
+  } catch (error) {
+      console.log("Error while calling SMS API: ", error);
+  }
+};
 
 
   const [otpLoader, setOtpLoader] = useState(false);

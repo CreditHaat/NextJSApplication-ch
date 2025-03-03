@@ -654,7 +654,7 @@ const customStyles = {
             options={loanGuaranteeOptions}
             onChange={handleLoanGuaranteeChange}
             styles={customStyles}
-            placeholder="What can you offer as security?"
+            placeholder="What is your security?"
             menuIsOpen={isLoanGuaranteeMenuOpen}
             onFocus={() => setIsLoanGuaranteeMenuOpen(true)}
             onBlur={() => setIsLoanGuaranteeMenuOpen(false)}

@@ -19,7 +19,7 @@ import Select from 'react-select';
 import IndiaGoldSuccessPage from "../NewBl_Prime_Master_Journey/NewBlSuccessPage";
 import IndiaGoldRejectPage from '../NewBl_Prime_Master_Journey/NewBlRejectPage';
 import QuestionPage from './SecuredQuestionPage';
-// import {Roboto} from '@next/font/google';
+import { useSearchParams } from 'next/navigation';
 import {Roboto} from '@next/font/google';
 const roboto = Roboto({
   weight: ['400', '700'],
@@ -300,13 +300,16 @@ const customStyles = {
     display: 'none',  // Hide the indicator separator (optional)
   }),
 };
-
+const searchParams = useSearchParams();
+const otpVerified = searchParams.get("otpVerified");
+const mobileNumber = searchParams.get("mobileNumber");
   const [isLoanGuaranteeMenuOpen, setIsLoanGuaranteeMenuOpen] = useState(false);
   const [activeContainer, setActiveContainerState] = useState("SecuredProductpagesecond");
 
   const handleLoanGuaranteeChange = (selectedOption) => {
-    setFormData({ ...formData, loanGuarantee: selectedOption.value });
-    setTimeout(() => setIsLoanGuaranteeMenuOpen(false), 200);
+    setFormData({ ...formData, loanGuarantee: selectedOption ? selectedOption.value: ''  });
+    // setTimeout(() => setIsLoanGuaranteeMenuOpen(false), 200);
+
 
     // Clear error if a valid selection is made
     if (selectedOption.value) {
@@ -326,6 +329,7 @@ const customStyles = {
       handleDataLayerStage(3); // Track step 2 when the form is submitted
       console.log("After Data layer stage");
       console.log('Form data:', formData);
+      SecondStoreDataToBackendForSecured(e);
       StoreDataToBackendForSalaried(e);
      
     }else{
@@ -333,14 +337,47 @@ const customStyles = {
     }
   };
  
+ 
+  const SecondStoreDataToBackendForSecured = async (e) => {
+
+    
+    const formData2 = new FormData();
+    // formData2.append("otpVerified",otpVerified);
+    formData2.append("mobileNumber", mobileNumber);
+      if(otpVerified == "true"){
+  
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}securedsecondrejectpage`,
+          formData2
+        );
+  
+        if (response.data.code === 0 || response.data.code === 1 || response.data.code === 2 || response.data.code === 3) {
+          setOtpVerified(true);
+          setOtpLoader(false);
+          // setResidentialPincodeFlag(response.data.code === 0 || response.data.code === 2);
+          if(response.data.obj.dob === "" || response.data.obj.dob === null){
+            setDobFlag(true);
+          }if(response.data.obj.pincode === "" || response.data.obj.pincode === null){
+            setResidentialPincodeFlag(true);
+          }if(response.data.obj.gender === "" || response.data.obj.gender === null){
+            setGenderFlag(true);
+          }if(response.data.obj.address1 === "" || response.data.obj.address1 === null){
+            setAddressFlag(true);
+          }
+        }
+  
+      }
+
+  }
 
   const StoreDataToBackendForSalaried = async (e) => {
     // setIsLoading2(true);
     console.log("Inside handle form submit")
     e.preventDefault();
+
     try {
       const formData1 = new FormData();
-      formData1.append("mobileNumber", mainFormData.mobileNumber);
+      formData1.append("mobileNumber", mainFormData.mobileNumber || mobileNumber);
       formData1.append("profession",mainFormData.profession);
       formData1.append("firstName",firstName);
       formData1.append("lastName",lastName);
@@ -440,7 +477,7 @@ const customStyles = {
       errorPopup && <ErrorPopup lenderName={lenderProduct} formData={mainFormData} setErrorPopup={setErrorPopup} />
     }
      {activeContainer === "QuestionPage" && 
-     <QuestionPage formData={formData} setActiveContainer={setActiveContainerState} mobilenumber={mainFormData.mobileNumber}/>}
+     <QuestionPage formData={formData} setActiveContainer={setActiveContainerState} mobilenumber={mainFormData.mobileNumber || mobileNumber}/>}
     { activeContainer ==="SecuredProductpagesecond" && activeContainer!=='QuestionPage' && 
     <div className={`${roboto.className} page-container`}>
       <div className="securedsecondcarousel-background">
@@ -660,6 +697,9 @@ const customStyles = {
             onBlur={() => setIsLoanGuaranteeMenuOpen(false)}
             isSearchable={false}
             components={{ Option: CustomOption }}
+            isClearable={false} // ❌ Removes the "X" clear icon
+    onMenuOpen={() => setIsLoanGuaranteeMenuOpen(true)}
+    onMenuClose={() => setIsLoanGuaranteeMenuOpen(false)}
           />
           {formErrors.loanGuarantee && <span className="error">{formErrors.loanGuarantee}</span>}
         </div>

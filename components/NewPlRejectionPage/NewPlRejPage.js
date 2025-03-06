@@ -29,7 +29,8 @@ import EmblaCarousel from './Emblacarousel/js/EmblaCarousel';
 import listimage1 from '../NewPlApplyD/newplimages/newchange11.png';
 import listimage2 from '../NewPlApplyD/newplimages/newchange3.png';
 import listimage3 from '../NewPlApplyD/newplimages/plimage33.png';
-// import faqimage from './FaqImages/faqimage.png';
+import RedirectionLoader from "./SecuredRedirectionLoader";
+
 import Link from "next/link";
 import { Roboto } from '@next/font/google';
 
@@ -42,6 +43,7 @@ function NewPlRejPage({ lenderName, lender_id }) {
   var json;
   var count = 0;
 
+  const[redirectionLinkLoader, setRedirectionLinkLoader] = useState(false);
   const [globalResponse, setGlobalResponse] = useState(null);
   const [showCards, setShowCards] = useState(false); // State to control card visibility 
   const [windowWidth, setWindowWidth] = useState(0);
@@ -363,11 +365,15 @@ function NewPlRejPage({ lenderName, lender_id }) {
       console.log("Response is :: ", response);
 
     } catch (error) {
+      alert("in handle secured cards");
       console.log(error);
     }
   }
 
   const handleAdClick = async (productId, productLink) => {
+
+    setRedirectionLinkLoader(true);
+
     // e.preventDefault();
     try {
 
@@ -376,7 +382,7 @@ function NewPlRejPage({ lenderName, lender_id }) {
       formData1.append('phone', mobileNumber);
       formData1.append('channel', "credithaat");
 
-      const response = axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}h5/cpiClick_adproduct`, formData1);
+      const response =await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}h5/cpiClick_adproduct`, formData1);
 
       // Check if this is a Secured Products link and embed mobile number if needed
       if (productLink.toLowerCase().includes("securedproducts")) {
@@ -392,15 +398,22 @@ function NewPlRejPage({ lenderName, lender_id }) {
         }
       }
 
-      window.location.href = productLink;
+      setTimeout(() => {
+        window.location.href = productLink;
+      }, 2500);
 
     } catch (error) {
+      alert("in handle ad click");
       console.log(error);
+      setRedirectionLinkLoader(false);
     }
   }
 
   return (
     <>
+     {
+      redirectionLinkLoader && <RedirectionLoader/>
+    }
       <div className="Rejcarousel-background">
         <EmblaCarousel slides={SLIDES} options={OPTIONS} />
       </div>

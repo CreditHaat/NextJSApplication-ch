@@ -357,10 +357,39 @@ const CreditCardFirstPage = ({ params, searchParams }) => {
 
         // Show Credit Card List After OTP Verification
         getLendersList(); // Fetch Credit Card List
+      }else if(response.data.code === 1){
+        setOtpVerified(true);
+        setOtpLoader(false);
+        setIsOtpBottomSheetVisible(false);
+
+        console.log("OTP Verified Successfully! Showing Credit Card List...");
+
+        // Show Credit Card List After OTP Verification
+        getLendersList(); // Fetch Credit Card List
+      }else if(response.data.code === 2){
+        setOtpVerified(true);
+        setOtpLoader(false);
+        setIsOtpBottomSheetVisible(false);
+
+        console.log("OTP Verified Successfully! Showing Credit Card List...");
+
+        // Show Credit Card List After OTP Verification
+        getLendersList(); // Fetch Credit Card List
+      }else if(response.data.code === 3){
+        setOtpVerified(true);
+        setOtpLoader(false);
+        setIsOtpBottomSheetVisible(false);
+
+        console.log("OTP Verified Successfully! Showing Credit Card List...");
+
+        // Show Credit Card List After OTP Verification
+        getLendersList(); // Fetch Credit Card List
       } else {
         setOtpLoader(false);
         setOtpStatus("Incorrect OTP! Try Again.");
         console.log(" OTP incorrect");
+        // setOtpInputs(null);
+        setUpOtp("");
         setOtpInputs(["", "", "", "", "", ""]);
       }
     } catch (error) {

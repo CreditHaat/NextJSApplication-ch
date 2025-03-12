@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import axios from 'axios';
-import OTPBottomSheet from './OTPBottomSheet';
+// import OTPBottomSheet from './OTPBottomSheet';
+import OTPBottomSheet from '../NewEmbeddedOtpBottomSheet/EmbeddedPlOtpBottomSheet';
 import OtpVerifyLoader from '../NewPersonalLoan/Other Components/OtpVerifyLoader';
 
 const OTPComponent = ({mobile}) => {

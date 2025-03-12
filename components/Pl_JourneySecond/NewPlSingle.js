@@ -410,10 +410,11 @@ export default function NewPlSingle() {
         // setResidentialPincodeFlag(false);
         setOtpStatus("");
         setOtpLoader(false);
-        window.location.href = `https://app.credithaat.com/embedded_journey?sso=yes&mobilenumber=${formData.mobileNumber}&sso=yes&chaid=true`;
+        window.location.href = `https://app.credithaat.com/embedded_journey?sso=yes&mobilenumber=${formData.mobileNumber}&chaid=true`;
         // setActiveContainer("LendersList");
         // getLendersList(e);
         handleDataLayerStage(2);
+        setUpOtp('');
         // if(formData.occupation === "Salaried"){
         //   setActiveContainer("forSalaried");
         //   window.location.href = lenderApplicationLink;
@@ -428,9 +429,10 @@ export default function NewPlSingle() {
         // setResidentialPincodeFlag(false);
         setOtpStatus("");
         setOtpLoader(false);
+        setUpOtp('');
         // setActiveContainer("LendersList");
         // getLendersList(e);
-        window.location.href = `https://app.credithaat.com/embedded_journey?sso=yes&mobilenumber=${formData.mobileNumber}&sso=yes&chaid=true`;
+        window.location.href = `https://app.credithaat.com/embedded_journey?sso=yes&mobilenumber=${formData.mobileNumber}&chaid=true`;
         handleDataLayerStage(2);
       } else if (response.data.code === 2) {
         setDobFlag(false);
@@ -439,21 +441,24 @@ export default function NewPlSingle() {
         setOtpLoader(false);
         // setActiveContainer("LendersList");
         getLendersList(e);
-        window.location.href = `https://app.credithaat.com/embedded_journey?sso=yes&mobilenumber=${formData.mobileNumber}&sso=yes&chaid=true`;
+        setUpOtp('');
+        window.location.href = `https://app.credithaat.com/embedded_journey?sso=yes&mobilenumber=${formData.mobileNumber}&chaid=true`;
         handleDataLayerStage(2);
       } else if (response.data.code === 3) {
         setDobFlag(true);
         setResidentialPincodeFlag(true);
         setOtpStatus("");
         setOtpLoader(false);
+        setUpOtp('');
         // setActiveContainer("LendersList");
         getLendersList(e);
-        window.location.href =`https://app.credithaat.com/embedded_journey?sso=yes&mobilenumber=${formData.mobileNumber}&sso=yes&chaid=true`;
+        window.location.href =`https://app.credithaat.com/embedded_journey?sso=yes&mobilenumber=${formData.mobileNumber}&chaid=true`;
         handleDataLayerStage(2);
       } else {
         setOtpStatus("Incorrect OTP! Try Again.");
         setOtpInputs(["", "", "", "", "", ""]);
         setOtpLoader(false);
+        setUpOtp(''); 
       }
     } catch (error) {
       console.error("Error verifying OTP:", error);

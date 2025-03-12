@@ -463,17 +463,37 @@ const CreditCardFirstPage = ({ params, searchParams }) => {
         try {
         console.log("before cpi function call");
        const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}h5/cpiCreditcardClick`, formData1);
+
+          
+      //  console.log("The response from  h5/cpiCreditcardClick is :: ",response);
+       if(response.status === 200){
+
+        // console.log("The response from  h5/cpiCreditcardClick after 200 is :: ",response);
+
+        const timer = setTimeout(() => {
+          // setRedirectionLinkLoader(false);
+          // const lenderApplicationLink = localStorage.getItem("applicationLink");
+          // window.location.href = lenderApplicationLink;
+          // const lenderApplicationLink = response.data
+          // window.location.href = lenderApplicationLink;
+          setRedirectionLinkLoader(false);
+          window.location.href=response.data.obj;
+          // window.location.href = lenderApplicationLink;
+        }, 3000);
+       }
       } catch (error) {
         console.log(error);
       }
 
-      const timer = setTimeout(() => {
-        // setRedirectionLinkLoader(false);
-        const lenderApplicationLink = localStorage.getItem("applicationLink");
-        window.location.href = lenderApplicationLink;
-        setRedirectionLinkLoader(false);
-        // window.location.href = lenderApplicationLink;
-      }, 3000);
+      // const timer = setTimeout(() => {
+      //   // setRedirectionLinkLoader(false);
+      //   // const lenderApplicationLink = localStorage.getItem("applicationLink");
+      //   // window.location.href = lenderApplicationLink;
+      //   const lenderApplicationLink = localStorage.getItem("applicationLink");
+      //   window.location.href = lenderApplicationLink;
+      //   setRedirectionLinkLoader(false);
+      //   // window.location.href = lenderApplicationLink;
+      // }, 3000);
     
   };
 
@@ -848,7 +868,7 @@ const CreditCardFirstPage = ({ params, searchParams }) => {
                 style={{ position: "relative" }}
               >
                 <input
-                  type="text"
+                  type="number"
                   name="pincode"
                   placeholder="Enter Pincode"
                   value={formData.pincode}

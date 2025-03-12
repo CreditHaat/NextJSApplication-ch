@@ -1,0 +1,136 @@
+/* body {
+    display: flex;
+    justify-content: center;
+    align-items: top;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+  } */
+  
+  /* .terms-text{
+    text-align: center;
+  } */
+  
+  .otp-container {
+    
+    /* transition: opacity 0.3s ease; */
+    text-align: left;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  /* .otp-container.visible {
+    opacity: 1;
+  } */
+  
+  .otp-container h2 {
+    /* text-align: center; */
+    margin-bottom: 20px;
+    color: #3e2780;
+    /* padding: 5px 10px */
+    padding-top: 2px;
+  }
+  
+  .otp-inputs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+  
+  .otp-inputs input {
+    width: 25px;
+    height: 30px;
+    margin: 0 10px;
+    text-align: center;
+    font-size: 18px;
+    border: 1px solid #3e2780;
+    border-radius: 4px;
+  }
+  
+  .otp-inputs input:focus {
+    border-color: #3e2780;
+    outline: none;
+  }
+  
+  .verify-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: #3e2780;
+    color: #fff;
+    font-size: 16px;
+  }
+  .otpclose-btnn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #3e2780;
+    color: #fff;
+    font-size: 16px;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    margin-top: 10px;
+  }
+  
+.otp-container p{
+  margin-top: 10px;
+  text-align: center;
+  font-size: 20px;
+  color: #000000;
+  font-weight: bold;
+  margin-bottom: -5px;
+}
+.para{
+  text-align: center;
+  font-size: 20px;
+  color: gray;
+}
+
+  
+  /* .verify-button:disabled {
+    background-color: #ccc;
+  } */
+  
+  .text-otp {
+    padding-left: 110px;
+    color: #3e2780;
+  }
+
+  /* h4{
+    padding-left: 0px;
+  } */
+  
+  
+  /*for desktop view */
+  
+  @media screen and (min-width: 900px) {
+    .otp-container {
+      align-items: center;
+      /* margin-left: 300px; */
+  }
+  .otp-container verify-button{
+    align-items: center;
+  }
+  .otp-inputs{
+    /* justify-content: center; */
+    display: flex;
+  
+  }
+  
+  .otp-container h2{
+    text-align: center;
+      color: #3e2780;
+      padding: 5px 10px;
+  }
+
+  .terms-text{
+    text-align: center;
+  }
+  
+  }
+  

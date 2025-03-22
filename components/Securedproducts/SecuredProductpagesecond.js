@@ -1,9 +1,9 @@
 "use client"
 import React, { useState, useRef,useEffect } from "react";
 import './SecuredProductpagesecond.css';
-import listimage1 from '../NewPlApplyD/newplimages/finalimage2.png';
-import listimage2 from '../NewPlApplyD/newplimages/finalimage3.png';
-import listimage3 from '../NewPlApplyD/newplimages/plimage33.png';
+import listimage1 from './securedpageimages/securedbanner1.png';
+import listimage2 from './securedpageimages/Securedbanner22.png';
+import listimage3 from './securedpageimages/Securedbanner33.png';
 import styles from '../NewPlApplyD/NewPlFirstPage.module.css';
 import EmblaCarousel from '../NewPlApplyD/Emblacarousel/js/EmblaCarousel';
 import axios from "axios";
@@ -20,6 +20,7 @@ import IndiaGoldSuccessPage from "../NewBl_Prime_Master_Journey/NewBlSuccessPage
 import IndiaGoldRejectPage from '../NewBl_Prime_Master_Journey/NewBlRejectPage';
 import QuestionPage from './SecuredQuestionPage';
 import { useSearchParams } from 'next/navigation';
+// import {Roboto} from '@next/font/google';
 import {Roboto} from '@next/font/google';
 const roboto = Roboto({
   weight: ['400', '700'],
@@ -35,7 +36,7 @@ const SLIDES = [
 
 
 
-const SecuredProductpagesecond = ({dobFlag, firstName, lastName, mainFormData, genderFlag, addressFlag, residentialPincodeFlag, setActiveContainer}) => {
+const SecuredProductpagesecond = ({firstName, lastName, mainFormData, setActiveContainer}) => {
     const [formErrors, setFormErrors] = useState({
         email: "",
         address:"",
@@ -89,11 +90,12 @@ const [responseproductname, setResponseProductName] = useState('');
       address: "",
       dob: "",
       gender: "", 
+      residentialPincode: "",
       loanGuarantee: "",
     };
 
    
-    if (dobFlag && !formData.dob){
+    if (!formData.dob){
       errors.dob = 'Date of birth is required';
       valid=false;
     } 
@@ -108,28 +110,24 @@ const [responseproductname, setResponseProductName] = useState('');
     } 
 
 
-    if(addressFlag){
+   
       // Validate Address
     if (!formData.address.trim()) {
       errors.address = "Address is required";
       valid=false;
     }
-    }
     
-
-    if(genderFlag){
+  
       if (!formData.gender){
         errors.gender = 'Gender is required';
         valid=false;
       } 
-    }
-
-    if(residentialPincodeFlag){
+   
       if(!formData.residentialPincode)
       {
         errors.residentialPincode = 'Home pincode is required';
       }
-    }
+    
 
 
    // Check profession validation again to ensure it's correct before moving forward
@@ -143,17 +141,17 @@ const [responseproductname, setResponseProductName] = useState('');
 
 
     setFormErrors(errors);
-    console.log("The form errors are ",errors);
+    // console.log("The form errors are ",errors);
     return valid;
   };
 
 
   const handleDateChange2 = (date) => {
-    console.log("Inside handle date change");
+    // console.log("Inside handle date change");
     const formattedDate = date ? format(date, "yyyy-MM-dd") : null;
     setFormData({ ...formData, dob: formattedDate });
 
-    console.log("The changed date is :: ", formattedDate);
+    // console.log("The changed date is :: ", formattedDate);
 
     // (date) => setFormData({ ...formData, dob: date })
   };
@@ -183,30 +181,26 @@ const [responseproductname, setResponseProductName] = useState('');
     // Always visible fields
     totalVisibleFields++; // Email field is always visible
     totalVisibleFields++; // Loan Guarantee field is always visible
-  
-    // Fields based on flags
-    if (addressFlag) totalVisibleFields++;
-    if (genderFlag) totalVisibleFields++;
-    if (dobFlag) totalVisibleFields++;
-    if (residentialPincodeFlag) totalVisibleFields++;
-  
+    totalVisibleFields++;
+    totalVisibleFields++;
+    totalVisibleFields++;
+    totalVisibleFields++;
+
     // Count the filled fields based on visible ones
     let filledFields = 0;
   
     // Always visible fields
     if (formData.email) filledFields++; // Check if email is filled
     if (formData.loanGuarantee) filledFields++; // Check if loanGuarantee is filled
-  
-    // Fields based on flags
-    if (addressFlag && formData.address) filledFields++;
-    if (genderFlag && formData.gender) filledFields++;
-    if (dobFlag && formData.dob) filledFields++;
-    if (residentialPincodeFlag && formData.residentialPincode) filledFields++;
+    if ( formData.address) filledFields++;
+    if ( formData.gender) filledFields++;
+    if (formData.dob) filledFields++;
+    if ( formData.residentialPincode) filledFields++;
   
     // Calculate progress percentage
     const completionPercentage = (filledFields / totalVisibleFields) * 100;
     setProgress(completionPercentage);
-  }, [formData, addressFlag, genderFlag, dobFlag, residentialPincodeFlag]); // Add flags as dependencies
+  }, [formData]); // Add flags as dependencies
   
 
   // Custom Option component (same as your previous one)
@@ -321,69 +315,67 @@ const mobileNumber = searchParams.get("mobileNumber");
 
   const handleSubmit = (e) => {
 
-    console.log("Inside handle Submit")
+    // console.log("Inside handle Submit")
     e.preventDefault();
     if (validateForm()) {
-      console.log("Inside validate form");
+      // console.log("Inside validate form");
       // Process form data and navigate to the next page
       handleDataLayerStage(3); // Track step 2 when the form is submitted
-      console.log("After Data layer stage");
-      console.log('Form data:', formData);
-      SecondStoreDataToBackendForSecured(e);
+      // console.log("After Data layer stage");
+      // console.log('Form data:', formData);
+      // SecondStoreDataToBackendForSecured(e);
       StoreDataToBackendForSalaried(e);
      
     }else{
-      console.log("form not validated");
+      // console.log("form not validated");
     }
   };
  
- 
-  const SecondStoreDataToBackendForSecured = async (e) => {
+  // const SecondStoreDataToBackendForSecured = async (e) => {
 
     
-    const formData2 = new FormData();
-    // formData2.append("otpVerified",otpVerified);
-    formData2.append("mobileNumber", mobileNumber);
-      if(otpVerified == "true"){
+  //   const formData2 = new FormData();
+  //   // formData2.append("otpVerified",otpVerified);
+  //   formData2.append("mobileNumber", mobileNumber);
+  //     if(otpVerified == "true"){
   
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}securedsecondrejectpage`,
-          formData2
-        );
+  //       const response = await axios.post(
+  //         `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}securedsecondrejectpage`,
+  //         formData2
+  //       );
   
-        if (response.data.code === 0 || response.data.code === 1 || response.data.code === 2 || response.data.code === 3) {
-          setOtpVerified(true);
-          setOtpLoader(false);
-          // setResidentialPincodeFlag(response.data.code === 0 || response.data.code === 2);
-          if(response.data.obj.dob === "" || response.data.obj.dob === null){
-            setDobFlag(true);
-          }if(response.data.obj.pincode === "" || response.data.obj.pincode === null){
-            setResidentialPincodeFlag(true);
-          }if(response.data.obj.gender === "" || response.data.obj.gender === null){
-            setGenderFlag(true);
-          }if(response.data.obj.address1 === "" || response.data.obj.address1 === null){
-            setAddressFlag(true);
-          }
-        }
+  //       if (response.data.code === 0 || response.data.code === 1 || response.data.code === 2 || response.data.code === 3) {
+  //         setOtpVerified(true);
+  //         setOtpLoader(false);
+  //         // setResidentialPincodeFlag(response.data.code === 0 || response.data.code === 2);
+  //         if(response.data.obj.dob === "" || response.data.obj.dob === null){
+  //           setDobFlag(true);
+  //         }if(response.data.obj.pincode === "" || response.data.obj.pincode === null){
+  //           setResidentialPincodeFlag(true);
+  //         }if(response.data.obj.gender === "" || response.data.obj.gender === null){
+  //           setGenderFlag(true);
+  //         }if(response.data.obj.address1 === "" || response.data.obj.address1 === null){
+  //           setAddressFlag(true);
+  //         }
+  //       }
   
-      }
+  //     }
 
-  }
+  // }
 
   const StoreDataToBackendForSalaried = async (e) => {
     // setIsLoading2(true);
-    console.log("Inside handle form submit")
+    console.log("Inside handle form submit",mobileNumber);
     e.preventDefault();
-
     try {
       const formData1 = new FormData();
       formData1.append("mobileNumber", mainFormData.mobileNumber || mobileNumber);
-      formData1.append("profession",mainFormData.profession);
-      formData1.append("firstName",firstName);
-      formData1.append("lastName",lastName);
-      formData1.append("income",mainFormData.monthlyIncome);
-      formData1.append("paymentType",mainFormData.paymentType);
-      formData1.append("pan",mainFormData.pan);
+      // formData1.append("profession",mainFormData.profession);
+      // formData1.append("firstName",firstName);
+      // formData1.append("lastName",lastName);
+      // formData1.append("income",mainFormData.monthlyIncome);
+      // formData1.append("paymentType",mainFormData.paymentType);
+      // formData1.append("pan",mainFormData.pan);
       formData1.append("dsa", mainFormData.dsa);
       formData1.append("userId",mainFormData.userId);
       formData1.append("gender",formData.gender);
@@ -392,6 +384,7 @@ const mobileNumber = searchParams.get("mobileNumber");
       formData1.append("email",formData.email);  
       formData1.append("loanGuarantee",formData.loanGuarantee);  
       formData1.append("pincode", formData.residentialPincode);
+
 
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}SecuredProductSecondpage`,
@@ -408,7 +401,7 @@ const mobileNumber = searchParams.get("mobileNumber");
       }
 
       if (response.data.code === 1111) {
-        console.log(response.data.msg);
+        // console.log(response.data.msg);
         //Here when the code is 0 we are calling lendersList backend which will give us lendersList accrding to user
         // getLendersList(e);
         // getLoanBackend(e);
@@ -477,7 +470,7 @@ const mobileNumber = searchParams.get("mobileNumber");
       errorPopup && <ErrorPopup lenderName={lenderProduct} formData={mainFormData} setErrorPopup={setErrorPopup} />
     }
      {activeContainer === "QuestionPage" && 
-     <QuestionPage formData={formData} setActiveContainer={setActiveContainerState} mobilenumber={mainFormData.mobileNumber || mobileNumber}/>}
+     <QuestionPage formData={formData} setActiveContainer={setActiveContainerState} mobilenumber={mainFormData.mobileNumber || mobileNumber} firstName={firstName} lastName={lastName} pan={mainFormData.pan}/>}
     { activeContainer ==="SecuredProductpagesecond" && activeContainer!=='QuestionPage' && 
     <div className={`${roboto.className} page-container`}>
       <div className="securedsecondcarousel-background">
@@ -540,9 +533,7 @@ const mobileNumber = searchParams.get("mobileNumber");
 </div>
 
 
- {
-  addressFlag && (
-  <>
+
 <div className={styles.formGroup}>
   <div className={styles.inputWrapper} style={{ position: 'relative' }}>
     <input
@@ -577,14 +568,12 @@ const mobileNumber = searchParams.get("mobileNumber");
     <span className="error">{formErrors.address}</span>
   )}
 </div>
-  </> 
- )} 
+ 
 
 
 
 <div>
       {/* Gender Selection */}
-     {genderFlag && ( 
         <div className={styles.formGroup}>
           <label style={{ fontWeight: 'bold' }}>Gender</label>
           <div className={styles.radioGroup}>
@@ -603,10 +592,8 @@ const mobileNumber = searchParams.get("mobileNumber");
           </div>
           {formErrors.gender && <p className="error-message" style={{ color: 'red' }}>{formErrors.gender}</p>}
         </div>
-     )} 
 
       {/* DOB Date Picker */}
-      {dobFlag && ( 
        <div className={styles.formGroup}>
           <label style={{ fontWeight: 'bold' }}>Date of Birth</label>
           <div className="input-wrapper" style={{ position: 'relative' }}>
@@ -637,14 +624,11 @@ const mobileNumber = searchParams.get("mobileNumber");
           </div>
           {formErrors.dob && <div className="error-message" style={{color:'red'}}>{formErrors.dob}</div>}
         </div>
-      )} 
     </div>
 
-  <>
+  
 
- {
-  residentialPincodeFlag && (
-   <> 
+
     <div className={styles.formGroup}>
   <div className={styles.inputWrapper} style={{ position: 'relative' }}>
     <input
@@ -681,8 +665,7 @@ const mobileNumber = searchParams.get("mobileNumber");
     <span className="error">{formErrors.residentialPincode}</span>
   )}
 </div>
-</>
-  )}
+
         <div className={styles.formGroup}>
           <Select
             id="loanGuarantee"
@@ -698,13 +681,13 @@ const mobileNumber = searchParams.get("mobileNumber");
             isSearchable={false}
             components={{ Option: CustomOption }}
             isClearable={false} // ❌ Removes the "X" clear icon
-    onMenuOpen={() => setIsLoanGuaranteeMenuOpen(true)}
-    onMenuClose={() => setIsLoanGuaranteeMenuOpen(false)}
+            onMenuOpen={() => setIsLoanGuaranteeMenuOpen(true)}
+            onMenuClose={() => setIsLoanGuaranteeMenuOpen(false)}
           />
           {formErrors.loanGuarantee && <span className="error">{formErrors.loanGuarantee}</span>}
         </div>
 
-  </>
+  
 {/* } */}
 <button onClick={handleBackButton} className="back-button">
   <FaArrowLeft />

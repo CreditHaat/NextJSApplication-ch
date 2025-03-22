@@ -57,7 +57,7 @@ const SecuredProductpagefirst = ({ params, searchParams }) => {
       setActiveContainer("NewPlPage2"); // Show second page directly
     }
   }, []);
-
+  
   const [genderFlag, setGenderFlag] = useState(false);
   const [addressFlag,setAddressFlag] = useState(false);
 
@@ -326,11 +326,11 @@ const handleInputChange = (e) => {
  
 
   const handleNextClick = () => {
-    setUpOtp('');
+    // setUpOtp('');
     // Check if the form is valid before showing the OTP bottom sheet
     if (validateForm()) {
       // Show OTP Bottom Sheet if the form is valid
-      setIsOtpBottomSheetVisible(true);
+      // setIsOtpBottomSheetVisible(true);
     } 
   };
 
@@ -374,10 +374,11 @@ const handleInputChange = (e) => {
       );
 
       if (response.data.code === 0) {
-        setStgOneHitId(response.data.obj.stgOneHitId);
-        setstgTwoHitId(response.data.obj.stgTwoHitId);
-        sett_experian_log_id(response.data.obj.t_experian_log_id);
-        handleDataLayerStart(response.data.obj.user_exist,formData.mobileNumber,formData.profession); 
+        if (formData.profession === "Salaried") {
+          setActiveContainer("NewPlPage2"); // Display NewPlPage2 if salaried
+        } else {
+          setActiveContainer("NewPlApplyDS"); // Display NewPlApplyDS if self-employed
+        }
       }
 
       if (response.status === 200) {
@@ -390,7 +391,7 @@ const handleInputChange = (e) => {
   };
 
 const handleVerifyOTP = () => {
-  verify_otp_credithaat_from_backend();
+  // verify_otp_credithaat_from_backend();
   // setIsOtpBottomSheetVisible(false);
 };
 
@@ -812,12 +813,12 @@ const handleProfessionChange = (selectedOption) => {
       }
       {
         activeContainer === "NewPlApplyDS" &&
-        <NewPlApplyDS cpi={cpi} lenderProduct={lenderProduct} firstName={firstName} lastName={lastname} mainFormData={formData} dobFlag={dobFlag} residentialPincodeFlag={residentialPincodeFlag} genderFlag={genderFlag} addressFlag={addressFlag} setActiveContainer={setActiveContainer} />
+        <NewPlApplyDS cpi={cpi} lenderProduct={lenderProduct} firstName={firstName} lastName={lastname} mainFormData={formData} setActiveContainer={setActiveContainer} />
       }
 
       {
         activeContainer === "NewPlPage2" &&
-        <NewPlPage2 cpi={cpi} lenderProduct={lenderProduct} firstName={firstName} lastName={lastname} mainFormData={formData} dobFlag={dobFlag} residentialPincodeFlag={residentialPincodeFlag} genderFlag={genderFlag} addressFlag={addressFlag} setActiveContainer={setActiveContainer}/>
+        <NewPlPage2 cpi={cpi} lenderProduct={lenderProduct} firstName={firstName} lastName={lastname} mainFormData={formData} setActiveContainer={setActiveContainer}/>
       }
    {isVisible && <OTPBottomSheet isVisible={isVisible} verifyOTP={verifyOTP} upotp={upotp} otpStatus={otpStatus} setUpOtp={setUpOtp} />}
    {
@@ -1105,7 +1106,7 @@ const handleProfessionChange = (selectedOption) => {
           Processing fee (@ 2%) = ₹2,000 + GST = ₹2,360
           </div>
               <div className={styles.stickyButton}>
-              <button type="submit" className={`${styles.button} ${styles.submitButton}` } onClick={handleNextClick}>Next</button>
+              <button type="submit" className={`${styles.button} ${styles.submitButton}` }>Next</button>
               {/* className={`w-full  ${styles.submitButton}`} */}
               </div>
           
@@ -1115,7 +1116,7 @@ const handleProfessionChange = (selectedOption) => {
 )
 }
 
-    {/* OTP Bottom Sheet Modal */}
+    {/* OTP Bottom Sheet Modal
     {isOtpBottomSheetVisible && (
       <OTPBottomSheet 
         isVisible={isOtpBottomSheetVisible} 
@@ -1124,7 +1125,7 @@ const handleProfessionChange = (selectedOption) => {
         otpStatus={otpStatus} 
         setUpOtp={setUpOtp}
       />
-    )}
+    )} */}
 
     </>
   );

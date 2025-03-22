@@ -5,9 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaRupeeSign, FaMoneyBillWave, FaMapPin, FaGem, FaHouseUser, FaRegBuilding, FaDollarSign, FaUserClock } from 'react-icons/fa';
 import EmblaCarousel from '../NewBlJourneyD/Emblacarousel/js/EmblaCarousel';
-import listimage1 from '../NewBlJourneyD/newblimages/newchange11.png';
-import listimage2 from '../NewBlJourneyD/newblimages/newchange3.png';
-import listimage3 from '../NewBlJourneyD/newblimages/newchange2.png';
+import listimage1 from './securedpageimages/securedbanner1.png';
+import listimage2 from './securedpageimages/Securedbanner22.png';
+import listimage3 from './securedpageimages/Securedbanner33.png';
 import styles from '../NewBlJourneyD/NewBlFirstFormPage.module.css';
 import { Roboto } from '@next/font/google';
 import axios from "axios";
@@ -24,6 +24,14 @@ import coinIcon from "../IndiaGold/NewJwellaryImages/game-coin.png";
 import goldbarIcon from '../IndiaGold/NewJwellaryImages/goldbar2.png';
 import Select from 'react-select';
 import ApplicationPopup from "../BLApplyPrime/SmartCoinApplicationPopup";
+import OTPBottomSheet from '../NewPlOtpBottomSheet/PlOTPBottomSheet';
+import OtpVerifyLoader from "../NewPlApplyD/OtpVerifyLoader";
+import RedirectionLoader from "../NewPlApplyD/RedirectionLoader";
+import RedirectionLoaderBeforeOtp from "./Loaderbeforeotp";
+import LoaderBeforeApiResponse from "./LoaderBeforeApiResponse";
+import Loader from "../NewPlApplyD/LendersLoader";
+import PortfolioPopup from "./PortfolioPopup"; // Adjust path if needed
+
 const roboto = Roboto({
   weight: ['400', '700'],
   subsets: ['latin'],
@@ -47,16 +55,16 @@ const JWELLARY_TYPES = [
   { value: 'other', label: 'Other', icon: null },
 ];
 
-const SecuredQuestionPage = ({ formData, formState, searchParams, setActiveContainer, mobilenumber }) => {
+const SecuredQuestionPage = ({ formData, formState, searchParams, setActiveContainer, mobilenumber, firstName, lastName, pan }) => {
 
   const [fullUrl, setFullUrl] = useState('');
-  
-    useEffect(() => {
-      const url = window.location.origin + window.location.pathname + window.location.search;
-      // console.log("url is:", url);
-      setFullUrl(url);
-    }, []);
-  
+
+  useEffect(() => {
+    const url = window.location.origin + window.location.pathname + window.location.search;
+    // console.log("url is:", url);
+    setFullUrl(url);
+  }, []);
+
   const [responseproductname, setResponseProductName] = useState('');
 
   const queryParams = Object.fromEntries(new URLSearchParams(searchParams));
@@ -74,7 +82,27 @@ const SecuredQuestionPage = ({ formData, formState, searchParams, setActiveConta
     }
   }, [])
 
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    setIsOtpVerified(queryParams.get("otpVerified") === "true");
 
+    // Check if user came from rejection page
+    setCameFromRejection(queryParams.get("source") === "secured_loan");
+  }, []);
+
+  const [isOtpVerified, setIsOtpVerified] = useState(false);
+  const [cameFromRejection, setCameFromRejection] = useState(false)
+  const [otpInputs, setOtpInputs] = useState(["", "", "", "", "", ""]);
+  const otpInputRefs = useRef([]);
+  const [otpStatus, setOtpStatus] = useState("");
+  const [otpVerified, setOtpVerified] = useState(false);
+  const [isOtpBottomSheetVisible, setIsOtpBottomSheetVisible] = useState(false);
+  const [upotp, setUpOtp] = useState("");
+  const [otpLoader, setOtpLoader] = useState(false);
+  const [stgOneHitId, setStgOneHitId] = useState(null);
+  const [stgTwoHitId, setstgTwoHitId] = useState(null);
+  const [t_experian_log_id, sett_experian_log_id] = useState(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   // State variables for gold
   const [loanType, setLoanType] = useState('');
@@ -124,10 +152,15 @@ const SecuredQuestionPage = ({ formData, formState, searchParams, setActiveConta
   const [link, setLink] = useState("");
   const [lenderProduct, setLenderProduct] = useState(null);
   const [cpi, setCpi] = useState(0);
-  const [redirectionLinkLoader, setRedirectionLinkLoader] = useState(false);
+  const [redirectionLinkLoaderotp, setRedirectionLinkLoaderotp] = useState(false);
+   const[redirectionLinkLoader, setRedirectionLinkLoader] = useState(false);
+   const[loaderBeforeApiResponse, setLoaderBeforeApiResponse] = useState(false);
   const [apiExecutionLoader, setApiExecutionLoader] = useState(false);
   const [errorPopup, setErrorPopup] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [availablePortfolioValue, setAvailablePortfolioValue] = useState(null);
+const [showPortfolioPopup, setShowPortfolioPopup] = useState(false);
+
 
   const CustomOption = (props) => {
     const { data, innerRef, innerProps, selectOption, isSelected, fieldType } = props;
@@ -143,7 +176,7 @@ const SecuredQuestionPage = ({ formData, formState, searchParams, setActiveConta
           padding: '2px',
           position: 'relative', // Ensures that the radio button is placed on the right side
           paddingLeft: '10px',
-          paddingRight:'10px',
+          paddingRight: '10px',
         }}
       >
         <div
@@ -375,14 +408,53 @@ const SecuredQuestionPage = ({ formData, formState, searchParams, setActiveConta
 
   // Backend connection third page
   const handleSecondPageSubmit = async (e) => {
+    console.log("came from rejection page",cameFromRejection);
     e.preventDefault();
     try {
 
       const formData1 = new FormData();
       if (page == 2) {
         formData1.append('mobileNumber', mobilenumber);
+        formData1.append('firstName', firstName);
+        formData1.append('lastName', lastName);
+        formData1.append('pan', pan);
+        formData1.append('cameFromRejection',cameFromRejection);
+        let shouldTakeOtp = cameFromRejection && loanGuarantee === "Mutual Funds";
+    
+        if (!cameFromRejection) {
+          shouldTakeOtp = true; // Always take OTP if not coming from rejection
+        }
+    
+        if (shouldTakeOtp) {
+          formData1.append("otp", upotp);
+        }
       } else {
         formData1.append('mobileNumber', mobilenumber);
+        formData1.append('firstName', firstName);
+        formData1.append('lastName', lastName);
+        formData1.append('pan', pan);
+        formData1.append('cameFromRejection',cameFromRejection);
+        console.log("cameFromRejection:", cameFromRejection);
+        console.log("loanGuarantee:", formData.loanGuarantee);
+
+        let shouldTakeOtp = false;
+
+if (!cameFromRejection) { 
+  // If NOT coming from rejection, always take OTP
+  shouldTakeOtp = true;
+} else if (cameFromRejection && formData.loanGuarantee === "Mutual Funds") { 
+  // If coming from rejection, take OTP ONLY if loan guarantee is "Mutual Funds"
+  shouldTakeOtp = true;
+}
+
+console.log("cameFromRejection:", cameFromRejection);
+console.log("loanGuarantee:", formData.loanGuarantee);
+console.log("Final shouldTakeOtp value:", shouldTakeOtp);
+
+if (shouldTakeOtp) {
+  formData1.append("otp", upotp);
+}
+
       }
       formData1.append("loanGuarantee", formData.loanGuarantee);
       if (formData.loanGuarantee === "Gold") {
@@ -451,14 +523,68 @@ const SecuredQuestionPage = ({ formData, formState, searchParams, setActiveConta
         formData1.append("sharesmarketValue", "");
       }
 
+      setLoaderBeforeApiResponse(true);
+
       const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}SecuredProductQuestionpage`, formData1);
 
       // console.log("The response of indiagold_Sec_Page is : ", response);
 
       if (response.data.code === 0) {
         // setListPage(true);
-        getLendersList(e);
+        setTimeout(() => {
+          setLoaderBeforeApiResponse(false);
+        }, 2000); 
+
+        // setRedirectionLinkLoaderotp(true);
+        setTimeout(() => {
+          setRedirectionLinkLoaderotp(false); // Hide loader after API response
+          setIsOtpBottomSheetVisible(true); // Show OTP Bottom Sheet
+        }, 2000); 
+
+        setStgOneHitId(response.data.obj.stgOneHitId);
+        setstgTwoHitId(response.data.obj.stgTwoHitId);
+        sett_experian_log_id(response.data.obj.t_experian_log_id);
+        handleDataLayerStart(response.data.obj.user_exist, formData.mobileNumber, formData.profession);
+
+        // setIsOtpBottomSheetVisible(true);
+        // getLendersList(e);
         // setRejectPage(true);
+      } else if (response.data.code === 1) {
+        setIsOtpBottomSheetVisible(false);
+
+        const formData2 = new FormData();
+        formData2.append("mobileNumber", mobilenumber);
+        formData2.append('otp', upotp);
+        formData2.append('pan', pan);
+        formData2.append('dob', formData.dob);
+        try {
+          const response2 = await axios.post(
+            `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}verifyOTPAbhiloanSecond`,
+            formData2
+          );
+          console.log("response is:", response2);
+
+          if (response2.data.code === -1) {
+              setLoaderBeforeApiResponse(false);
+            setIsOtpBottomSheetVisible(false);
+            setSuccessPage(false);
+            setRejectPage(true);
+
+          } else if (response2.data.code === 0) {
+              setLoaderBeforeApiResponse(false); 
+              const extractedPortfolioValue = response2.data.msg.match(/\d+/)?.[0]; // Extract number from message
+              // setPortfolioValue(extractedPortfolioValue);
+              setAvailablePortfolioValue(extractedPortfolioValue);
+              setShowPortfolioPopup(true);
+            // getLendersList(e);
+          }
+        } catch (Error) {
+          console.log(Error);
+        }
+
+      } else if(response.data.code === 2){
+        setLoaderBeforeApiResponse(false); 
+        getLendersList(e);
       }
       else if (response.data.code === -1) {
       }
@@ -471,6 +597,9 @@ const SecuredQuestionPage = ({ formData, formState, searchParams, setActiveConta
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
+      // if(formData.loanGuarantee === 'Mutual Funds'){
+      // setIsOtpBottomSheetVisible(true);
+      // }
       handleSecondPageSubmit(e);
     }
   };
@@ -589,6 +718,7 @@ const SecuredQuestionPage = ({ formData, formState, searchParams, setActiveConta
   const handleMutualFundLoanPurposeChange = (selectedOption) => {
     // Update the loan purpose with just the selected value, not the entire object
     setMutualFundLoanPurpose(selectedOption.value); // Only store the value
+    setTimeout(() => setIsLoanPurposeMenuOpen(false), 0);
 
     // Clear error if a valid selection is made (i.e., anything other than 'NA' or '')
     if (selectedOption.value !== 'NA' && selectedOption.value !== '') {
@@ -706,7 +836,7 @@ const SecuredQuestionPage = ({ formData, formState, searchParams, setActiveConta
   const getLendersList = async (e) => {
     setIsLoading(true);
 
-    e.preventDefault();
+    // e.preventDefault();
     try {
       // Sending data as a JSON object
       const requestData = {
@@ -755,7 +885,7 @@ const SecuredQuestionPage = ({ formData, formState, searchParams, setActiveConta
       formData1.append("phone", mobilenumber);
       formData1.append("productId", productId);
       formData1.append("channel", "creditHaat");
-      formData1.append("fullUrl",fullUrl);
+      formData1.append("fullUrl", fullUrl);
 
 
       try {
@@ -778,11 +908,11 @@ const SecuredQuestionPage = ({ formData, formState, searchParams, setActiveConta
       try {
 
         const formData1 = new FormData();
-      formData1.append("userId", 1);
-      formData1.append("phone", mobilenumber);
-      formData1.append("productId", productId);
-      formData1.append("channel", "creditHaat");
-      formData1.append("fullUrl",fullUrl);
+        formData1.append("userId", 1);
+        formData1.append("phone", mobilenumber);
+        formData1.append("productId", productId);
+        formData1.append("channel", "creditHaat");
+        formData1.append("fullUrl", fullUrl);
         const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}h5/cpiClickNewSec`, formData1);
 
       } catch (error) {
@@ -790,10 +920,14 @@ const SecuredQuestionPage = ({ formData, formState, searchParams, setActiveConta
 
       //--------code of h5/cpiClickNewSec` end -----------------------------------------------------
 
+      setRedirectionLinkLoader(true);
+
       try {
         const formData1 = new FormData();
         formData1.append('mobileNumber', mobilenumber);
         formData1.append('product', productname);
+        formData1.append('pan', pan);
+        formData1.append('dob', formData.dob);
 
         const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}SecuredProductList`, formData1, {
           // headers: {
@@ -801,6 +935,8 @@ const SecuredQuestionPage = ({ formData, formState, searchParams, setActiveConta
           //   'token': 'Y3JlZGl0aGFhdHRlc3RzZXJ2ZXI=' // Add your token here
           // }
         });
+
+        setRedirectionLinkLoader(false);
         if (response.data.code === 0) {
 
           setSuccessPage(true);
@@ -813,15 +949,15 @@ const SecuredQuestionPage = ({ formData, formState, searchParams, setActiveConta
         } else if (response.data.code === 101) {
           var redirectionlink = response.data.msg;
           setLink(redirectionlink);
-          window.location.href=redirectionlink;
+          window.location.href = redirectionlink;
         } else if (response.data.code === 102) {
           var redirectionlink = response.data.msg;
           setLink(redirectionlink);
-          window.location.href=redirectionlink;
+          window.location.href = redirectionlink;
         } else if (response.data.code === 103) {
           var redirectionlink = response.data.msg;
           setLink(redirectionlink);
-          window.location.href=redirectionlink;
+          window.location.href = redirectionlink;
         }
 
         // console.log("for partner page", response);
@@ -833,6 +969,79 @@ const SecuredQuestionPage = ({ formData, formState, searchParams, setActiveConta
 
   };
 
+  const handleVerifyOTP = (e) => {
+    verify_otp_credithaat_from_backend(e);
+    // setIsOtpBottomSheetVisible(false);
+  };
+
+  const verify_otp_credithaat_from_backend = async (e) => {
+    setOtpLoader(true);
+    let apiType = "";
+    try {
+        const formData1 = new FormData();
+        formData1.append("mobileNumber", mobilenumber);
+        formData1.append("otp", upotp);
+        formData1.append("pan", pan);
+        formData1.append("dob", formData.dob);
+
+        if (formData.loanGuarantee !== "Mutual Funds") {
+            formData1.append("stgOneHitId", stgOneHitId);
+            formData1.append("stgTwoHitId", stgTwoHitId);
+            formData1.append("t_experian_log_id", t_experian_log_id);
+        }
+
+        // Declare response before using it inside conditions
+        let response;
+
+        if (["Gold", "Insurance", "Shares/Stocks"].includes(formData.loanGuarantee)) {
+            response = await axios.post(
+                `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}verifyOTPNewPersonalloan`,
+                formData1
+            );
+            apiType = "verifyOTPNewPersonalloan";
+        } else {
+            response = await axios.post(
+                `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}verifyOtpAbhiLoan`,
+                formData1
+            );
+            apiType = "verifyOtpAbhiLoan";
+        }
+
+        console.log("The OTP response is :: ", response);
+
+        if ([0, 1, 2, 3].includes(response.data.code)) {
+            setOtpVerified(true);
+            setOtpLoader(false);
+            setIsOtpBottomSheetVisible(false);
+            setOtpInputs(["", "", "", "", "", ""]);
+            setUpOtp('');
+            if (apiType === "verifyOtpAbhiLoan") {
+              // ✅ Show Portfolio Popup only for `verifyOtpAbhiLoan`
+              const extractedPortfolioValue = response.data.msg.match(/\d+/)?.[0]; // Extract number
+              setAvailablePortfolioValue(extractedPortfolioValue);
+              setShowPortfolioPopup(true);
+          } else {
+              // ✅ Call `getLendersList(e)` for any other API response
+              getLendersList(e);
+          }
+            // getLendersList(e);
+        } else if (response.data.code === -1) {
+            // setRejectPage(true);
+            getLendersList(e);
+            setIsOtpBottomSheetVisible(false);
+            setSuccessPage(false);
+        } else {
+            setOtpLoader(false);
+            setOtpStatus("Incorrect OTP! Try Again..");
+            setOtpInputs(["", "", "", "", "", ""]);
+        }
+
+    } catch (error) {
+        console.error("Error submitting form:", error);
+    }
+};
+
+
   const redirectLinkMethod = (lenderProduct, applicationLink, productId) => {
     setCpi(1);
     localStorage.setItem('applicationLink', applicationLink);
@@ -843,7 +1052,7 @@ const SecuredQuestionPage = ({ formData, formState, searchParams, setActiveConta
   }
 
   const getLoanBackendMethod = (e, lenderProduct, productId) => {
-    
+
     setCpi(0);
     setLenderProduct(lenderProduct);
     // handleDataLayerStage(2); // Track step 2 when the form is submitted
@@ -853,17 +1062,38 @@ const SecuredQuestionPage = ({ formData, formState, searchParams, setActiveConta
 
   return (
     <>
+    {showPortfolioPopup && (
+  <PortfolioPopup 
+    availablePortfolioValue={availablePortfolioValue} 
+    onClose={() => {
+      setShowPortfolioPopup(false);
+      getLendersList(); // Call getLendersList after closing the popup
+    }} 
+  />
+)}
+    {
+        isLoading && <Loader/>
+      }
       {isCameFromBackend && <ApplicationPopup link={link} />}
       {
         !rejectPage && listPage
       }
+       {
+      redirectionLinkLoaderotp && <RedirectionLoaderBeforeOtp/>
+    }
+    {
+      redirectionLinkLoader && <RedirectionLoader/>
+    }
+    {
+      loaderBeforeApiResponse && <LoaderBeforeApiResponse/>
+    }
       {!rejectPage && successPage && <IndiaGoldSuccessPage product={responseproductname} />}
       {!successPage && rejectPage && <IndiaGoldRejectPage />}
       {!rejectPage && !successPage && listPage &&
 
         <NewRupeekListPage companies={lenderDetails} redirectLinkMethod={redirectLinkMethod} getLoanBackendMethod={getLoanBackendMethod} mobileNumber={mobilenumber} />}
       {
-        !listPage &&
+        !listPage && !rejectPage &&
 
         <div className={`${roboto.className} page-container`}>
           <div className="securedcarousel-background">
@@ -1431,6 +1661,18 @@ const SecuredQuestionPage = ({ formData, formState, searchParams, setActiveConta
           </div>
         </div>
       }
+
+      {/* OTP Bottom Sheet Modal */}
+      {isOtpBottomSheetVisible && (
+        <OTPBottomSheet
+          isVisible={isOtpBottomSheetVisible}
+          verifyOTP={handleVerifyOTP}
+          upotp={upotp}
+          otpStatus={otpStatus}
+          setUpOtp={setUpOtp}
+        />
+      )}
+
     </>
   );
 };

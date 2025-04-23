@@ -1,9 +1,9 @@
 "use client"
 import React, { useState, useRef, useEffect } from "react";
 import './SecuredProductpagefirst.css';
-import listimage1 from '../NewPlApplyD/newplimages/finalimage2.png';
-import listimage2 from '../NewPlApplyD/newplimages/finalimage3.png';
-import listimage3 from '../NewPlApplyD/newplimages/plimage33.png';
+import listimage1 from './securedpageimages/securedbanner1.png';
+import listimage2 from './securedpageimages/Securedbanner22.png';
+import listimage3 from './securedpageimages/Securedbanner33.png';
 import styles from './NewSecuredProduct.module.css';
 import EmblaCarousel from '../NewPlApplyD/Emblacarousel/js/EmblaCarousel';
 import axios from "axios";

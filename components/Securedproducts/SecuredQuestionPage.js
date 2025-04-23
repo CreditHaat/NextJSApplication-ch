@@ -153,13 +153,13 @@ const SecuredQuestionPage = ({ formData, formState, searchParams, setActiveConta
   const [lenderProduct, setLenderProduct] = useState(null);
   const [cpi, setCpi] = useState(0);
   const [redirectionLinkLoaderotp, setRedirectionLinkLoaderotp] = useState(false);
-   const[redirectionLinkLoader, setRedirectionLinkLoader] = useState(false);
-   const[loaderBeforeApiResponse, setLoaderBeforeApiResponse] = useState(false);
+  const [redirectionLinkLoader, setRedirectionLinkLoader] = useState(false);
+  const [loaderBeforeApiResponse, setLoaderBeforeApiResponse] = useState(false);
   const [apiExecutionLoader, setApiExecutionLoader] = useState(false);
   const [errorPopup, setErrorPopup] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [availablePortfolioValue, setAvailablePortfolioValue] = useState(null);
-const [showPortfolioPopup, setShowPortfolioPopup] = useState(false);
+  const [showPortfolioPopup, setShowPortfolioPopup] = useState(false);
 
 
   const CustomOption = (props) => {
@@ -408,7 +408,7 @@ const [showPortfolioPopup, setShowPortfolioPopup] = useState(false);
 
   // Backend connection third page
   const handleSecondPageSubmit = async (e) => {
-    console.log("came from rejection page",cameFromRejection);
+    console.log("came from rejection page", cameFromRejection);
     e.preventDefault();
     try {
 
@@ -418,13 +418,13 @@ const [showPortfolioPopup, setShowPortfolioPopup] = useState(false);
         formData1.append('firstName', firstName);
         formData1.append('lastName', lastName);
         formData1.append('pan', pan);
-        formData1.append('cameFromRejection',cameFromRejection);
+        formData1.append('cameFromRejection', cameFromRejection);
         let shouldTakeOtp = cameFromRejection && loanGuarantee === "Mutual Funds";
-    
+
         if (!cameFromRejection) {
           shouldTakeOtp = true; // Always take OTP if not coming from rejection
         }
-    
+
         if (shouldTakeOtp) {
           formData1.append("otp", upotp);
         }
@@ -433,27 +433,25 @@ const [showPortfolioPopup, setShowPortfolioPopup] = useState(false);
         formData1.append('firstName', firstName);
         formData1.append('lastName', lastName);
         formData1.append('pan', pan);
-        formData1.append('cameFromRejection',cameFromRejection);
-        console.log("cameFromRejection:", cameFromRejection);
-        console.log("loanGuarantee:", formData.loanGuarantee);
+        formData1.append('cameFromRejection', cameFromRejection);
 
         let shouldTakeOtp = false;
 
-if (!cameFromRejection) { 
-  // If NOT coming from rejection, always take OTP
-  shouldTakeOtp = true;
-} else if (cameFromRejection && formData.loanGuarantee === "Mutual Funds") { 
-  // If coming from rejection, take OTP ONLY if loan guarantee is "Mutual Funds"
-  shouldTakeOtp = true;
-}
+        if (!cameFromRejection) {
+          // If NOT coming from rejection, always take OTP
+          shouldTakeOtp = true;
+        } else if (cameFromRejection && formData.loanGuarantee === "Mutual Funds") {
+          // If coming from rejection, take OTP ONLY if loan guarantee is "Mutual Funds"
+          shouldTakeOtp = true;
+        }
 
-console.log("cameFromRejection:", cameFromRejection);
-console.log("loanGuarantee:", formData.loanGuarantee);
-console.log("Final shouldTakeOtp value:", shouldTakeOtp);
+        // console.log("cameFromRejection:", cameFromRejection);
+        // console.log("loanGuarantee:", formData.loanGuarantee);
+        // console.log("Final shouldTakeOtp value:", shouldTakeOtp);
 
-if (shouldTakeOtp) {
-  formData1.append("otp", upotp);
-}
+        if (shouldTakeOtp) {
+          formData1.append("otp", upotp);
+        }
 
       }
       formData1.append("loanGuarantee", formData.loanGuarantee);
@@ -529,17 +527,19 @@ if (shouldTakeOtp) {
 
       // console.log("The response of indiagold_Sec_Page is : ", response);
 
+      
+
       if (response.data.code === 0) {
         // setListPage(true);
         setTimeout(() => {
           setLoaderBeforeApiResponse(false);
-        }, 2000); 
+        }, 2000);
 
         // setRedirectionLinkLoaderotp(true);
         setTimeout(() => {
           setRedirectionLinkLoaderotp(false); // Hide loader after API response
           setIsOtpBottomSheetVisible(true); // Show OTP Bottom Sheet
-        }, 2000); 
+        }, 2000);
 
         setStgOneHitId(response.data.obj.stgOneHitId);
         setstgTwoHitId(response.data.obj.stgTwoHitId);
@@ -562,31 +562,33 @@ if (shouldTakeOtp) {
             `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}verifyOTPAbhiloanSecond`,
             formData2
           );
-          console.log("response is:", response2);
+          // console.log("response is:", response2);
 
           if (response2.data.code === -1) {
-              setLoaderBeforeApiResponse(false);
+            setLoaderBeforeApiResponse(false);
             setIsOtpBottomSheetVisible(false);
             setSuccessPage(false);
             setRejectPage(true);
 
           } else if (response2.data.code === 0) {
-              setLoaderBeforeApiResponse(false); 
-              const extractedPortfolioValue = response2.data.msg.match(/\d+/)?.[0]; // Extract number from message
-              // setPortfolioValue(extractedPortfolioValue);
-              setAvailablePortfolioValue(extractedPortfolioValue);
-              setShowPortfolioPopup(true);
+            setLoaderBeforeApiResponse(false);
+            const extractedPortfolioValue = response2.data.msg.match(/\d+/)?.[0]; // Extract number from message
+            // setPortfolioValue(extractedPortfolioValue);
+            setAvailablePortfolioValue(extractedPortfolioValue);
+            setShowPortfolioPopup(true);
             // getLendersList(e);
           }
         } catch (Error) {
           console.log(Error);
         }
 
-      } else if(response.data.code === 2){
-        setLoaderBeforeApiResponse(false); 
+      } else if (response.data.code === 2) {
+        setLoaderBeforeApiResponse(false);
         getLendersList(e);
       }
       else if (response.data.code === -1) {
+        setLoaderBeforeApiResponse(false);
+        setRejectPage(true);
       }
     } catch (error) {
     }
@@ -978,68 +980,105 @@ if (shouldTakeOtp) {
     setOtpLoader(true);
     let apiType = "";
     try {
-        const formData1 = new FormData();
-        formData1.append("mobileNumber", mobilenumber);
-        formData1.append("otp", upotp);
-        formData1.append("pan", pan);
-        formData1.append("dob", formData.dob);
+      const formData1 = new FormData();
+      formData1.append("mobileNumber", mobilenumber);
+      formData1.append("otp", upotp);
+      formData1.append("pan", pan);
+      formData1.append("dob", formData.dob);
 
-        if (formData.loanGuarantee !== "Mutual Funds") {
-            formData1.append("stgOneHitId", stgOneHitId);
-            formData1.append("stgTwoHitId", stgTwoHitId);
-            formData1.append("t_experian_log_id", t_experian_log_id);
-        }
+      console.log("The formData.loanGuarantee is : ", formData.loanGuarantee);
 
-        // Declare response before using it inside conditions
-        let response;
+      if (formData.loanGuarantee !== "Mutual Funds") {
+        formData1.append("stgOneHitId", stgOneHitId);
+        formData1.append("stgTwoHitId", stgTwoHitId);
+        formData1.append("t_experian_log_id", t_experian_log_id);
+      }
 
-        if (["Gold", "Insurance", "Shares/Stocks"].includes(formData.loanGuarantee)) {
-            response = await axios.post(
-                `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}verifyOTPNewPersonalloan`,
-                formData1
+      // Declare response before using it inside conditions
+      let response;
+
+      if (["Gold", "Insurance", "Shares/Stocks"].includes(formData.loanGuarantee)) {
+
+
+        response = await axios.post(
+          `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}verifyOTPNewPersonalloan`,
+          formData1
+        );
+       
+        apiType = "verifyOTPNewPersonalloan";
+
+
+
+      } else {
+        response = await axios.post(
+          `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}verifyOtpAbhiLoan`,
+          formData1
+        );
+        apiType = "verifyOtpAbhiLoan";
+      }
+
+      // console.log("The OTP response is :: ", response);
+
+      if ([0, 1, 2, 3].includes(response.data.code)) {
+        setOtpVerified(true);
+        setOtpLoader(false);
+        setIsOtpBottomSheetVisible(false);
+        // setOtpInputs(["", "", "", "", "", ""]);
+        // setUpOtp('');
+        if (apiType === "verifyOtpAbhiLoan") {
+          // ✅ Call `verifyOTPAbhiloanSecond` instead of showing Portfolio Popup directly
+          // setOtpLoader(true);
+          setLoaderBeforeApiResponse(true);
+
+          const formData2 = new FormData();
+          formData2.append("mobileNumber", mobilenumber);
+          formData2.append("otp", upotp);
+          formData2.append("pan", pan);
+          formData2.append("dob", formData.dob);
+
+          try {
+            const response2 = await axios.post(
+              `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}verifyOTPAbhiloanSecond`,
+              formData2
             );
-            apiType = "verifyOTPNewPersonalloan";
-        } else {
-            response = await axios.post(
-                `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}verifyOtpAbhiLoan`,
-                formData1
-            );
-            apiType = "verifyOtpAbhiLoan";
-        }
 
-        console.log("The OTP response is :: ", response);
-
-        if ([0, 1, 2, 3].includes(response.data.code)) {
-            setOtpVerified(true);
-            setOtpLoader(false);
-            setIsOtpBottomSheetVisible(false);
-            setOtpInputs(["", "", "", "", "", ""]);
-            setUpOtp('');
-            if (apiType === "verifyOtpAbhiLoan") {
-              // ✅ Show Portfolio Popup only for `verifyOtpAbhiLoan`
-              const extractedPortfolioValue = response.data.msg.match(/\d+/)?.[0]; // Extract number
+            if (response2.data.code === -1) {
+              setLoaderBeforeApiResponse(false);
+              setIsOtpBottomSheetVisible(false);
+              setSuccessPage(false);
+              setRejectPage(true);
+            } else if (response2.data.code === 0) {
+              setLoaderBeforeApiResponse(false);
+              setOtpLoader(false);
+              // ✅ Now show Portfolio Popup only after verifyOTPAbhiloanSecond succeeds
+              const extractedPortfolioValue = response2.data.msg.match(/\d+/)?.[0];
               setAvailablePortfolioValue(extractedPortfolioValue);
               setShowPortfolioPopup(true);
-          } else {
-              // ✅ Call `getLendersList(e)` for any other API response
-              getLendersList(e);
-          }
-            // getLendersList(e);
-        } else if (response.data.code === -1) {
-            // setRejectPage(true);
-            getLendersList(e);
-            setIsOtpBottomSheetVisible(false);
-            setSuccessPage(false);
-        } else {
+            }
+          } catch (error) {
             setOtpLoader(false);
-            setOtpStatus("Incorrect OTP! Try Again..");
-            setOtpInputs(["", "", "", "", "", ""]);
+            setOtpStatus("Something went wrong. Try Again..");
+          }
+        } else {
+          // ✅ Call `getLendersList(e)` for other APIs
+          getLendersList(e);
         }
+        // getLendersList(e);
+      } else {
+        setOtpLoader(false);
+        setOtpStatus("Incorrect OTP! Try Again..");
+        setUpOtp('');
+        // Delay OTP input reset by 1 second to prevent unnecessary clearing
+        setTimeout(() => {
+          setOtpInputs(["", "", "", "", "", ""]);
+        }, 1000);
+
+      }
 
     } catch (error) {
-        console.error("Error submitting form:", error);
+      console.error("Error submitting form:", error);
     }
-};
+  };
 
 
   const redirectLinkMethod = (lenderProduct, applicationLink, productId) => {
@@ -1062,31 +1101,32 @@ if (shouldTakeOtp) {
 
   return (
     <>
-    {showPortfolioPopup && (
-  <PortfolioPopup 
-    availablePortfolioValue={availablePortfolioValue} 
-    onClose={() => {
-      setShowPortfolioPopup(false);
-      getLendersList(); // Call getLendersList after closing the popup
-    }} 
-  />
-)}
-    {
-        isLoading && <Loader/>
+      {showPortfolioPopup && (
+        <PortfolioPopup
+          availablePortfolioValue={availablePortfolioValue}
+          onClose={() => {
+            setShowPortfolioPopup(false);
+            getLendersList(); // Call getLendersList after closing the popup
+          }}
+        />
+      )}
+      {otpLoader && <OtpVerifyLoader />}
+      {
+        isLoading && <Loader />
       }
       {isCameFromBackend && <ApplicationPopup link={link} />}
       {
         !rejectPage && listPage
       }
-       {
-      redirectionLinkLoaderotp && <RedirectionLoaderBeforeOtp/>
-    }
-    {
-      redirectionLinkLoader && <RedirectionLoader/>
-    }
-    {
-      loaderBeforeApiResponse && <LoaderBeforeApiResponse/>
-    }
+      {
+        redirectionLinkLoaderotp && <RedirectionLoaderBeforeOtp />
+      }
+      {
+        redirectionLinkLoader && <RedirectionLoader />
+      }
+      {
+        loaderBeforeApiResponse && <LoaderBeforeApiResponse />
+      }
       {!rejectPage && successPage && <IndiaGoldSuccessPage product={responseproductname} />}
       {!successPage && rejectPage && <IndiaGoldRejectPage />}
       {!rejectPage && !successPage && listPage &&

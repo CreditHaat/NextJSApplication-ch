@@ -827,7 +827,7 @@ const NewPlPage = ({ params, searchParams }) => {
             setApiExecutionLoader(false);
           }, 3000);
           var redirectionlink = response.data.data.lender_details[0].applicationlink;
-          console.log(redirectionLink);
+          // console.log(redirectionLink);
           setLink(redirectionlink);
           // {!setIsLoading && <ApplicationPopup link={link}/>}
         }

@@ -263,7 +263,7 @@ const NewPlPage2 = ({
       // setIsLoadingforLoader(true);
 
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}PlApplyNew_Salaried`,
+        `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}PlApplyNew_SalariedBajaj`,
         formData1
       );
 
@@ -276,11 +276,12 @@ const NewPlPage2 = ({
         // getLendersList(e);
         window.location.href = `https://app.credithaat.com/embedded_journey?sso=yes&mobilenumber=${mainFormData.mobileNumber}&chaid=true`;
         // getLoanBackend(e);
-      }
-
-      if (response.status === 200) {
+      } else if (response.data.code === 2) {
+        // Dedupe: GO → Redirect to Bajaj journey
+        window.location.href = response.data.obj;
       } else {
-        console.error("Submission failed:", response.statusText);
+        // Error
+        console.error("Error: ", response.data.msg);
       }
     } catch (error) {
       console.error("Error submitting form:", error);

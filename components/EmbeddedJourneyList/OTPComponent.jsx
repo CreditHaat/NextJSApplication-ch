@@ -162,6 +162,15 @@ const OTPComponent = ({mobile}) => {
                 const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}chEmbeddedList_OTPGenerate`, formData1);
       
                 console.log("After the OTP Generate");
+
+                if(response.data.code === -11){
+                    alert(response.data.msg);
+                    return;
+                }
+                if(response.data.code === -10){
+                    alert(response.data.msg);
+                    return;
+                }
       
                 if (response.data.code === 0) {
       

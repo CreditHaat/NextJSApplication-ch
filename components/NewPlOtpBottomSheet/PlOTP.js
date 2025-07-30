@@ -344,10 +344,29 @@ function OTPVerification({ verifyOTP, upotp, otpStatus, setUpOtp }) {
     }
   }, []);
 
+  // useEffect(() => {
+  //   if (otpStatus === "Incorrect OTP! Try Again..") {
+  //     setOtp(new Array(6).fill(""));
+  //     setUpOtp("");
+  //   }
+  // }, [otpStatus]);
+  const inputRefs = useRef([]);
   useEffect(() => {
     if (otpStatus === "Incorrect OTP! Try Again..") {
+      // Clear internal state
       setOtp(new Array(6).fill(""));
       setUpOtp("");
+      setTimeout(() => inputRefs.current[0]?.focus(), 50);
+
+      // Clear actual input DOM values
+      otpInputRefs.current.forEach((ref) => {
+        if (ref?.current) {
+          ref.current.value = "";
+        }
+      });
+
+      // Optionally refocus the first input
+      otpInputRefs.current[0]?.current?.focus();
     }
   }, [otpStatus]);
 
@@ -395,6 +414,7 @@ function OTPVerification({ verifyOTP, upotp, otpStatus, setUpOtp }) {
               name="otp"
               maxLength="1"
               key={index}
+              ref={(el) => (inputRefs.current[index] = el)}
               value={data}
               onChange={(e) => handleManualChange(e, index)}
               onKeyDown={(e) => handleManualChange(e, index)}

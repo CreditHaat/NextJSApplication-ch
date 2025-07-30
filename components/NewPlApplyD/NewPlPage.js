@@ -482,9 +482,12 @@ const NewPlPage = ({ params, searchParams }) => {
         }
       } else {
         setOtpLoader(false);
-        setOtpStatus("Incorrect OTP! Try Again..");
+        setOtpStatus("");
         console.log("Otp incorrect");
         setOtpInputs(["", "", "", "", "", ""]);
+        setTimeout(() => {
+          setOtpStatus("Incorrect OTP! Try Again..");
+        }, 50);
       }
     } catch (error) {
       console.error("Error submitting form:", error);

@@ -1,10 +1,10 @@
 import React, { useState, useRef ,useEffect} from 'react';
 import OTP from './EmbeddedOTP';
 
-const EmbeddedPlOTPBottomSheet = ({isVisible, verifyOTP, upotp, otpStatus, setUpOtp}) => {
+const EmbeddedPlOTPBottomSheet = ({isVisible, verifyOTP, upotp, otpStatus, setUpOtp, inputRefs}) => {
   //  const [isVisible, setIsVisible] = useState(false);
   const [otp, setOtp] = useState(new Array(6).fill(''));
-  const inputRefs = useRef([]);
+  // const inputRefs = useRef([]);
   const [isSheetVisible, setIsSheetVisible] = useState(false);
   // const toggleVisibility = () => {
   //   setIsVisible(!isVisible);
@@ -91,7 +91,7 @@ const EmbeddedPlOTPBottomSheet = ({isVisible, verifyOTP, upotp, otpStatus, setUp
     >
       {/* <button onClick={toggleVisibility}>Show OTP Bottom Sheet</button> */}
       <div style={bottomSheetStyle}>
-        {<OTP verifyOTP={verifyOTP} upotp={upotp} otpStatus={otpStatus} setUpOtp={setUpOtp}/>}
+        {<OTP verifyOTP={verifyOTP} upotp={upotp} otpStatus={otpStatus} setUpOtp={setUpOtp} inputRefs={inputRefs} />}
       </div>
       </div>
     </>

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import axios from 'axios';
 // import OTPBottomSheet from './OTPBottomSheet';
@@ -8,6 +8,8 @@ import OTPBottomSheet from '../NewEmbeddedOtpBottomSheet/EmbeddedPlOtpBottomShee
 import OtpVerifyLoader from '../NewPersonalLoan/Other Components/OtpVerifyLoader';
 
 const OTPComponent = ({mobile}) => {
+
+    const inputRefs = useRef([]);
 
     const searchParams = useSearchParams();
     const mobileNumber = searchParams.get('mobilenumber');
@@ -60,7 +62,43 @@ const OTPComponent = ({mobile}) => {
 
             const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}verifyOTPEmbedded`, formData1);
 
+            // if (response.data.code === 0 || response.data.code !== -1) {
+            //     console.log("Inside when data.code is 0");
+            //     // setIsOtpVerified(true);
+            //     setCheckVerifyFlag(true);
+            //     setIsOtpVerified(true);
+            //     localStorage.setItem('verifiedOTP',true);
+            //     console.log("The check Verify flag is : ",checkVerifyFlag);
+            //     setOtpStatus('');
+            //     // getLoanBackend(lenderProduct);
+            //     setIsVisible(false);
+            //     const timer = setTimeout(() => {
+            //         setOtpVerifyLoader(false);
+            //     }, 1000);
+
+
+            // } else if(response.data.code === -1){
+            //     // setOtpLoader(false);
+            //     console.log("Incorrect OTP");
+            //     setOtpStatus("Incorrect OTP! Try Again..");
+            //     const timer = setTimeout(() => {
+            //         setOtpVerifyLoader(false);
+            //     }, 1000);
+            // }
+
+            if(response.data.code === -288){
+                setOtpStatus("Incorrect OTP! Try Again..");
+                const timer = setTimeout(() => {
+                    setOtpVerifyLoader(false);
+                }, 1000);
+                setTimeout(() => inputRefs.current[0]?.focus(), 50);
+                setUpOtp("");
+                setOtpInputs
+                return;
+            }
+
             if (response.data.code === 0 || response.data.code !== -1) {
+            // if (!response.data.code === -288 && !response.data.code === -1 || response.data.code === 0) {
                 console.log("Inside when data.code is 0");
                 // setIsOtpVerified(true);
                 setCheckVerifyFlag(true);
@@ -77,11 +115,13 @@ const OTPComponent = ({mobile}) => {
 
             } else if(response.data.code === -1){
                 // setOtpLoader(false);
-                console.log("Incorrect OTP");
+                // console.log("Incorrect OTP");
                 setOtpStatus("Incorrect OTP! Try Again..");
                 const timer = setTimeout(() => {
                     setOtpVerifyLoader(false);
                 }, 1000);
+                setUpOtp("");
+                setTimeout(() => inputRefs.current[0]?.focus(), 50);
             }
 
             console.log(response);
@@ -201,7 +241,7 @@ const OTPComponent = ({mobile}) => {
   return (
     <>
         {otpVerifyLoader && <OtpVerifyLoader />}
-        {isVisible && <OTPBottomSheet isVisible={isVisible} verifyOTP={verifyOTP} upotp={upotp} otpStatus={otpStatus} setUpOtp={setUpOtp} />}
+        {isVisible && <OTPBottomSheet isVisible={isVisible} verifyOTP={verifyOTP} upotp={upotp} otpStatus={otpStatus} setUpOtp={setUpOtp} inputRefs={inputRefs} />}
         
     </>
   )

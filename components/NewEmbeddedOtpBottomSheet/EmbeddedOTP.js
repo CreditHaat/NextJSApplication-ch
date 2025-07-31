@@ -11,9 +11,15 @@ const roboto = Roboto({
     subsets: ['latin'],
 });
 
-function OTPVerification({ verifyOTP, upotp, otpStatus, setUpOtp }) {
+function OTPVerification({ verifyOTP, upotp, otpStatus, setUpOtp, inputRefs }) {
     const otpInputRefs = useRef(Array(6).fill().map(() => React.createRef()));
     const [otp, setOtp] = useState(new Array(6).fill(""));
+
+    useEffect(()=>{
+        if(upotp === ""){
+            setOtp(new Array(6).fill(""));
+        }
+    },[upotp])
 
     // Unified OTP update function to ensure consistent state updates
     const updateOTP = (newOtpArray) => {
@@ -78,12 +84,31 @@ function OTPVerification({ verifyOTP, upotp, otpStatus, setUpOtp }) {
         }
     }, []);
 
+    // useEffect(() => {
+    //     if (otpStatus === "Incorrect OTP! Try Again..") {
+    //         setOtp(new Array(6).fill(""));
+    //         setUpOtp("");
+    //     }
+    // }, [otpStatus]);
+
     useEffect(() => {
-        if (otpStatus === "Incorrect OTP! Try Again..") {
-            setOtp(new Array(6).fill(""));
-            setUpOtp("");
+    if (otpStatus === "Incorrect OTP! Try Again..") {
+      // Clear internal state
+      setOtp(new Array(6).fill(""));
+      setUpOtp("");
+      setTimeout(() => inputRefs.current[0]?.focus(), 50);
+
+      // Clear actual input DOM values
+      otpInputRefs.current.forEach((ref) => {
+        if (ref?.current) {
+          ref.current.value = "";
         }
-    }, [otpStatus]);
+      });
+
+      // Optionally refocus the first input
+      otpInputRefs.current[0]?.current?.focus();
+    }
+  }, [otpStatus]);
 
     useEffect(() => {
         if (upotp.length === 6) {
@@ -125,6 +150,7 @@ function OTPVerification({ verifyOTP, upotp, otpStatus, setUpOtp }) {
                                 border: 'solid #3e2780 1px',
                                 textAlign: 'center'
                             }}
+                            ref={(el) => (inputRefs.current[index] = el)}
                             type="number"
                             name="otp"
                             maxLength="1"

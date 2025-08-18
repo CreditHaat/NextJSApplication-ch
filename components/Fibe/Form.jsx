@@ -203,10 +203,14 @@ export const Form = () => {
     console.log("Inside this function 1");
     e.preventDefault();
 
-    function handleDataLayerStart(flag,mobile_number, emptype) {
-      console.log("INside handledatalayer , ",flag, mobile_number, emptype);
+    function handleDataLayerStart(flag, mobile_number, emptype) {
+      console.log("INside handledatalayer , ", flag, mobile_number, emptype);
       window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({'mobileNumber' : mobile_number, 'flag':flag, 'employmentType': emptype  });
+      window.dataLayer.push({
+        mobileNumber: mobile_number,
+        flag: flag,
+        employmentType: emptype,
+      });
     }
 
     console.log("Inside this function");
@@ -239,7 +243,6 @@ export const Form = () => {
       //         'Content-Type': 'application/json',
       //     },
       // });
-    
 
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}chfronetendotpgenerator_new`,
@@ -251,7 +254,11 @@ export const Form = () => {
         setstgTwoHitId(response.data.obj.stgTwoHitId);
         sett_experian_log_id(response.data.obj.t_experian_log_id);
 
-        handleDataLayerStart(response.data.obj.user_exist,formData.mobileNumber,formData.profession); 
+        handleDataLayerStart(
+          response.data.obj.user_exist,
+          formData.mobileNumber,
+          formData.profession
+        );
       }
 
       if (response.status === 200) {
@@ -357,12 +364,12 @@ export const Form = () => {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}submitapi_earlysalary`,
         formData1
-      //   // {
-      //   //   headers: {
-      //   //     "Content-Type": "application/json",
-      //   //     token: "Y3JlZGl0aGFhdHRlc3RzZXJ2ZXI=", // Add your token here
-      //   //   },
-      //   // }
+        //   // {
+        //   //   headers: {
+        //   //     "Content-Type": "application/json",
+        //   //     token: "Y3JlZGl0aGFhdHRlc3RzZXJ2ZXI=", // Add your token here
+        //   //   },
+        //   // }
       );
 
       console.log("after backend");
@@ -399,7 +406,11 @@ export const Form = () => {
         {isLoading && <ApplicationLoader />}
         {isCameFromBackend && <ApplicationPopup link={link} />}
         {errorPopup && (
-          <ErrorPopup setErrorPopup={setErrorPopup} lenderName={"smartcoin"} formData={formData} />
+          <ErrorPopup
+            setErrorPopup={setErrorPopup}
+            lenderName={"smartcoin"}
+            formData={formData}
+          />
         )}
 
         {activeContainer === "otpVerification" && !otpVerified && (
@@ -416,13 +427,13 @@ export const Form = () => {
                   height={500}
                   alt="Placeholder"
                   layout="intrinsic"
-                  style={{borderRadius:"10px"}}
+                  style={{ borderRadius: "10px" }}
                 />
               </div>
             </div>
             <div className="ploan-col-md-6-pl">
               <form onSubmit={handleSubmit}>
-                <h2 style={{textAlign:"center"}}>Details</h2>
+                <h2 style={{ textAlign: "center" }}>Details</h2>
                 <div className="ploan-form-group">
                   <input
                     type="text"
@@ -504,7 +515,7 @@ export const Form = () => {
                   >
                     By clicking "Apply now" button and accepting the terms and
                     conditions set out here in, you provide your express consent
-                    to Social Worth Technologies Private Limited, Whizdm
+                    to EarlySalary Services Private Limited(fibe), Whizdm
                     Innovations Pvt Ltd, Upwards Fintech Services Pvt Ltd, Tata
                     Capital Financial Services Ltd, SmartCoin Financials Pvt
                     Ltd, MWYN Tech Pvt Ltd, L&T Finance Ltd, Krazybee Services
@@ -518,13 +529,11 @@ export const Form = () => {
                   </p>
                 </div>
 
-                <div style={{width:"100%", textAlign:"center"}}>
-                <button type="submit" className="ploan-btn-btn-primary">
-                  Apply now
-                </button>
+                <div style={{ width: "100%", textAlign: "center" }}>
+                  <button type="submit" className="ploan-btn-btn-primary">
+                    Apply now
+                  </button>
                 </div>
-
-                
               </form>
             </div>
           </div>

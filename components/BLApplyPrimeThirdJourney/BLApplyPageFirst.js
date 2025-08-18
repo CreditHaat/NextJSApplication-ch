@@ -1,29 +1,29 @@
 "use client";
-import  React, { useState, useEffect, useRef } from 'react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation'; // Import useRouter for navigation
-import './BLApplyPageFirst.css'; // Import the CSS module from the same directory
-import blimage1 from './BLApplyImages/blappyimage1.png';
+import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation"; // Import useRouter for navigation
+import "./BLApplyPageFirst.css"; // Import the CSS module from the same directory
+import blimage1 from "./BLApplyImages/blappyimage1.png";
 import NewNavBar from "../../components/NewPersonalLoan/Other Components/Navbar";
 import SmartCoinFooter from "../SmartCoin/SmartCoinFooter";
 import BLApplyLenders from "./BLApplyLenders";
-import axios from 'axios';
+import axios from "axios";
 import otpimage from "./BLApplyImages/otpimage.jpeg";
 import LendersList from "./LendersList";
 import Loader from "./LendersLoader";
 import OtpVerifyLoader from "./OtpVerifyLoader";
-import ForSelfEmployed from './ForSelfEmployed';
+import ForSelfEmployed from "./ForSelfEmployed";
 import ForSalaried from "./ForSalaried";
 // import ApplicationPopup from "../../components/BLApplyPrime/ApplicationPopup";
-import ApplicationLoader from './ApplicationLoader';
+import ApplicationLoader from "./ApplicationLoader";
 import RedirectionLoader from "./RedirectionLoader";
-import ApplicationPopup from './ApplicationPopup';
-import ErrorPopup from './ErrorPopup';
+import ApplicationPopup from "./ApplicationPopup";
+import ErrorPopup from "./ErrorPopup";
 
 export default function BLPageFirst() {
   const [formData, setFormData] = useState({
-    pan: '',
-    mobileNumber: '',
+    pan: "",
+    mobileNumber: "",
     // occupation: '',
     // monthlyincome: '',
     // profession: '',
@@ -47,25 +47,25 @@ export default function BLPageFirst() {
   const [lenderDetails, setLenderDetails] = useState(null);
   var json = null;
   const [otpLoader, setOtpLoader] = useState(false);
-  const [cpi,  setCpi] = useState(0);
+  const [cpi, setCpi] = useState(0);
   const [lenderProduct, setLenderProduct] = useState(null);
 
   const [lastname, setLastname] = useState(null);
   const [firstName, setFirstName] = useState(null);
 
-  const [dobFlag,setDobFlag] = useState(false);
+  const [dobFlag, setDobFlag] = useState(false);
   const [residentialPincodeFlag, setResidentialPincodeFlag] = useState(false);
   const [apiExecutionLoader, setApiExecutionLoader] = useState(false);
-  const[redirectionLinkLoader, setRedirectionLinkLoader] = useState(false);
+  const [redirectionLinkLoader, setRedirectionLinkLoader] = useState(false);
 
   const [errorPopup, setErrorPopup] = useState(false);
-  const[applicationPopup ,setApplicationPopup] = useState(false);
+  const [applicationPopup, setApplicationPopup] = useState(false);
   const [link, setLink] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top of the page when component mounts
-  }, []);
-  
+  }, []);
+
   useEffect(() => {
     // Initialize refs array with refs to each OTP input field
     otpInputRefs.current = otpInputs.map(
@@ -75,76 +75,81 @@ export default function BLPageFirst() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-  
-    if (name === 'pan') {
+
+    if (name === "pan") {
       // Remove non-alphabetical characters except spaces
-      const sanitizedValue = value.replace(/[^a-zA-Z\s]/g, '');
-      const nameParts = sanitizedValue.trim().split(' ');
-      const fname = nameParts.length > 0 ? nameParts[0] : '';
-      const surname = nameParts.length > 1 ? nameParts[nameParts.length - 1] : '';
-  
+      const sanitizedValue = value.replace(/[^a-zA-Z\s]/g, "");
+      const nameParts = sanitizedValue.trim().split(" ");
+      const fname = nameParts.length > 0 ? nameParts[0] : "";
+      const surname =
+        nameParts.length > 1 ? nameParts[nameParts.length - 1] : "";
+
       setLastname(surname);
       setFirstName(fname);
-  
+
       // Validate name
-      if (sanitizedValue.trim() === '') {
-        setFormErrors(prevErrors => ({
+      if (sanitizedValue.trim() === "") {
+        setFormErrors((prevErrors) => ({
           ...prevErrors,
-           pan: 'Name is required'
+          pan: "Name is required",
         }));
       } else {
-        setFormErrors(prevErrors => ({
+        setFormErrors((prevErrors) => ({
           ...prevErrors,
-          pan: ''
+          pan: "",
         }));
       }
     }
-  
-     // Handle Mobile Number field
-  if (name === 'mobileNumber') {
-    // Remove all non-numeric characters
-    const numericValue = value.replace(/\D/g, '');
 
-    // Prevent input if it exceeds 10 characters
-    if (numericValue.length <= 10) {
-      setFormData(prevData => ({ ...prevData, mobileNumber: numericValue }));
+    // Handle Mobile Number field
+    if (name === "mobileNumber") {
+      // Remove all non-numeric characters
+      const numericValue = value.replace(/\D/g, "");
 
-      // Validate mobile number
-      if (!/^[6789]\d{9}$/.test(numericValue)) {
-        setFormErrors(prevErrors => ({
-          ...prevErrors,
-          mobileNumber: 'Mobile number must start with 6, 7, 8, or 9 and be 10 digits long'
+      // Prevent input if it exceeds 10 characters
+      if (numericValue.length <= 10) {
+        setFormData((prevData) => ({
+          ...prevData,
+          mobileNumber: numericValue,
         }));
-      } else {
-        setFormErrors(prevErrors => ({
-          ...prevErrors,
-          mobileNumber: ''
-        }));
+
+        // Validate mobile number
+        if (!/^[6789]\d{9}$/.test(numericValue)) {
+          setFormErrors((prevErrors) => ({
+            ...prevErrors,
+            mobileNumber:
+              "Mobile number must start with 6, 7, 8, or 9 and be 10 digits long",
+          }));
+        } else {
+          setFormErrors((prevErrors) => ({
+            ...prevErrors,
+            mobileNumber: "",
+          }));
+        }
       }
     }
-  }
 
-  // Handle other fields
-  // if (name === 'monthlyincome') {
-  //   if (/^\d+$/.test(value) || value === '') {
-  //     setFormErrors(prevErrors => ({
-  //       ...prevErrors,
-  //       monthlyincome: ''
-  //     }));
-  //   } else {
-  //     setFormErrors(prevErrors => ({
-  //       ...prevErrors,
-  //       monthlyincome: 'Invalid monthly income'
-  //     }));
-  //   }
-  // }
+    // Handle other fields
+    // if (name === 'monthlyincome') {
+    //   if (/^\d+$/.test(value) || value === '') {
+    //     setFormErrors(prevErrors => ({
+    //       ...prevErrors,
+    //       monthlyincome: ''
+    //     }));
+    //   } else {
+    //     setFormErrors(prevErrors => ({
+    //       ...prevErrors,
+    //       monthlyincome: 'Invalid monthly income'
+    //     }));
+    //   }
+    // }
 
     // Update form data state
     setFormData((prevData) => ({ ...prevData, [name]: value }));
     updateProgress();
   };
   const handleKeyDown = (e) => {
-    if (e.target.name === 'pan' && !/^[a-zA-Z\s]*$/.test(e.key)) {
+    if (e.target.name === "pan" && !/^[a-zA-Z\s]*$/.test(e.key)) {
       e.preventDefault(); // Prevent input if the key is not a letter or space
     }
   };
@@ -186,9 +191,12 @@ export default function BLPageFirst() {
   const validateForm = () => {
     const errors = {};
 
-    if (!formData.pan) errors.pan = 'Name is required';
-    if (!formData.mobileNumber) errors.mobileNumber = 'Mobile number is required';
-  else if (!/^[6789]\d{9}$/.test(formData.mobileNumber)) errors.mobileNumber = 'Mobile number must start with 6, 7, 8, or 9 and be 10 digits long';
+    if (!formData.pan) errors.pan = "Name is required";
+    if (!formData.mobileNumber)
+      errors.mobileNumber = "Mobile number is required";
+    else if (!/^[6789]\d{9}$/.test(formData.mobileNumber))
+      errors.mobileNumber =
+        "Mobile number must start with 6, 7, 8, or 9 and be 10 digits long";
 
     // if (!formData.occupation) errors.occupation = 'Occupation is required';
     // if (!formData.monthlyincome) errors.monthlyincome = 'Monthly income is required';
@@ -203,26 +211,24 @@ export default function BLPageFirst() {
   const updateProgress = () => {
     let completedFields = 0;
     const totalFields = 2;
-  
-    Object.values(formData).forEach(value => {
+
+    Object.values(formData).forEach((value) => {
       if (value) completedFields++;
     });
-  
+
     // Calculate progress and cap it at 50%
     const progressPercentage = (completedFields / totalFields) * 100;
-    setProgress(Math.min(progressPercentage,90));
+    setProgress(Math.min(progressPercentage, 90));
   };
-  
 
-  const [activeContainer, setActiveContainer] = useState('FirstPage');
+  const [activeContainer, setActiveContainer] = useState("FirstPage");
 
-// ......................................steps count code---------------------------------------
+  // ......................................steps count code---------------------------------------
 
   const handleDataLayerStage = (stage) => {
     window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({'stage': stage});
+    window.dataLayer.push({ stage: stage });
   };
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -233,15 +239,14 @@ export default function BLPageFirst() {
     }
   };
 
-
   const handleFormSubmit = async (e) => {
     console.log("Inside this function 1");
     e.preventDefault();
 
-    function handleDataLayerStart(flag,mobile_number) {
-      console.log("INside handledatalayer , ",flag, mobile_number);
+    function handleDataLayerStart(flag, mobile_number) {
+      console.log("INside handledatalayer , ", flag, mobile_number);
       window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({'mobileNumber' : mobile_number, 'flag':flag  });
+      window.dataLayer.push({ mobileNumber: mobile_number, flag: flag });
     }
 
     console.log("Inside this function");
@@ -273,23 +278,19 @@ export default function BLPageFirst() {
       //         'Content-Type': 'application/json',
       //     },
       // });
-    
 
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}chfronetendotpgenerator_BLApplyPrimeThird`,
         formData1
       );
 
-      console.log("response from backend is : ",response);
+      console.log("response from backend is : ", response);
 
-      if(response.data.code===-1)
-      {
-        console.error("response is null")
-        window.location.href='https://app.credithaat.com/personal_loan_listing_journey';
-
+      if (response.data.code === -1) {
+        console.error("response is null");
+        window.location.href =
+          "https://app.credithaat.com/personal_loan_listing_journey";
       }
-
-
 
       if (response.data.code === 0) {
         setStgOneHitId(response.data.obj.stgOneHitId);
@@ -298,7 +299,10 @@ export default function BLPageFirst() {
 
         console.log("Before handleDataLayerStart");
 
-        handleDataLayerStart(response.data.obj.user_exist,formData.mobileNumber); 
+        handleDataLayerStart(
+          response.data.obj.user_exist,
+          formData.mobileNumber
+        );
 
         console.log("After handleDataLayerStart");
       }
@@ -311,7 +315,6 @@ export default function BLPageFirst() {
       console.error("Error submitting form:", error);
     }
   };
-
 
   const handleCloseOTPModal = () => {
     setOtpModal(false);
@@ -332,7 +335,10 @@ export default function BLPageFirst() {
       formData1.append("stgTwoHitId", stgTwoHitId);
       formData1.append("t_experian_log_id", t_experian_log_id);
 
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}verifyOTPNewPersonalloan`, formData1);
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}verifyOTPNewPersonalloan`,
+        formData1
+      );
 
       if (response.data.code === 0) {
         // setDobFlag(false);
@@ -379,12 +385,11 @@ export default function BLPageFirst() {
         getLendersList(e);
         window.location.href = `https://app.credithaat.com/embedded_journey?sso=yes&ch_header=no&mobilenumber=${formData.mobileNumber}&ch_header=no&sso=yes&chaid=true`;
         handleDataLayerStage(2);
-      }else {
+      } else {
         setOtpStatus("Incorrect OTP! Try Again.");
         setOtpInputs(["", "", "", "", "", ""]);
         setOtpLoader(false);
       }
-
     } catch (error) {
       console.error("Error verifying OTP:", error);
     }
@@ -395,46 +400,48 @@ export default function BLPageFirst() {
 
     e.preventDefault();
     try {
-  
-        const formData1 = new FormData();
-        formData1.append('mobilenumber', formData.mobileNumber);
-  
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}lenderslist_blapplyprime`, formData1, {
-            headers: {
-                'Content-Type': 'application/json',
-                'token': 'Y3JlZGl0aGFhdHRlc3RzZXJ2ZXI=' // Add your token here
-            }
-        });
-  
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 3000);
-  
-        if (response.data.code === 200) {
-            json = response.data.data;
-            setLenderDetails(json);
-  
-            // // setShowAddInfo(false);
-            // setShowLendersList(true);
-            setActiveContainer("LendersList");
+      const formData1 = new FormData();
+      formData1.append("mobilenumber", formData.mobileNumber);
+
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}lenderslist_blapplyprime`,
+        formData1,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            token: "Y3JlZGl0aGFhdHRlc3RzZXJ2ZXI=", // Add your token here
+          },
         }
-  
-        if (response.status === 200) {
-  
-        } else {
-            console.error('Submission failed:', response.statusText);
-        }
+      );
+
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 3000);
+
+      if (response.data.code === 200) {
+        json = response.data.data;
+        setLenderDetails(json);
+
+        // // setShowAddInfo(false);
+        // setShowLendersList(true);
+        setActiveContainer("LendersList");
+      }
+
+      if (response.status === 200) {
+      } else {
+        console.error("Submission failed:", response.statusText);
+      }
     } catch (error) {
-        console.error('Error submitting form:', error);
+      console.error("Error submitting form:", error);
     }
   };
 
-  const redirectLinkMethod=(lenderProduct,applicationLink)=>{                        
-    console.log("Lender Product Is :::::: ",lenderProduct);
-    console.log("Application LInk is :::::::: ",applicationLink);
-    setCpi(1);//HERE WE SET THE CPI to see if we have to redirect the user or to hit the api if cpi is 1 then we will set the redirection link else we will hit the api
+  const redirectLinkMethod = (lenderProduct, applicationLink) => {
+    console.log("Lender Product Is :::::: ", lenderProduct);
+    console.log("Application LInk is :::::::: ", applicationLink);
+    setCpi(1); //HERE WE SET THE CPI to see if we have to redirect the user or to hit the api if cpi is 1 then we will set the redirection link else we will hit the api
     console.log("Inside the redirect link method");
-    localStorage.setItem('applicationLink', applicationLink);
+    localStorage.setItem("applicationLink", applicationLink);
     handleDataLayerStage(4);
     apiExecutionBackend(lenderProduct, 1);
     // if(formData.occupation === "Salaried"){
@@ -444,12 +451,9 @@ export default function BLPageFirst() {
     //   setActiveContainer("forSelfEmployed");
     //   handleDataLayerStage(3);
     // }
-    
+  };
 
-  }
-
-  const getLoanBackendMethod=(e, lenderProduct)=>{
-
+  const getLoanBackendMethod = (e, lenderProduct) => {
     setCpi(0);
     setLenderProduct(lenderProduct);
     handleDataLayerStage(4); // Track step 2 when the form is submitted
@@ -461,13 +465,11 @@ export default function BLPageFirst() {
     // }else{
     //   setActiveContainer("forSelfEmployed");
     // }
-
-  }
+  };
 
   const apiExecutionBackend = async (productname, lenderCpi) => {
-
     console.log(productname);
-  
+
     // If lenderCpi is 1, redirect to lender.applicationlink
 
     console.log(cpi);
@@ -476,95 +478,86 @@ export default function BLPageFirst() {
       setRedirectionLinkLoader(true);
       const timer = setTimeout(() => {
         // setRedirectionLinkLoader(false);
-        const lenderApplicationLink = localStorage.getItem('applicationLink');
+        const lenderApplicationLink = localStorage.getItem("applicationLink");
         window.location.href = lenderApplicationLink;
         // window.location.href = lenderApplicationLink;
       }, 3000);
-        
-        // setRedirectionLinkLoader(false);
-        // return; // Exit the function to avoid further execution
-    }else{
+
+      // setRedirectionLinkLoader(false);
+      // return; // Exit the function to avoid further execution
+    } else {
       console.log("Inside get Loan Backend");
-    // e.preventDefault();
+      // e.preventDefault();
 
-    setApiExecutionLoader(true);
+      setApiExecutionLoader(true);
 
-    console.log("Inside get Loan Backend");
+      console.log("Inside get Loan Backend");
 
-    try {
-      const formData1 = new FormData();
-      formData1.append('mobilenumber', formData.mobileNumber);
-      formData1.append('product', productname);
+      try {
+        const formData1 = new FormData();
+        formData1.append("mobilenumber", formData.mobileNumber);
+        formData1.append("product", productname);
 
-      // setlenderName(productname);
+        // setlenderName(productname);
 
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}apiExecution_bl_apply_prime_master`, formData1, {
-        headers: {
-          'Content-Type': 'application/json',
-          'token': 'Y3JlZGl0aGFhdHRlc3RzZXJ2ZXI=' // Add your token here
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}apiExecution_bl_apply_prime_master`,
+          formData1,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              token: "Y3JlZGl0aGFhdHRlc3RzZXJ2ZXI=", // Add your token here
+            },
+          }
+        );
+
+        if (response.data.code === 0) {
+          console.log("Inside get Loan Backend when code is 0");
+          // setIsCameFromBackend(true);
+          setApplicationPopup(true);
+          const timer = setTimeout(() => {
+            setApiExecutionLoader(false);
+          }, 3000);
+          var redirectionlink =
+            response.data.data.lender_details[0].applicationlink;
+          setLink(redirectionlink);
+          // {!setIsLoading && <ApplicationPopup link={link}/>}
+        } else if (response.data.code === -1) {
+          console.log(-1);
+          setErrorPopup(true);
+          const timer = setTimeout(() => {
+            setApiExecutionLoader(false);
+          }, 3000);
+
+          // setErrorPopup(true); //This will be true when the code will be -1
+        } else {
+          const timer = setTimeout(() => {
+            setApiExecutionLoader(false);
+          }, 3000);
         }
-      });
 
-      if (response.data.code === 0) {
-        console.log("Inside get Loan Backend when code is 0");
-        // setIsCameFromBackend(true);
-        setApplicationPopup(true);
-        const timer = setTimeout(() => {
-          setApiExecutionLoader(false);
-        }, 3000);
-        var redirectionlink = response.data.data.lender_details[0].applicationlink;
-        setLink(redirectionlink);
-        // {!setIsLoading && <ApplicationPopup link={link}/>}
-      }
-      else if (response.data.code === -1) {
-        console.log(-1);
-        setErrorPopup(true);
-        const timer = setTimeout(() => {
-          setApiExecutionLoader(false);
-        }, 3000);
-
-        // setErrorPopup(true); //This will be true when the code will be -1
-      } else {
-        const timer = setTimeout(() => {
-          setApiExecutionLoader(false);
-        }, 3000);
-      }
-
-      console.log("for partner page", response);
-
-    } catch (error) {
-
+        console.log("for partner page", response);
+      } catch (error) {}
     }
-    }
-
-    
   };
-
-
-  
 
   return (
     <>
-    {
-      errorPopup && <ErrorPopup lenderName={lenderProduct} formData={formData} setErrorPopup={setErrorPopup} />
-    }
-    {
-  applicationPopup && <ApplicationPopup link={link}/>
-}
+      {errorPopup && (
+        <ErrorPopup
+          lenderName={lenderProduct}
+          formData={formData}
+          setErrorPopup={setErrorPopup}
+        />
+      )}
+      {applicationPopup && <ApplicationPopup link={link} />}
 
-{
-      apiExecutionLoader && <ApplicationLoader/>
-    }
-    {
-      redirectionLinkLoader && <RedirectionLoader/>
-    }
+      {apiExecutionLoader && <ApplicationLoader />}
+      {redirectionLinkLoader && <RedirectionLoader />}
 
-    {
-      activeContainer !== 'LendersList' && 
-      <NewNavBar />
-    }
-      
-{/* 
+      {activeContainer !== "LendersList" && <NewNavBar />}
+
+      {/* 
       {
         activeContainer === "forSelfEmployed" &&
         <ForSelfEmployed cpi={cpi} lenderProduct={lenderProduct} mainFormData={formData} dobFlag={dobFlag} residentialPincodeFlag={residentialPincodeFlag} setActiveContainer={setActiveContainer} getLendersList={getLendersList}/>//here we will be calling sendin this api to the next page 
@@ -575,66 +568,81 @@ export default function BLPageFirst() {
         <ForSalaried cpi={cpi} lenderProduct={lenderProduct} mainFormData={formData} dobFlag={dobFlag} residentialPincodeFlag={residentialPincodeFlag} setActiveContainer={setActiveContainer} getLendersList={getLendersList} />
       } */}
 
-      {
-        isLoading && <Loader/>
-      }
-      {otpLoader && <OtpVerifyLoader/>}
-      
+      {isLoading && <Loader />}
+      {otpLoader && <OtpVerifyLoader />}
+
       {/* {
         activeContainer === "BLApplyLenders" &&
         <BLApplyLenders />
       } */}
 
-      {
-        activeContainer === "LendersList" && 
-        // <LendersList companies={lenderDetails} formData={formData} redirectLinkMethod={redirectLinkMethod} getLoanBackendMethod={getLoanBackendMethod}/> 
-        <BLApplyLenders companies={lenderDetails} formData={formData} redirectLinkMethod={redirectLinkMethod} getLoanBackendMethod={getLoanBackendMethod}/>
-      }
+      {activeContainer === "LendersList" && (
+        // <LendersList companies={lenderDetails} formData={formData} redirectLinkMethod={redirectLinkMethod} getLoanBackendMethod={getLoanBackendMethod}/>
+        <BLApplyLenders
+          companies={lenderDetails}
+          formData={formData}
+          redirectLinkMethod={redirectLinkMethod}
+          getLoanBackendMethod={getLoanBackendMethod}
+        />
+      )}
 
-      {
-        activeContainer === "FirstPage" &&
-        <div className={`blapplycontainer ${otpModal ? 'blur' : ''}`}>
+      {activeContainer === "FirstPage" && (
+        <div className={`blapplycontainer ${otpModal ? "blur" : ""}`}>
           <div className="blapplyrow">
             <div className="blapply-col-md-6">
               <div className="blapply-image-container">
-                <Image src={blimage1} alt="Placeholder" width={500} height={500} />
+                <Image
+                  src={blimage1}
+                  alt="Placeholder"
+                  width={500}
+                  height={500}
+                />
               </div>
             </div>
             <div className="blapply-col-md-6-pl">
               <div className="progress-container">
-                <div className="progress-bar" style={{ width: `${progress}%` }}></div>
+                <div
+                  className="progress-bar"
+                  style={{ width: `${progress}%` }}
+                ></div>
               </div>
               <form onSubmit={handleSubmit}>
                 {/* <h2>Check eligibility in 3 steps</h2> */}
                 <div className="blapply-form-group">
-                  <input 
-                    type="text" 
-                    id="pan" 
-                    name="pan" 
-                    value={formData.pan} 
-                    onChange={handleChange} 
-                    onKeyDown={handleKeyDown} 
-                    placeholder="Name as per PAN" />
-                  {formErrors.pan && <span className="error">{formErrors.pan}</span>}
+                  <input
+                    type="text"
+                    id="pan"
+                    name="pan"
+                    value={formData.pan}
+                    onChange={handleChange}
+                    onKeyDown={handleKeyDown}
+                    placeholder="Name as per PAN"
+                  />
+                  {formErrors.pan && (
+                    <span className="error">{formErrors.pan}</span>
+                  )}
                 </div>
                 <div className="blapply-form-group">
-                  <input 
-                    type="number" 
-                    id="mobileNumber" 
-                    name="mobileNumber" 
-                    value={formData.mobileNumber} 
-                    onChange={handleChange} 
-                    placeholder="Mobile number" 
-                    inputMode="numeric"  
-                    maxLength='10' />
-                  {formErrors.mobileNumber && <span className="error">{formErrors.mobileNumber}</span>}
+                  <input
+                    type="number"
+                    id="mobileNumber"
+                    name="mobileNumber"
+                    value={formData.mobileNumber}
+                    onChange={handleChange}
+                    placeholder="Mobile number"
+                    inputMode="numeric"
+                    maxLength="10"
+                  />
+                  {formErrors.mobileNumber && (
+                    <span className="error">{formErrors.mobileNumber}</span>
+                  )}
                 </div>
                 {/* <div className="blapply-form-group">
                   <input type="text" id="occupation" name="occupation" value={formData.occupation} onChange={handleChange} placeholder="Occupation" />
                   {formErrors.occupation && <span className="error">{formErrors.occupation}</span>}
                 </div> */}
-{/* -------------------------------------------------------- */}
-{/* 
+                {/* -------------------------------------------------------- */}
+                {/* 
 <div className="blapply-form-group">
                   <select
                     id="profession"
@@ -663,7 +671,7 @@ export default function BLPageFirst() {
                   )}
                 </div> */}
 
-{/* ----------------------------------------------------------- */}
+                {/* ----------------------------------------------------------- */}
                 {/* <div className="blapply-form-group">
                   <input 
                    type="number" 
@@ -691,9 +699,9 @@ export default function BLPageFirst() {
                         : "PaymentType is required",
                     })
                   } */}
-                  {/* > */}
-                  {/* id="profession" name="profession" value={formData.PaymentType} onChange={handleChange}> */}
-                    {/* <option value="">Payment type</option>
+                {/* > */}
+                {/* id="profession" name="profession" value={formData.PaymentType} onChange={handleChange}> */}
+                {/* <option value="">Payment type</option>
                     <option value="0">Cash</option>
                     <option value="1">Check</option>
                     <option value="2">Bank transfer</option>
@@ -701,78 +709,110 @@ export default function BLPageFirst() {
                   {formErrors.PaymentType && <span className="error">{formErrors.PaymentType}</span>}
                 </div> */}
                 <div className="blapply-group mb-2">
-                  <p className="terms-text" style={{ color: "#000000a6", height: '40px', textAlign: 'justify', overflowX: 'hidden', overflowY: 'auto' }}>
-                    By clicking "Send OTP" button and accepting the terms and conditions set out here in, you provide your express consent to Social Worth Technologies Private Limited, Whizdm Innovations Pvt Ltd, Upwards Fintech Services Pvt Ltd, Tata Capital Financial Services Ltd, SmartCoin Financials Pvt Ltd, MWYN Tech Pvt Ltd, L&T Finance Ltd, Krazybee Services Pvt Ltd, Infocredit Services Pvt. Ltd, Incred Financial Services, IIFL Finance Ltd, EQX Analytics Pvt Ltd, EPIMoney Pvt Ltd, Bhanix finance and Investment LTd, Aditya Birla Finance Ltd to access the credit bureaus and credit information report and credit score. You also hereby irrevocably and unconditionally consent to usage of such credit information being provided by credit bureaus
+                  <p
+                    className="terms-text"
+                    style={{
+                      color: "#000000a6",
+                      height: "40px",
+                      textAlign: "justify",
+                      overflowX: "hidden",
+                      overflowY: "auto",
+                    }}
+                  >
+                    By clicking "Send OTP" button and accepting the terms and
+                    conditions set out here in, you provide your express consent
+                    to EarlySalary Services Private Limited(fibe), Whizdm
+                    Innovations Pvt Ltd, Upwards Fintech Services Pvt Ltd, Tata
+                    Capital Financial Services Ltd, SmartCoin Financials Pvt
+                    Ltd, MWYN Tech Pvt Ltd, L&T Finance Ltd, Krazybee Services
+                    Pvt Ltd, Infocredit Services Pvt. Ltd, Incred Financial
+                    Services, IIFL Finance Ltd, EQX Analytics Pvt Ltd, EPIMoney
+                    Pvt Ltd, Bhanix finance and Investment LTd, Aditya Birla
+                    Finance Ltd to access the credit bureaus and credit
+                    information report and credit score. You also hereby
+                    irrevocably and unconditionally consent to usage of such
+                    credit information being provided by credit bureaus
                   </p>
                 </div>
-                <button type="submit" className="blapply-button" style={{color:"#3e2780"}}>Apply</button>
+                <button
+                  type="submit"
+                  className="blapply-button"
+                  style={{ color: "#3e2780" }}
+                >
+                  Apply
+                </button>
               </form>
             </div>
           </div>
 
           {/* OTP Verification Modal */}
-        {otpModal && (
-          <div className="modal-background">
-            <div className="modal-container" style={{ width: "350px" }}>
-              <div className="loan-modal-content">
-                {/* Close button */}
-                <button className="otpclose" onClick={handleCloseOTPModal}>
-                  X
-                </button>
-                <h3>Verify OTP</h3>
-                {/* <img src={otpimage} alt='otpimage'></img> */}
-                <Image
-                  src={otpimage}
-                  width={300}
-                  height={300}
-                  layout="intrinsic"
-                  alt="otpimage"
-                />
-                <p>
-                  An OTP has been sent to your mobile number. Please enter the
-                  OTP to proceed.
-                </p>
-                <div className="otp-input-container">
-                  {otpInputs.map((otp, index) => (
-                    <input
-                      key={index}
-                      ref={otpInputRefs.current[index]}
-                      type="text"
-                      maxLength="1"
-                      value={otp}
-                      onChange={(e) =>
-                        handleOtpInputChange(index, e.target.value)
-                      }
-                      className="otp-input"
-                      inputMode="numeric"
-                    />
-                  ))}
-                </div>
-
-                <p style={{ color: "red", textAlign: "center" }}>{otpStatus}</p>
-
-                <div style={{textAlign:"center"}}>
-                  <button
-                    onClick={handleVerifyOTP}
-                    className="ploan-btn-btn-primary"
-                  >
-                    Verify OTP
+          {otpModal && (
+            <div className="modal-background">
+              <div className="modal-container" style={{ width: "350px" }}>
+                <div className="loan-modal-content">
+                  {/* Close button */}
+                  <button className="otpclose" onClick={handleCloseOTPModal}>
+                    X
                   </button>
+                  <h3>Verify OTP</h3>
+                  {/* <img src={otpimage} alt='otpimage'></img> */}
+                  <Image
+                    src={otpimage}
+                    width={300}
+                    height={300}
+                    layout="intrinsic"
+                    alt="otpimage"
+                  />
+                  <p>
+                    An OTP has been sent to your mobile number. Please enter the
+                    OTP to proceed.
+                  </p>
+                  <div className="otp-input-container">
+                    {otpInputs.map((otp, index) => (
+                      <input
+                        key={index}
+                        ref={otpInputRefs.current[index]}
+                        type="text"
+                        maxLength="1"
+                        value={otp}
+                        onChange={(e) =>
+                          handleOtpInputChange(index, e.target.value)
+                        }
+                        className="otp-input"
+                        inputMode="numeric"
+                      />
+                    ))}
+                  </div>
+
+                  <p style={{ color: "red", textAlign: "center" }}>
+                    {otpStatus}
+                  </p>
+
+                  <div style={{ textAlign: "center" }}>
+                    <button
+                      onClick={handleVerifyOTP}
+                      className="ploan-btn-btn-primary"
+                    >
+                      Verify OTP
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-          
-
-          <div className='blapply-textsection'>
-            CreditHaat does not charge any fees from the user. A sample loan calculation for ₹1,00,000 borrowed for 1 year, with interest rate @13% per annum*, is as provided below: Processing fee (@ 2%) = ₹2,000 + GST = ₹2,360 Interest = ₹7,181 EMI = ₹8,932 Total amount to be repaid after a year = ₹1,10,129/- *Interest Rate varies based on your risk profile The maximum Annual Interest Rate (APR) can go up to 36%
+          <div className="blapply-textsection">
+            CreditHaat does not charge any fees from the user. A sample loan
+            calculation for ₹1,00,000 borrowed for 1 year, with interest rate
+            @13% per annum*, is as provided below: Processing fee (@ 2%) =
+            ₹2,000 + GST = ₹2,360 Interest = ₹7,181 EMI = ₹8,932 Total amount to
+            be repaid after a year = ₹1,10,129/- *Interest Rate varies based on
+            your risk profile The maximum Annual Interest Rate (APR) can go up
+            to 36%
           </div>
           <SmartCoinFooter />
         </div>
-
-      }
+      )}
     </>
   );
 }

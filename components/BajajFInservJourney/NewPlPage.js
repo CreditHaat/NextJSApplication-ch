@@ -1305,8 +1305,32 @@ const NewPlPage = ({ params, searchParams }) => {
                       consent overrides any registration for DNC / NDNC. I
                       confirm I am in India, I am a major and a resident of
                       India and I have read and I accept CreditHaat Privacy
-                      Policy Click here to read the PRIVACY POLICY & TERMS OF
-                      SERVICE
+                      Policy Click here to read the{" "}
+                      <a
+                        href="/privacy"
+                        // target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          color: "blue",
+                          cursor: "pointer",
+                          textDecoration: "none",
+                        }}
+                      >
+                        PRIVACY POLICY
+                      </a>
+                      &nbsp; &{" "}
+                      <a
+                        href="/terms"
+                        // target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          color: "blue",
+                          cursor: "pointer",
+                          textDecoration: "none",
+                        }}
+                      >
+                        TERMS OF SERVICE
+                      </a>
                       <span
                         onClick={() => setShowFullConsent(false)}
                         style={{
@@ -1315,7 +1339,7 @@ const NewPlPage = ({ params, searchParams }) => {
                           textDecoration: "none",
                         }}
                       >
-                        Show Less
+                        &nbsp; &nbsp; Show Less
                       </span>
                     </>
                   ) : (
@@ -1342,22 +1366,14 @@ const NewPlPage = ({ params, searchParams }) => {
 
               <div className={styles.formGroup}>
                 <label>
-                  {/* <input
-                type="checkbox"
-                checked={terms}
-                onChange={(e) => {
-                  setTerms(e.target.checked);
-                  setErrors((prevErrors) => ({ ...prevErrors, terms: "" }));
-                }}
-              /> */}
                   {showConsent ? (
                     <>
                       By agreeing and accepting the terms and conditions set out
-                      herein, you provide your express consent to Social Worth
-                      Technologies Private Limited, Whizdm Innovations Pvt Ltd,
-                      Upwards Fintech Services Pvt Ltd, Tata Capital Financial
-                      Services Ltd, SmartCoin Financials Pvt Ltd, MWYN Tech Pvt
-                      Ltd, L&T Finance Ltd, Krazybee Services Pvt Ltd,
+                      herein, you provide your express consent to EarlySalary
+                      Services Private Limited(fibe), Whizdm Innovations Pvt
+                      Ltd, Upwards Fintech Services Pvt Ltd, Tata Capital
+                      Financial Services Ltd, SmartCoin Financials Pvt Ltd, MWYN
+                      Tech Pvt Ltd, L&T Finance Ltd, Krazybee Services Pvt Ltd,
                       Infocredit Services Pvt. Ltd, Incred Financial Services,
                       IIFL Finance Ltd, EQX Analytics Pvt Ltd, EPIMoney Pvt Ltd,
                       Bhanix finance and Investment LTd, Aditya Birla Finance

@@ -25,7 +25,7 @@ import listimage1 from "../Pl_JourneySecond/Newplimages/finalimage2.png";
 import listimage2 from "../Pl_JourneySecond/Newplimages/finalimage3.png";
 import listimage3 from "../Pl_JourneySecond/Newplimages/plimage3.png";
 import EmblaCarousel from "../NewBlJourneyD/Emblacarousel/js/EmblaCarousel";
-import OTPBottomSheet from '../NewPlOtpBottomSheet/PlOTPBottomSheet';
+import OTPBottomSheet from "../NewPlOtpBottomSheet/PlOTPBottomSheet";
 import { FaPhone } from "react-icons/fa";
 const roboto = Roboto({
   weight: ["400", "700"],
@@ -338,44 +338,44 @@ export default function NewPlSingle() {
     //   formData1.append("campaign", urllink);
     //   formData1.append("sub_dsa", subDsa);
 
-      // const response = await axios.post(`${process.env.REACT_APP_BASE_URL}chfronetendotpgenerator`, formData1, {
-      //     headers: {
-      //         'Content-Type': 'application/json',
-      //     },
-      // });
+    // const response = await axios.post(`${process.env.REACT_APP_BASE_URL}chfronetendotpgenerator`, formData1, {
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //     },
+    // });
 
-      // const response = await axios.post(
-      //   `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}chfronetendotpgenerator_PlApplySingle`,
-      //   formData1
-      // );
+    // const response = await axios.post(
+    //   `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}chfronetendotpgenerator_PlApplySingle`,
+    //   formData1
+    // );
 
-      // console.log("response from backend is : ", response);
+    // console.log("response from backend is : ", response);
 
-      // if (response.data.code === -1) {
-      //   console.error("response is null");
-      //   window.location.href =
-      //     "https://app.credithaat.com/personal_loan_listing_journey";
-      // }
+    // if (response.data.code === -1) {
+    //   console.error("response is null");
+    //   window.location.href =
+    //     "https://app.credithaat.com/personal_loan_listing_journey";
+    // }
 
-      // if (response.data.code === 0) {
-      //   setStgOneHitId(response.data.obj.stgOneHitId);
-      //   setstgTwoHitId(response.data.obj.stgTwoHitId);
-      //   sett_experian_log_id(response.data.obj.t_experian_log_id);
+    // if (response.data.code === 0) {
+    //   setStgOneHitId(response.data.obj.stgOneHitId);
+    //   setstgTwoHitId(response.data.obj.stgTwoHitId);
+    //   sett_experian_log_id(response.data.obj.t_experian_log_id);
 
-      //   console.log("Before handleDataLayerStart");
+    //   console.log("Before handleDataLayerStart");
 
-      //   handleDataLayerStart(
-      //     response.data.obj.user_exist,
-      //     formData.mobileNumber
-      //   );
+    //   handleDataLayerStart(
+    //     response.data.obj.user_exist,
+    //     formData.mobileNumber
+    //   );
 
-        console.log("After handleDataLayerStart");
-      // }
+    console.log("After handleDataLayerStart");
+    // }
 
-      // if (response.status === 200) {
-      // } else {
-      //   console.error("Submission failed:", response.statusText);
-      // }
+    // if (response.status === 200) {
+    // } else {
+    //   console.error("Submission failed:", response.statusText);
+    // }
     // } catch (error) {
     //   console.error("Error submitting form:", error);
     // }
@@ -414,7 +414,7 @@ export default function NewPlSingle() {
         // setActiveContainer("LendersList");
         // getLendersList(e);
         handleDataLayerStage(2);
-        setUpOtp('');
+        setUpOtp("");
         // if(formData.occupation === "Salaried"){
         //   setActiveContainer("forSalaried");
         //   window.location.href = lenderApplicationLink;
@@ -429,7 +429,7 @@ export default function NewPlSingle() {
         // setResidentialPincodeFlag(false);
         setOtpStatus("");
         setOtpLoader(false);
-        setUpOtp('');
+        setUpOtp("");
         // setActiveContainer("LendersList");
         // getLendersList(e);
         window.location.href = `https://app.credithaat.com/embedded_journey?sso=yes&mobilenumber=${formData.mobileNumber}&chaid=true`;
@@ -441,7 +441,7 @@ export default function NewPlSingle() {
         setOtpLoader(false);
         // setActiveContainer("LendersList");
         getLendersList(e);
-        setUpOtp('');
+        setUpOtp("");
         window.location.href = `https://app.credithaat.com/embedded_journey?sso=yes&mobilenumber=${formData.mobileNumber}&chaid=true`;
         handleDataLayerStage(2);
       } else if (response.data.code === 3) {
@@ -449,16 +449,16 @@ export default function NewPlSingle() {
         setResidentialPincodeFlag(true);
         setOtpStatus("");
         setOtpLoader(false);
-        setUpOtp('');
+        setUpOtp("");
         // setActiveContainer("LendersList");
         getLendersList(e);
-        window.location.href =`https://app.credithaat.com/embedded_journey?sso=yes&mobilenumber=${formData.mobileNumber}&chaid=true`;
+        window.location.href = `https://app.credithaat.com/embedded_journey?sso=yes&mobilenumber=${formData.mobileNumber}&chaid=true`;
         handleDataLayerStage(2);
       } else {
         setOtpStatus("Incorrect OTP! Try Again.");
         setOtpInputs(["", "", "", "", "", ""]);
         setOtpLoader(false);
-        setUpOtp(''); 
+        setUpOtp("");
       }
     } catch (error) {
       console.error("Error verifying OTP:", error);
@@ -766,8 +766,32 @@ export default function NewPlSingle() {
                       consent overrides any registration for DNC / NDNC. I
                       confirm I am in India, I am a major and a resident of
                       India and I have read and I accept CreditHaat Privacy
-                      Policy Click here to read the PRIVACY POLICY & TERMS OF
-                      SERVICE
+                      Policy Click here to read the{" "}
+                      <a
+                        href="/privacy"
+                        // target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          color: "blue",
+                          cursor: "pointer",
+                          textDecoration: "none",
+                        }}
+                      >
+                        PRIVACY POLICY
+                      </a>
+                      &nbsp; &{" "}
+                      <a
+                        href="/terms"
+                        // target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          color: "blue",
+                          cursor: "pointer",
+                          textDecoration: "none",
+                        }}
+                      >
+                        TERMS OF SERVICE
+                      </a>
                       <span
                         onClick={() => setShowFullConsent(false)}
                         style={{
@@ -776,7 +800,7 @@ export default function NewPlSingle() {
                           textDecoration: "none",
                         }}
                       >
-                        Show Less
+                        &nbsp; &nbsp; Show Less
                       </span>
                     </>
                   ) : (
@@ -803,22 +827,14 @@ export default function NewPlSingle() {
 
               <div className={styles.formGroup}>
                 <label>
-                  {/* <input
-                type="checkbox"
-                checked={terms}
-                onChange={(e) => {
-                  setTerms(e.target.checked);
-                  setErrors((prevErrors) => ({ ...prevErrors, terms: "" }));
-                }}
-              /> */}
                   {showConsent ? (
                     <>
                       By agreeing and accepting the terms and conditions set out
-                      herein, you provide your express consent to Social Worth
-                      Technologies Private Limited, Whizdm Innovations Pvt Ltd,
-                      Upwards Fintech Services Pvt Ltd, Tata Capital Financial
-                      Services Ltd, SmartCoin Financials Pvt Ltd, MWYN Tech Pvt
-                      Ltd, L&T Finance Ltd, Krazybee Services Pvt Ltd,
+                      herein, you provide your express consent to EarlySalary
+                      Services Private Limited(fibe), Whizdm Innovations Pvt
+                      Ltd, Upwards Fintech Services Pvt Ltd, Tata Capital
+                      Financial Services Ltd, SmartCoin Financials Pvt Ltd, MWYN
+                      Tech Pvt Ltd, L&T Finance Ltd, Krazybee Services Pvt Ltd,
                       Infocredit Services Pvt. Ltd, Incred Financial Services,
                       IIFL Finance Ltd, EQX Analytics Pvt Ltd, EPIMoney Pvt Ltd,
                       Bhanix finance and Investment LTd, Aditya Birla Finance

@@ -23,7 +23,7 @@ import {
 } from "react-icons/fa"; // Importing icons for name, mobile number, profession, income, payment type, and PAN
 import { Roboto } from "@next/font/google";
 import OTPBottomSheet from "../NewPlOtpBottomSheet/PlOTPBottomSheet";
-import RejectionPage from '../../components/NewPlRejectionPage/NewPlRejPage';
+import RejectionPage from "../../components/NewPlRejectionPage/NewPlRejPage";
 
 import OtpVerifyLoader from "../NewPlApplyD/OtpVerifyLoader";
 
@@ -266,7 +266,7 @@ const CreditCardFirstPage = ({ params, searchParams }) => {
       setIsOtpBottomSheetVisible(true);
     }
   };
-/***********************************generate otp********************************** */
+  /***********************************generate otp********************************** */
   const handleFormSubmit = async (e) => {
     console.log("Inside this function 1");
     e.preventDefault();
@@ -330,7 +330,7 @@ const CreditCardFirstPage = ({ params, searchParams }) => {
       console.error("Error submitting form:", error);
     }
   };
-/***************************Verify otp *************************************************** */
+  /***************************Verify otp *************************************************** */
   const handleVerifyOTP = async () => {
     setOtpLoader(true);
     try {
@@ -357,7 +357,7 @@ const CreditCardFirstPage = ({ params, searchParams }) => {
 
         // Show Credit Card List After OTP Verification
         getLendersList(); // Fetch Credit Card List
-      }else if(response.data.code === 1){
+      } else if (response.data.code === 1) {
         setOtpVerified(true);
         setOtpLoader(false);
         setIsOtpBottomSheetVisible(false);
@@ -366,7 +366,7 @@ const CreditCardFirstPage = ({ params, searchParams }) => {
 
         // Show Credit Card List After OTP Verification
         getLendersList(); // Fetch Credit Card List
-      }else if(response.data.code === 2){
+      } else if (response.data.code === 2) {
         setOtpVerified(true);
         setOtpLoader(false);
         setIsOtpBottomSheetVisible(false);
@@ -375,7 +375,7 @@ const CreditCardFirstPage = ({ params, searchParams }) => {
 
         // Show Credit Card List After OTP Verification
         getLendersList(); // Fetch Credit Card List
-      }else if(response.data.code === 3){
+      } else if (response.data.code === 3) {
         setOtpVerified(true);
         setOtpLoader(false);
         setIsOtpBottomSheetVisible(false);
@@ -396,7 +396,7 @@ const CreditCardFirstPage = ({ params, searchParams }) => {
       console.error("Error verifying OTP:", error);
     }
   };
-/****************use to show list of creditcards**************************** */
+  /****************use to show list of creditcards**************************** */
   const getLendersList = async () => {
     console.log("inside get lenders list");
     setIsLoading(true);
@@ -405,8 +405,6 @@ const CreditCardFirstPage = ({ params, searchParams }) => {
 
       const formData1 = new FormData();
       formData1.append("mobilenumber", formData.mobileNumber);
-
-
 
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}api/newcreditcard/submit`,
@@ -433,8 +431,7 @@ const CreditCardFirstPage = ({ params, searchParams }) => {
     }
   };
 
-
-  const redirectLinkMethod = (lenderProduct, applicationLink ,product_id) => {
+  const redirectLinkMethod = (lenderProduct, applicationLink, product_id) => {
     console.log("Lender Product Is :::::: ", lenderProduct);
     console.log("Application LInk is :::::::: ", applicationLink);
     setCpi(1); //HERE WE SET THE CPI to see if we have to redirect the user or to hit the api if cpi is 1 then we will set the redirection link else we will hit the api
@@ -442,7 +439,6 @@ const CreditCardFirstPage = ({ params, searchParams }) => {
     localStorage.setItem("applicationLink", applicationLink);
     handleDataLayerStage(4);
     apiExecutionBackend(lenderProduct, 1, product_id);
-
   };
 
   const apiExecutionBackend = async (productname, lenderCpi, product_id) => {
@@ -450,24 +446,25 @@ const CreditCardFirstPage = ({ params, searchParams }) => {
 
     console.log(cpi);
 
-      console.log("lendercpi ", lenderCpi);
-      setRedirectionLinkLoader(true);
-     
-      const formData1 = new FormData();
-      formData1.append("phone", formData.mobileNumber);
-      formData1.append("userId", 1);
-      formData1.append("productId", product_id);
-      formData1.append("channel", "creditHaat");
-      console.log("product_id is:",product_id);
+    console.log("lendercpi ", lenderCpi);
+    setRedirectionLinkLoader(true);
 
-        try {
-        console.log("before cpi function call");
-       const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}h5/cpiCreditcardClick`, formData1);
+    const formData1 = new FormData();
+    formData1.append("phone", formData.mobileNumber);
+    formData1.append("userId", 1);
+    formData1.append("productId", product_id);
+    formData1.append("channel", "creditHaat");
+    console.log("product_id is:", product_id);
 
-          
+    try {
+      console.log("before cpi function call");
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}h5/cpiCreditcardClick`,
+        formData1
+      );
+
       //  console.log("The response from  h5/cpiCreditcardClick is :: ",response);
-       if(response.status === 200){
-
+      if (response.status === 200) {
         // console.log("The response from  h5/cpiCreditcardClick after 200 is :: ",response);
 
         const timer = setTimeout(() => {
@@ -477,26 +474,24 @@ const CreditCardFirstPage = ({ params, searchParams }) => {
           // const lenderApplicationLink = response.data
           // window.location.href = lenderApplicationLink;
           setRedirectionLinkLoader(false);
-          window.location.href=response.data.obj;
+          window.location.href = response.data.obj;
           // window.location.href = lenderApplicationLink;
         }, 3000);
-       }
-      } catch (error) {
-        console.log(error);
       }
+    } catch (error) {
+      console.log(error);
+    }
 
-      // const timer = setTimeout(() => {
-      //   // setRedirectionLinkLoader(false);
-      //   // const lenderApplicationLink = localStorage.getItem("applicationLink");
-      //   // window.location.href = lenderApplicationLink;
-      //   const lenderApplicationLink = localStorage.getItem("applicationLink");
-      //   window.location.href = lenderApplicationLink;
-      //   setRedirectionLinkLoader(false);
-      //   // window.location.href = lenderApplicationLink;
-      // }, 3000);
-    
+    // const timer = setTimeout(() => {
+    //   // setRedirectionLinkLoader(false);
+    //   // const lenderApplicationLink = localStorage.getItem("applicationLink");
+    //   // window.location.href = lenderApplicationLink;
+    //   const lenderApplicationLink = localStorage.getItem("applicationLink");
+    //   window.location.href = lenderApplicationLink;
+    //   setRedirectionLinkLoader(false);
+    //   // window.location.href = lenderApplicationLink;
+    // }, 3000);
   };
-
 
   const nextInputRef = useRef(null);
   const companyNameRef = useRef(null);
@@ -663,15 +658,13 @@ const CreditCardFirstPage = ({ params, searchParams }) => {
 
   return (
     <>
-        {
-      rejectionPage && <RejectionPage lenderName={lenderProduct} />
-    }
+      {rejectionPage && <RejectionPage lenderName={lenderProduct} />}
       {apiExecutionLoader && <ApplicationLoader />}
       {redirectionLinkLoader && <RedirectionLoader />}
 
       {isLoading && <Loader />}
       {otpLoader && <OtpVerifyLoader />}
-      {activeContainer === "LendersList" && !rejectionPage &&(
+      {activeContainer === "LendersList" && !rejectionPage && (
         <CreditCardList
           companies={lenderDetails}
           formData={formData}
@@ -945,8 +938,32 @@ const CreditCardFirstPage = ({ params, searchParams }) => {
                       consent overrides any registration for DNC / NDNC. I
                       confirm I am in India, I am a major and a resident of
                       India and I have read and I accept CreditHaat Privacy
-                      Policy Click here to read the PRIVACY POLICY & TERMS OF
-                      SERVICE
+                      Policy Click here to read the{" "}
+                      <a
+                        href="/privacy"
+                        // target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          color: "blue",
+                          cursor: "pointer",
+                          textDecoration: "none",
+                        }}
+                      >
+                        PRIVACY POLICY
+                      </a>
+                      &nbsp; &{" "}
+                      <a
+                        href="/terms"
+                        // target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          color: "blue",
+                          cursor: "pointer",
+                          textDecoration: "none",
+                        }}
+                      >
+                        TERMS OF SERVICE
+                      </a>
                       <span
                         onClick={() => setShowFullConsent(false)}
                         style={{
@@ -955,7 +972,7 @@ const CreditCardFirstPage = ({ params, searchParams }) => {
                           textDecoration: "none",
                         }}
                       >
-                        Show Less
+                        &nbsp; &nbsp; Show Less
                       </span>
                     </>
                   ) : (
@@ -985,11 +1002,11 @@ const CreditCardFirstPage = ({ params, searchParams }) => {
                   {showConsent ? (
                     <>
                       By agreeing and accepting the terms and conditions set out
-                      herein, you provide your express consent to Social Worth
-                      Technologies Private Limited, Whizdm Innovations Pvt Ltd,
-                      Upwards Fintech Services Pvt Ltd, Tata Capital Financial
-                      Services Ltd, SmartCoin Financials Pvt Ltd, MWYN Tech Pvt
-                      Ltd, L&T Finance Ltd, Krazybee Services Pvt Ltd,
+                      herein, you provide your express consent to EarlySalary
+                      Services Private Limited(fibe), Whizdm Innovations Pvt
+                      Ltd, Upwards Fintech Services Pvt Ltd, Tata Capital
+                      Financial Services Ltd, SmartCoin Financials Pvt Ltd, MWYN
+                      Tech Pvt Ltd, L&T Finance Ltd, Krazybee Services Pvt Ltd,
                       Infocredit Services Pvt. Ltd, Incred Financial Services,
                       IIFL Finance Ltd, EQX Analytics Pvt Ltd, EPIMoney Pvt Ltd,
                       Bhanix finance and Investment LTd, Aditya Birla Finance

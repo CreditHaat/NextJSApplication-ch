@@ -146,12 +146,12 @@ const NewPlPage2 = ({
 
     // Validate Company Name
     if (!formData.companyName.trim()) {
-      errors.companyName = "Company Name is required";
+      errors.companyName = "Company name is required";
       valid = false;
     }
 
     if (!formData.officeemail) {
-      errors.officeemail = "Office Email is required";
+      errors.officeemail = "Office email is required";
       valid = false;
     } else if (!/\S+@\S+\.\S+/.test(formData.officeemail)) {
       errors.officeemail = "Invalid email address";
@@ -160,7 +160,7 @@ const NewPlPage2 = ({
 
     // Validate Office Pincode
     if (!formData.officePincode.trim()) {
-      errors.officePincode = "Office Pincode is required";
+      errors.officePincode = "Office pincode is required";
       valid = false;
     } else if (
       formData.officePincode.length !== 6 ||
@@ -511,7 +511,7 @@ const NewPlPage2 = ({
                       type="text"
                       id="address"
                       name="address"
-                      placeholder="Enter residential address"
+                      placeholder="Enter Residential Address"
                       value={formData.address}
                       className={styles.input}
                       onChange={(e) => {
@@ -569,7 +569,7 @@ const NewPlPage2 = ({
                     ))}
                   </div>
                   {formErrors.gender && (
-                    <p style={{ color: "red" }}>{formErrors.gender}</p>
+                    <div className="error-message">{formErrors.gender}</div> 
                   )}
                 </div>
               )}
@@ -615,7 +615,8 @@ const NewPlPage2 = ({
             </div>
 
             <>
-              <div className={styles.formGroup}>
+              <div className={styles.formGroup} 
+              style={{ position: "relative" }}>
                 <div
                   className={styles.inputWrapper}
                   style={{ position: "relative" }}
@@ -700,7 +701,7 @@ const NewPlPage2 = ({
                     type="text"
                     id="officePincode"
                     name="officePincode"
-                    placeholder="Enter work Pincode"
+                    placeholder="Enter Work Pincode"
                     inputMode="numeric"
                     value={formData.officePincode}
                     className={styles.input}
@@ -748,7 +749,7 @@ const NewPlPage2 = ({
                         type="text"
                         id="residentialPincode"
                         name="residentialPincode"
-                        placeholder="Enter home pincode"
+                        placeholder="Enter Home Pincode"
                         inputMode="numeric"
                         value={formData.residentialPincode}
                         className={styles.input}

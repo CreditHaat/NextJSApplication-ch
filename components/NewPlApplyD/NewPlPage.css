@@ -5,39 +5,35 @@
     flex-direction: column;
     align-items: center;
     padding-top: 100px; /* Create space at the top */
-  }
-  
-  /* Carousel background */
-  .carousel-background {
+}
+
+/* Carousel background */
+.carousel-background {
     position: absolute;
     top: 0px; /* Set it closer to the top of the page to avoid going off-screen */
     width: 100%;
     max-width: 412px;
     z-index: 0; /* Place it behind the allnewcard-container */
     overflow: hidden;
-  }
-  
-  /* Container for all cards */
-  .newfirstcard-container {
+}
+
+/* Container for all cards */
+.newfirstcard-container {
     position: relative;
-    /* max-width: 340px; */
-    /* width: 100%; */
     margin: 0 auto;
     padding: 40px;
     border: 2px solid #ddd;
     border-radius: 20px;
     background-color: #F7F6FD;
-    ;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     gap: 20px;
-    /* margin-top: 110px; */
     z-index: 1; /* Place it above the carousel */
-  }
-  
-  /* Individual card styles */
-  .newcard-container {
+}
+
+/* Individual card styles */
+.newcard-container {
     position: relative;
     width: 100%;
     background: linear-gradient(to right, #FEE1A2, #ECDDFE, #8ca8e6);
@@ -45,10 +41,9 @@
     padding: 20px;
     text-align: center;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    
-  }
-  
-  .card-button {
+}
+
+.card-button {
     position: absolute;
     bottom: -15px; /* Adjusted so it appears half in and half out */
     left: 50%;
@@ -62,58 +57,57 @@
     cursor: pointer;
     transition: background-color 0.3s;
     z-index: 1;
-  }
-  
-  
-  .card-button:hover {
+}
+
+.card-button:hover {
     background-color: #4a00cc;
-  }
-  
-  .newcard-header {
+}
+
+.newcard-header {
     background-color: black;
     color: orange;
     padding: 10px;
     width: 50%;
     margin: 0 auto;
     border-radius: 10px;
-  }
-  
-  .card-logo {
+}
+
+.card-logo {
     font-size: 18px;
     font-weight: bold;
-  }
-  
-  .card-subtitle {
+}
+
+.card-subtitle {
     font-size: 12px;
     color: #555;
-  }
-  
-  .card-body {
+}
+
+.card-body {
     margin: 20px 0;
     background-color: #ffffff78;
     padding: 2px;
     border-radius: 15px;
-  }
-  
-  .amount {
+}
+
+.amount {
     font-size: 24px;
     color: #333;
     font-weight: bold;
-  }
-  
-  .max-amount {
+}
+
+.max-amount {
     font-size: 14px;
     color: #777;
-  }
-  
-  .card-info {
+}
+
+.card-info {
     display: flex;
     justify-content: space-between;
     margin: 15px 0;
     margin-bottom: 40px;
-  }
-  
-  .info-item {
+}
+
+.info-item {
     font-size: 14px;
     display: flex;
     align-items: center;
@@ -122,48 +116,81 @@
     border: 1px solid #6a00ff;
     border-radius: 10px;
     padding: 2px 5px;
-  }
-  .react-datepicker-wrapper {
+}
+
+.react-datepicker-wrapper {
     display: inline-block;
     padding: 0;
     border: 0;
     width: 100%;
 }
+
+/* Fixed error styling to prevent icon displacement */
 .error {
     color: red;
     font-size: 12px;
     font-weight: bold;
-  }
-  .pploan-invalid-feedback {
+    margin-left: 2%;
+    bottom: -18px; /* Position it below the input field */
+    left: 0;
+    width: 100%;
+    z-index: 10; /* Ensure it appears above other elements */
+}
+
+.pploan-invalid-feedback {
     color: red;
     font-size: 12px;
     font-weight: bold;
-  }
-  .progress-bar-container {
+}
+
+.progress-bar-container {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
-  }
-  
-  .progress-bar {
+}
+
+.progress-bar {
     width: 48%;
     height: 6px;
     background-color: #e6e6e6;
-  }
+    position: relative; /* Add relative positioning for step number */
+}
 
-  .step-number {
+.step-number {
     position: absolute;
-    top: 20px;
+    top: -25px; /* Position above the progress bar */
+    left: 0;
     font-size: 14px;
     font-weight: bold;
-  }
-  
-  .progress-bar-fill {
+}
+
+.progress-bar-fill {
     height: 100%;
     background-color: #B69DFF;
     transition: width 0.5s ease-in-out;
-  }
+}
 
-  
-  
-  
+/* Additional styles to ensure proper form group spacing */
+.form-group {
+    position: relative;
+    margin-bottom: 25px; /* Add margin to accommodate error messages */
+}
+
+/* Input field wrapper to maintain consistent spacing */
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Ensure icons stay in place */
+.input-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #00000061;
+    z-index: 5; /* Ensure icon stays above input but below error */
+    pointer-events: none; /* Prevent icon from interfering with input */
+}

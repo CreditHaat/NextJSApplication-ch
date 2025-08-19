@@ -291,10 +291,10 @@ const NewPlPage = ({ params, searchParams }) => {
 
     // Mobile Number validation
     if (!formData.mobileNumber.trim()) {
-      errors.mobileNumber = "Mobile Number is required";
+      errors.mobileNumber = "Mobile number is required";
       valid = false;
     } else if (!/^[6-9]\d{9}$/.test(formData.mobileNumber.trim())) {
-      errors.mobileNumber = "Mobile Number should start with 6 to 9 digit";
+      errors.mobileNumber = "Mobile number should start with 6 to 9 digit";
       valid = false;
     }
 
@@ -664,16 +664,16 @@ const NewPlPage = ({ params, searchParams }) => {
       setFormErrors({ ...formErrors, mobileNumber: "" });
     }
 
-    if (value.length === 10) {
-      // Automatically focus and open the profession dropdown when mobile number has 10 digits
-      setTimeout(() => {
-        if (nextInputRef.current) {
-          mobileNumberRef.current.blur();
-          nextInputRef.current.focus(); // Focus on the Profession field
-          setIsProfessionMenuOpen(true); // Open the dropdown
-        }
-      }, 100); // Small delay to ensure focus is set first
-    }
+    // if (value.length === 10) {
+    //   // Automatically focus and open the profession dropdown when mobile number has 10 digits
+    //   setTimeout(() => {
+    //     if (nextInputRef.current) {
+    //       mobileNumberRef.current.blur();
+    //       nextInputRef.current.focus(); // Focus on the Profession field
+    //       setIsProfessionMenuOpen(true); // Open the dropdown
+    //     }
+    //   }, 100); // Small delay to ensure focus is set first
+    // }
   };
 
   const handleProfessionChange = (selectedOption) => {
@@ -689,12 +689,12 @@ const NewPlPage = ({ params, searchParams }) => {
     setIsProfessionMenuOpen(false); // Close the profession dropdown
 
     // Automatically focus on the next field (paymentType)
-    if (paymentTypeRef.current) {
-      paymentTypeRef.current.focus();
-      setTimeout(() => {
-        setIsPaymentTypeMenuOpen(true); // Open payment type dropdown after focus
-      }, 100);
-    }
+    // if (paymentTypeRef.current) {
+    //   paymentTypeRef.current.focus();
+    //   setTimeout(() => {
+    //     setIsPaymentTypeMenuOpen(true); // Open payment type dropdown after focus
+    //   }, 100);
+    // }
   };
 
   // Handle profession field interactions
@@ -728,9 +728,9 @@ const NewPlPage = ({ params, searchParams }) => {
     setIsPaymentTypeMenuOpen(false);
 
     // Automatically focus on the monthly income field after selection
-    if (monthlyIncomeRef.current) {
-      monthlyIncomeRef.current.focus();
-    }
+    // if (monthlyIncomeRef.current) {
+    //   monthlyIncomeRef.current.focus();
+    // }
   };
 
   // Handle Payment Type field interactions
@@ -1025,11 +1025,9 @@ const NewPlPage = ({ params, searchParams }) => {
             </div>
             <form ref={formRef} onSubmit={handleSubmit} className={styles.form}>
               {/* First Name Field */}
-              <div
-                className={styles.formGroup}
-                style={{ position: "relative" }}
-              >
-                <input
+           <div className={`${styles.formGroup} form-group`}>
+             <div className="input-wrapper">
+               <input
                   type="text"
                   id="fullname"
                   name="fullname"
@@ -1039,69 +1037,43 @@ const NewPlPage = ({ params, searchParams }) => {
                   onChange={handleChange}
                   onKeyDown={handleKeyDown}
                   autoCapitalize="words"
-                />
-                <span
-                  className={styles.icon}
-                  style={{
-                    position: "absolute",
-                    right: "15px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    cursor: "pointer",
-                    color: "#00000061",
-                  }}
-                >
-                  <FaUser />
-                </span>
-                {formErrors.fullname && (
-                  <span
-                    className="error"
-                    style={{ position: "absolute", top: "100%", left: 0 }}
-                  >
-                    {formErrors.fullname}
+                  />
+                 <span className={`${styles.icon} input-icon`}>
+               <FaUser />
                   </span>
-                )}
-              </div>
+            </div>
+                 {formErrors.fullname && (
+                  <span className="error">
+                  {formErrors.fullname}
+                  </span>
+                 )}
+             </div>
 
               <div>
                 {/* Mobile Number Field */}
-                <div
-                  className={styles.formGroup}
-                  style={{ position: "relative" }}
-                >
-                  <input
-                    ref={mobileNumberRef}
-                    type="text"
-                    id="mobileNumber"
-                    name="mobileNumber"
-                    placeholder="Mobile number"
-                    inputMode="numeric"
-                    value={formData.mobileNumber}
-                    className={styles.input}
-                    onChange={handleMobileNumberChange}
-                  />
-                  <span
-                    className={styles.icon}
-                    style={{
-                      position: "absolute",
-                      right: "15px",
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                      cursor: "pointer",
-                      color: "#00000061",
-                    }}
-                  >
-                    <FaPhone />
-                  </span>
-                  {formErrors.mobileNumber && (
-                    <span
-                      className="error"
-                      style={{ position: "absolute", top: "100%", left: 0 }}
-                    >
-                      {formErrors.mobileNumber}
-                    </span>
-                  )}
-                </div>
+                  <div className={`${styles.formGroup} form-group`}>
+                     <div className="input-wrapper">
+                         <input
+                            ref={mobileNumberRef}
+                            type="text"
+                            id="mobileNumber"
+                            name="mobileNumber"
+                            placeholder="Mobile Number"
+                            inputMode="numeric"
+                            value={formData.mobileNumber}
+                            className={styles.input}
+                            onChange={handleMobileNumberChange}
+                        />
+                      <span className={`${styles.icon} input-icon`}>
+                         <FaPhone />
+                      </span>
+                       </div>
+                         {formErrors.mobileNumber && (
+                             <span className="error">
+                                 {formErrors.mobileNumber}
+                             </span>
+                          )}
+                      </div>
 
                 <div
                   className={styles.formGroup}
@@ -1117,7 +1089,7 @@ const NewPlPage = ({ params, searchParams }) => {
                     ref={nextInputRef}
                     onChange={handleProfessionChange}
                     styles={customStyles}
-                    placeholder="Select occupation"
+                    placeholder="Select Occupation"
                     // onBlur={() =>
                     //   // Only set the error if the user hasn't selected a valid profession
                     //   setFormErrors({
@@ -1137,7 +1109,6 @@ const NewPlPage = ({ params, searchParams }) => {
                   {formErrors.profession && (
                     <span
                       className="error"
-                      style={{ position: "absolute", top: "100%", left: 0 }}
                     >
                       {formErrors.profession}
                     </span>
@@ -1160,7 +1131,7 @@ const NewPlPage = ({ params, searchParams }) => {
                   ref={paymentTypeRef}
                   onChange={handlePaymentTypeChange}
                   styles={customStyles}
-                  placeholder="Select payment type"
+                  placeholder="Select Payment Type"
                   // onBlur={() =>
                   //   // Only set the error if the user hasn't selected a valid profession
                   //   setFormErrors({
@@ -1180,7 +1151,6 @@ const NewPlPage = ({ params, searchParams }) => {
                 {formErrors.paymentType && (
                   <span
                     className="error"
-                    style={{ position: "absolute", top: "100%", left: 0 }}
                   >
                     {formErrors.paymentType}
                   </span>
@@ -1188,102 +1158,67 @@ const NewPlPage = ({ params, searchParams }) => {
               </div>
 
               {/* Monthly Income Field */}
-              <div
-                className={styles.formGroup}
-                style={{ position: "relative" }}
-              >
-                <input
-                  type="number"
-                  id="monthlyIncome"
-                  name="monthlyIncome"
-                  placeholder="Monthly income"
-                  value={formData.monthlyIncome}
-                  inputMode="numeric"
-                  className={styles.input}
-                  ref={monthlyIncomeRef}
-                  onChange={(e) => {
-                    const value = e.target.value.replace(/\D/g, ""); // Allow only digits
-                    setFormData({ ...formData, monthlyIncome: value });
-                    if (formErrors.monthlyIncome) {
-                      setFormErrors({ ...formErrors, monthlyIncome: "" });
-                    }
-                  }}
-                />
-                <span
-                  className={styles.icon}
-                  style={{
-                    position: "absolute",
-                    right: "15px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    cursor: "pointer",
-                    color: "#00000061",
-                  }}
-                >
-                  <FaRupeeSign />
+              <div className={`${styles.formGroup} form-group`}>
+                 <div className="input-wrapper">
+                  <input
+                      type="number"
+                      id="monthlyIncome"
+                      name="monthlyIncome"
+                      placeholder="Monthly Income"
+                      value={formData.monthlyIncome}
+                      inputMode="numeric"
+                      className={styles.input}
+                      ref={monthlyIncomeRef}
+                      onChange={(e) => {
+        const value = e.target.value.replace(/\D/g, "");
+        setFormData({ ...formData, monthlyIncome: value });
+        if (formErrors.monthlyIncome) {
+          setFormErrors({ ...formErrors, monthlyIncome: "" });
+        }
+      }}
+    />
+               <span className={`${styles.icon} input-icon`}>
+                <FaRupeeSign />
                 </span>
+             </div>
                 {formErrors.monthlyIncome && (
-                  <span
-                    className="error"
-                    style={{ position: "absolute", top: "100%", left: 0 }}
-                  >
-                    {formErrors.monthlyIncome}
-                  </span>
-                )}
+                  <span className="error">
+                 {formErrors.monthlyIncome}
+                   </span>
+                   )}
               </div>
 
-              <div
-                className={styles.formGroup}
-                style={{ position: "relative" }}
-              >
-                <input
-                  // type="text"
-                  type={
-                    inputStage === "alphabets"
-                      ? "text"
-                      : inputStage === "numbers"
-                      ? "tel"
-                      : "text"
-                  }
-                  inputMode="text"
-                  id="pan"
-                  name="pan"
-                  placeholder="Enter PAN"
-                  // value={formData.pan}
-                  value={panValue}
-                  className={styles.input}
-                  onChange={handleInputChange}
-                  pattern={inputStage === "numbers" ? "[0-9]*" : undefined}
-                  // inputMode={getInputMode()}
-                  autoCapitalize="characters"
-                />
-                <span
-                  className={styles.icon}
-                  style={{
-                    position: "absolute",
-                    right: "15px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    cursor: "pointer",
-                    color: "#00000061",
-                  }}
-                >
-                  <FaIdCard />
-                </span>
-                {formErrors.pan && (
-                  <span
-                    className="error"
-                    style={{
-                      position: "absolute",
-                      top: "100%",
-                      left: 0,
-                      marginTop: "5px",
-                    }}
-                  >
-                    {formErrors.pan}
-                  </span>
-                )}
-              </div>
+              {/* Pan Number field */}
+             <div className={`${styles.formGroup} form-group`}>
+                   <div className="input-wrapper">
+                       <input
+                          type={
+                          inputStage === "alphabets"
+                               ? "text"
+                                : inputStage === "numbers"
+                                ? "tel"
+                                : "text"
+                                }
+                             inputMode="text"
+                          id="pan"
+                           name="pan"
+                           placeholder="Enter PAN"
+                           value={panValue}
+                           className={styles.input}
+                           onChange={handleInputChange}
+                         pattern={inputStage === "numbers" ? "[0-9]*" : undefined}
+                         autoCapitalize="characters"
+                        />
+                      <span className={`${styles.icon} input-icon`}>
+                   <FaIdCard />
+                      </span>
+                         </div>
+                           {formErrors.pan && (
+                           <span className="error">
+                          {formErrors.pan}
+                              </span>
+                             )}
+                         </div>
 
               <div className={styles.formGroup}>
                 <label>

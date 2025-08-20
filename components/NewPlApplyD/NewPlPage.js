@@ -112,6 +112,10 @@ const NewPlPage = ({ params, searchParams }) => {
 
   const [rejectionPage, setRejectionPage] = useState(false);
 
+  // ✅ FIXED: Add these state variables for menu control
+  // const [isProfessionMenuOpen, setIsProfessionMenuOpen] = useState(false);
+  // const [isPaymentTypeMenuOpen, setIsPaymentTypeMenuOpen] = useState(false);
+
   // useEffect(() => {
   //   // Initialize refs array with refs to each OTP input field
   //   otpInputRefs.current = otpInputs.map(
@@ -306,7 +310,7 @@ const NewPlPage = ({ params, searchParams }) => {
       errors.profession = ""; // Clear error if the profession is valid
     }
 
-    if (!formData.paymentType) {
+    if (!formData.paymentType || formData.paymentType === "NA") {
       errors.paymentType = "Payment type is required";
       valid = false;
     }
@@ -553,52 +557,56 @@ const NewPlPage = ({ params, searchParams }) => {
   };
   const nextInputRef = useRef(null);
   const paymentTypeRef = useRef(null);
-  const [isProfessionMenuOpen, setIsProfessionMenuOpen] = useState(false);
-  const [isPaymentTypeMenuOpen, setIsPaymentTypeMenuOpen] = useState(false);
   const monthlyIncomeRef = useRef(null); // Reference for the monthly income field
   const mobileNumberRef = useRef(null);
 
-  const CustomOption = (props) => {
-    const { data, innerRef, innerProps, selectOption, isSelected } = props;
+  // ✅ FIXED: Custom Option Component
+ const CustomOption = (props) => {
+  const { data, innerRef, innerProps, selectOption, isSelected } = props;
 
-    return (
+  return (
+    <div
+      ref={innerRef}
+      {...innerProps}
+      style={{
+        padding: "10px",
+        position: "relative",
+        cursor: "pointer",
+        backgroundColor: isSelected ? "#f0f0f0" : "white",
+      }}
+      onClick={() => {
+        selectOption(data); // ✅ This will trigger onChange and close menu
+      }}
+    >
       <div
-        ref={innerRef}
-        {...innerProps}
         style={{
-          padding: "10px",
-          position: "relative", // Ensures that the radio button is placed on the right side
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between", // Space between label and radio button
-            alignItems: "center", // Aligns the label and radio button
-          }}
-        >
-          <span>{data.label}</span> {/* Label on the left */}
-          <input
-            type="radio"
-            name="profession"
-            value={data.value}
-            checked={isSelected}
-            onChange={() => selectOption(data)} // Select option when radio button is clicked
-          />
-        </div>
-
-        {/* Horizontal line below the option and radio button */}
-        <hr
-          style={{
-            margin: "5px 0",
-            border: "0",
-            borderTop: "1px solid #ddd", // Optional styling for the horizontal line
-            width: "100%", // Ensure the line spans the entire width
-          }}
+        <span>{data.label}</span>
+        <input
+          type="radio"
+          name={data.name || "option"}
+          value={data.value}
+          checked={isSelected}
+          readOnly
+          style={{ pointerEvents: 'none' }}
         />
       </div>
-    );
-  };
+
+      <hr
+        style={{
+          margin: "5px 0",
+          border: "0",
+          borderTop: "1px solid #ddd",
+          width: "100%",
+        }}
+      />
+    </div>
+  );
+};
 
   // Options for profession
   const professionOptions = [
@@ -613,45 +621,52 @@ const NewPlPage = ({ params, searchParams }) => {
     { value: "1", label: "Cheque" },
     { value: "0", label: "Cash" },
   ];
+
+  // ✅ FIXED: Updated customStyles (same as working marital status)
   const customStyles = {
     input: (provided) => ({
       ...provided,
-      padding: "8px", // Padding for input text
-      // borderRadius: '10px',  // Border radius for input
-      width: "100%", // Full width
+      padding: "8px",
+      width: "100%",
       minHeight: "70px",
-      border: "none", // Remove border for input itself
+      border: "none",
       cursor: "pointer",
       borderRadius: "50px",
     }),
+
     menu: (provided) => ({
       ...provided,
-      position: "fixed", // Make the dropdown fixed relative to the viewport
-      top: "50%", // Vertically center the dropdown on the screen
-      left: "50%", // Horizontally center the dropdown on the screen
-      transform: "translate(-50%, -50%)", // Adjust the dropdown to be exactly centered
-      width: "80%", // Set the width of the dropdown (you can adjust it)
-      maxWidth: "400px", // Set a max width for the dropdown
-      zIndex: 9999, // Ensure the dropdown appears on top of other content
-      boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.2)", // Optional: Add shadow for a popup effect
+      position: "fixed", 
+      top: "50%", 
+      left: "50%", 
+      transform: "translate(-50%, -50%)", 
+      width: "80%", 
+      maxWidth: "400px",
+      zIndex: 9999,
+      boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.2)",
       borderRadius: "10px",
+      backgroundColor: "white",
     }),
+
     control: (provided) => ({
       ...provided,
-      width: "100%", // Full width of the control
+      width: "100%",
       borderRadius: "10px",
       minHeight: "50px",
     }),
+
     placeholder: (provided) => ({
       ...provided,
-      padding: "12px", // Padding for placeholder text
+      padding: "12px",
     }),
+
     dropdownIndicator: (provided) => ({
       ...provided,
-      padding: "0", // Optional: Adjust padding of the dropdown indicator
+      padding: "0",
     }),
+
     indicatorSeparator: () => ({
-      display: "none", // Hide the indicator separator (optional)
+      display: "none",
     }),
   };
 
@@ -676,76 +691,85 @@ const NewPlPage = ({ params, searchParams }) => {
     // }
   };
 
+  // ✅ FIXED: Profession Change Handler
   const handleProfessionChange = (selectedOption) => {
-    setFormData({ ...formData, profession: selectedOption.value });
+  console.log('Selected profession:', selectedOption);
+  
+  // ✅ Update state
+  setFormData({ 
+    ...formData, 
+    profession: selectedOption.value 
+  });
 
-    // Only clear the error if a valid profession is selected (not 'NA')
-    if (selectedOption.value !== "NA") {
-      setFormErrors({ ...formErrors, profession: "" }); // Clear error for valid option
-    } else {
-      setFormErrors({ ...formErrors, profession: "Profession is required" }); // Show error if 'NA' is selected
-    }
+  // ✅ Clear error if valid option selected
+  if (selectedOption.value !== "NA") {
+    setFormErrors({ 
+      ...formErrors, 
+      profession: "" 
+    });
+  } else {
+    setFormErrors({ 
+      ...formErrors, 
+      profession: "Profession is required" 
+    });
+  }
+  
+  // ✅ Menu will automatically close after selection due to react-select default behavior
+};
 
-    setIsProfessionMenuOpen(false); // Close the profession dropdown
+  // ✅ REMOVED: Menu control functions - not needed anymore
+  // const handleProfessionFocus = () => {
+  //   setIsProfessionMenuOpen(true);
+  // };
 
-    // Automatically focus on the next field (paymentType)
-    // if (paymentTypeRef.current) {
-    //   paymentTypeRef.current.focus();
-    //   setTimeout(() => {
-    //     setIsPaymentTypeMenuOpen(true); // Open payment type dropdown after focus
-    //   }, 100);
-    // }
-  };
+  // const handleProfessionBlur = () => {
+  //   setIsProfessionMenuOpen(false);
+  // };
 
-  // Handle profession field interactions
-  const handleProfessionFocus = () => {
-    setIsProfessionMenuOpen(true); // Open dropdown menu
-  };
+  // const handleProfessionClick = (e) => {
+  //   e.stopPropagation();
+  //   setIsProfessionMenuOpen(true);
+  // };
 
-  const handleProfessionBlur = () => {
-    setIsProfessionMenuOpen(false); // Close dropdown menu when focus leaves
-  };
+  // ✅ FIXED: Payment Type Change Handler
+ const handlePaymentTypeChange = (selectedOption) => {
+  console.log('Selected payment type:', selectedOption);
+  
+  // ✅ Update state
+  setFormData({ 
+    ...formData, 
+    paymentType: selectedOption.value 
+  });
 
-  const handleProfessionClick = (e) => {
-    e.stopPropagation(); // Prevent the keyboard from opening when clicking on the profession field
-    setIsProfessionMenuOpen(true); // Open dropdown menu
-  };
+  // ✅ Clear error if valid option selected
+  if (selectedOption.value !== "NA") {
+    setFormErrors({ 
+      ...formErrors, 
+      paymentType: "" 
+    });
+  } else {
+    setFormErrors({
+      ...formErrors,
+      paymentType: "Payment type is required",
+    });
+  }
+  
+  // ✅ Menu will automatically close after selection
+};
 
-  const handlePaymentTypeChange = (selectedOption) => {
-    // Set the form data with the selected value
-    setFormData({ ...formData, paymentType: selectedOption.value });
+  // ✅ REMOVED: Payment Type menu control functions - not needed anymore
+  // const handlePaymentTypeFocus = () => {
+  //   setIsPaymentTypeMenuOpen(true);
+  // };
 
-    // Check if the selected value is not 'NA' (Select Payment Type)
-    if (selectedOption.value !== "NA") {
-      // Clear any error if a valid option is selected
-      setFormErrors({ ...formErrors, paymentType: "" });
-    } else {
-      // Show error if 'Select Payment Type' is selected
-      setFormErrors({ ...formErrors, paymentType: "Payment type is required" });
-    }
+  // const handlePaymentTypeBlur = () => {
+  //   setIsPaymentTypeMenuOpen(false);
+  // };
 
-    // Optionally close the menu after selection
-    setIsPaymentTypeMenuOpen(false);
-
-    // Automatically focus on the monthly income field after selection
-    // if (monthlyIncomeRef.current) {
-    //   monthlyIncomeRef.current.focus();
-    // }
-  };
-
-  // Handle Payment Type field interactions
-  const handlePaymentTypeFocus = () => {
-    setIsPaymentTypeMenuOpen(true); // Open dropdown menu when focused
-  };
-
-  const handlePaymentTypeBlur = () => {
-    setIsPaymentTypeMenuOpen(false); // Close dropdown menu when blurred
-  };
-
-  const handlePaymentTypeClick = (e) => {
-    e.stopPropagation(); // Prevent the keyboard from opening when clicking on the Payment Type field
-    setIsPaymentTypeMenuOpen(true); // Open dropdown menu
-  };
+  // const handlePaymentTypeClick = (e) => {
+  //   e.stopPropagation();
+  //   setIsPaymentTypeMenuOpen(true);
+  // };
 
   function handleDataLayerStart(flag, mobile_number, emptype) {
     console.log("INside handledatalayer , ", flag, mobile_number, emptype);
@@ -1079,33 +1103,22 @@ const NewPlPage = ({ params, searchParams }) => {
                   className={styles.formGroup}
                   style={{ position: "relative" }}
                 >
-                  <Select
-                    id="profession"
-                    name="profession"
-                    value={professionOptions.find(
-                      (option) => option.value === formData.profession
-                    )}
-                    options={professionOptions}
-                    ref={nextInputRef}
-                    onChange={handleProfessionChange}
-                    styles={customStyles}
-                    placeholder="Select Occupation"
-                    // onBlur={() =>
-                    //   // Only set the error if the user hasn't selected a valid profession
-                    //   setFormErrors({
-                    //     ...formErrors,
-                    //     profession: formData.profession === "NA" ? "Employment type is required" : "",
-                    //   })
-                    // }
-                    menuIsOpen={isProfessionMenuOpen} // Use isProfessionMenuOpen state
-                    onFocus={handleProfessionFocus} // Open dropdown when focused
-                    onBlur={handleProfessionBlur} // Close dropdown when blurred
-                    onClick={handleProfessionClick} // Prevent keyboard opening when clicked
-                    isSearchable={false} // Prevent searching in the dropdown
-                    // menuPortalTarget={document.body} // Ensure the menu is rendered outside the container
-                    menuPosition="absolute" // Position relative to the viewport
-                    components={{ Option: CustomOption }} // Use the custom option component
-                  />
+                 <Select
+  id="profession"
+  name="profession"
+  value={professionOptions.find(
+    (option) => option.value === formData.profession
+  )}
+  options={professionOptions}
+  ref={nextInputRef}
+  onChange={handleProfessionChange}
+  styles={customStyles}
+  placeholder="Select Occupation"
+  isSearchable={false}
+  menuPosition="absolute"
+  components={{ Option: CustomOption }}
+  // ✅ REMOVED: menuIsOpen, onFocus, onBlur, onClick - let react-select handle menu state
+/>
                   {formErrors.profession && (
                     <span
                       className="error"
@@ -1121,33 +1134,22 @@ const NewPlPage = ({ params, searchParams }) => {
                 className={styles.formGroup}
                 style={{ position: "relative" }}
               >
-                <Select
-                  id="paymentType"
-                  name="paymentType"
-                  value={paymentTypeOptions.find(
-                    (option) => option.value === formData.paymentType
-                  )}
-                  options={paymentTypeOptions}
-                  ref={paymentTypeRef}
-                  onChange={handlePaymentTypeChange}
-                  styles={customStyles}
-                  placeholder="Select Payment Type"
-                  // onBlur={() =>
-                  //   // Only set the error if the user hasn't selected a valid profession
-                  //   setFormErrors({
-                  //     ...formErrors,
-                  //     profession: formData.profession === "NA" ? "Employment type is required" : "",
-                  //   })
-                  // }
-                  menuIsOpen={isPaymentTypeMenuOpen} // Use isPaymentTypeMenuOpen state
-                  onFocus={handlePaymentTypeFocus} // Open dropdown when focused
-                  onBlur={handlePaymentTypeBlur} // Close dropdown when blurred
-                  onClick={handlePaymentTypeClick} // Prevent keyboard from opening when clicked
-                  isSearchable={false} // Prevent searching in the dropdown
-                  // menuPortalTarget={document.body} // Ensure the menu is rendered outside the container
-                  menuPosition="absolute" // Position relative to the viewport
-                  components={{ Option: CustomOption }} // Use the custom option component
-                />
+               <Select
+  id="paymentType"
+  name="paymentType"
+  value={paymentTypeOptions.find(
+    (option) => option.value === formData.paymentType
+  )}
+  options={paymentTypeOptions}
+  ref={paymentTypeRef}
+  onChange={handlePaymentTypeChange}
+  styles={customStyles}
+  placeholder="Select Payment Type"
+  isSearchable={false}
+  menuPosition="absolute"
+  components={{ Option: CustomOption }}
+  // ✅ REMOVED: menuIsOpen, onFocus, onBlur, onClick - let react-select handle menu state
+/>
                 {formErrors.paymentType && (
                   <span
                     className="error"

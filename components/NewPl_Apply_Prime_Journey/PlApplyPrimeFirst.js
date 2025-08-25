@@ -1305,18 +1305,19 @@ const PlApplyPrimeFirst = ({ params, searchParams }) => {
                   {showConsent ? (
                     <>
                       By agreeing and accepting the terms and conditions set out
-                      herein, you provide your express consent to EarlySalary
-                      Services Private Limited(fibe), Whizdm Innovations Pvt
-                      Ltd, Upwards Fintech Services Pvt Ltd, Tata Capital
-                      Financial Services Ltd, SmartCoin Financials Pvt Ltd, MWYN
-                      Tech Pvt Ltd, L&T Finance Ltd, Krazybee Services Pvt Ltd,
-                      Infocredit Services Pvt. Ltd, Incred Financial Services,
-                      IIFL Finance Ltd, EQX Analytics Pvt Ltd, EPIMoney Pvt Ltd,
-                      Bhanix finance and Investment LTd, Aditya Birla Finance
-                      Ltd to access the credit bureaus and credit information
-                      report and credit score. You also hereby irrevocably and
-                      unconditionally consent to usage of such credit
-                      information being provided by credit bureaus.
+                      herein, you provide your express consent to Arysefin,
+                      Aditya Birla Capital Limited, EarlySalary Services Private
+                      Limited(fibe), Bajaj Finserv Limited, PaywithRing, Whizdm
+                      Innovations Pvt Ltd, Upwards Fintech Services Pvt Ltd,
+                      Tata Capital Financial Services Ltd, SmartCoin Financials
+                      Pvt Ltd, MWYN Tech Pvt Ltd, L&T Finance Ltd, Krazybee
+                      Services Pvt Ltd, Infocredit Services Pvt. Ltd, Incred
+                      Financial Services, IIFL Finance Ltd, EQX Analytics Pvt
+                      Ltd, EPIMoney Pvt Ltd, Bhanix finance and Investment LTd,
+                      Aditya Birla Finance Ltd to access the credit bureaus and
+                      credit information report and credit score. You also
+                      hereby irrevocably and unconditionally consent to usage of
+                      such credit information being provided by credit bureaus.
                       <span
                         onClick={() => setShowConsent(false)}
                         style={{

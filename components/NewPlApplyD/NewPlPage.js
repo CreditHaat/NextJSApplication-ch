@@ -561,52 +561,52 @@ const NewPlPage = ({ params, searchParams }) => {
   const mobileNumberRef = useRef(null);
 
   // ✅ FIXED: Custom Option Component
- const CustomOption = (props) => {
-  const { data, innerRef, innerProps, selectOption, isSelected } = props;
+  const CustomOption = (props) => {
+    const { data, innerRef, innerProps, selectOption, isSelected } = props;
 
-  return (
-    <div
-      ref={innerRef}
-      {...innerProps}
-      style={{
-        padding: "10px",
-        position: "relative",
-        cursor: "pointer",
-        backgroundColor: isSelected ? "#f0f0f0" : "white",
-      }}
-      onClick={() => {
-        selectOption(data); // ✅ This will trigger onChange and close menu
-      }}
-    >
+    return (
       <div
+        ref={innerRef}
+        {...innerProps}
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
+          padding: "10px",
+          position: "relative",
+          cursor: "pointer",
+          backgroundColor: isSelected ? "#f0f0f0" : "white",
+        }}
+        onClick={() => {
+          selectOption(data); // ✅ This will trigger onChange and close menu
         }}
       >
-        <span>{data.label}</span>
-        <input
-          type="radio"
-          name={data.name || "option"}
-          value={data.value}
-          checked={isSelected}
-          readOnly
-          style={{ pointerEvents: 'none' }}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <span>{data.label}</span>
+          <input
+            type="radio"
+            name={data.name || "option"}
+            value={data.value}
+            checked={isSelected}
+            readOnly
+            style={{ pointerEvents: "none" }}
+          />
+        </div>
+
+        <hr
+          style={{
+            margin: "5px 0",
+            border: "0",
+            borderTop: "1px solid #ddd",
+            width: "100%",
+          }}
         />
       </div>
-
-      <hr
-        style={{
-          margin: "5px 0",
-          border: "0",
-          borderTop: "1px solid #ddd",
-          width: "100%",
-        }}
-      />
-    </div>
-  );
-};
+    );
+  };
 
   // Options for profession
   const professionOptions = [
@@ -636,11 +636,11 @@ const NewPlPage = ({ params, searchParams }) => {
 
     menu: (provided) => ({
       ...provided,
-      position: "fixed", 
-      top: "50%", 
-      left: "50%", 
-      transform: "translate(-50%, -50%)", 
-      width: "80%", 
+      position: "fixed",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: "80%",
       maxWidth: "400px",
       zIndex: 9999,
       boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.2)",
@@ -693,29 +693,29 @@ const NewPlPage = ({ params, searchParams }) => {
 
   // ✅ FIXED: Profession Change Handler
   const handleProfessionChange = (selectedOption) => {
-  console.log('Selected profession:', selectedOption);
-  
-  // ✅ Update state
-  setFormData({ 
-    ...formData, 
-    profession: selectedOption.value 
-  });
+    console.log("Selected profession:", selectedOption);
 
-  // ✅ Clear error if valid option selected
-  if (selectedOption.value !== "NA") {
-    setFormErrors({ 
-      ...formErrors, 
-      profession: "" 
+    // ✅ Update state
+    setFormData({
+      ...formData,
+      profession: selectedOption.value,
     });
-  } else {
-    setFormErrors({ 
-      ...formErrors, 
-      profession: "Profession is required" 
-    });
-  }
-  
-  // ✅ Menu will automatically close after selection due to react-select default behavior
-};
+
+    // ✅ Clear error if valid option selected
+    if (selectedOption.value !== "NA") {
+      setFormErrors({
+        ...formErrors,
+        profession: "",
+      });
+    } else {
+      setFormErrors({
+        ...formErrors,
+        profession: "Profession is required",
+      });
+    }
+
+    // ✅ Menu will automatically close after selection due to react-select default behavior
+  };
 
   // ✅ REMOVED: Menu control functions - not needed anymore
   // const handleProfessionFocus = () => {
@@ -732,30 +732,30 @@ const NewPlPage = ({ params, searchParams }) => {
   // };
 
   // ✅ FIXED: Payment Type Change Handler
- const handlePaymentTypeChange = (selectedOption) => {
-  console.log('Selected payment type:', selectedOption);
-  
-  // ✅ Update state
-  setFormData({ 
-    ...formData, 
-    paymentType: selectedOption.value 
-  });
+  const handlePaymentTypeChange = (selectedOption) => {
+    console.log("Selected payment type:", selectedOption);
 
-  // ✅ Clear error if valid option selected
-  if (selectedOption.value !== "NA") {
-    setFormErrors({ 
-      ...formErrors, 
-      paymentType: "" 
+    // ✅ Update state
+    setFormData({
+      ...formData,
+      paymentType: selectedOption.value,
     });
-  } else {
-    setFormErrors({
-      ...formErrors,
-      paymentType: "Payment type is required",
-    });
-  }
-  
-  // ✅ Menu will automatically close after selection
-};
+
+    // ✅ Clear error if valid option selected
+    if (selectedOption.value !== "NA") {
+      setFormErrors({
+        ...formErrors,
+        paymentType: "",
+      });
+    } else {
+      setFormErrors({
+        ...formErrors,
+        paymentType: "Payment type is required",
+      });
+    }
+
+    // ✅ Menu will automatically close after selection
+  };
 
   // ✅ REMOVED: Payment Type menu control functions - not needed anymore
   // const handlePaymentTypeFocus = () => {
@@ -1049,82 +1049,74 @@ const NewPlPage = ({ params, searchParams }) => {
             </div>
             <form ref={formRef} onSubmit={handleSubmit} className={styles.form}>
               {/* First Name Field */}
-           <div className={`${styles.formGroup} form-group`}>
-             <div className="input-wrapper">
-               <input
-                  type="text"
-                  id="fullname"
-                  name="fullname"
-                  placeholder="Name as per PAN"
-                  value={formData.fullname}
-                  className={styles.input}
-                  onChange={handleChange}
-                  onKeyDown={handleKeyDown}
-                  autoCapitalize="words"
+              <div className={`${styles.formGroup} form-group`}>
+                <div className="input-wrapper">
+                  <input
+                    type="text"
+                    id="fullname"
+                    name="fullname"
+                    placeholder="Name as per PAN"
+                    value={formData.fullname}
+                    className={styles.input}
+                    onChange={handleChange}
+                    onKeyDown={handleKeyDown}
+                    autoCapitalize="words"
                   />
-                 <span className={`${styles.icon} input-icon`}>
-               <FaUser />
+                  <span className={`${styles.icon} input-icon`}>
+                    <FaUser />
                   </span>
-            </div>
-                 {formErrors.fullname && (
-                  <span className="error">
-                  {formErrors.fullname}
-                  </span>
-                 )}
-             </div>
+                </div>
+                {formErrors.fullname && (
+                  <span className="error">{formErrors.fullname}</span>
+                )}
+              </div>
 
               <div>
                 {/* Mobile Number Field */}
-                  <div className={`${styles.formGroup} form-group`}>
-                     <div className="input-wrapper">
-                         <input
-                            ref={mobileNumberRef}
-                            type="text"
-                            id="mobileNumber"
-                            name="mobileNumber"
-                            placeholder="Mobile Number"
-                            inputMode="numeric"
-                            value={formData.mobileNumber}
-                            className={styles.input}
-                            onChange={handleMobileNumberChange}
-                        />
-                      <span className={`${styles.icon} input-icon`}>
-                         <FaPhone />
-                      </span>
-                       </div>
-                         {formErrors.mobileNumber && (
-                             <span className="error">
-                                 {formErrors.mobileNumber}
-                             </span>
-                          )}
-                      </div>
+                <div className={`${styles.formGroup} form-group`}>
+                  <div className="input-wrapper">
+                    <input
+                      ref={mobileNumberRef}
+                      type="text"
+                      id="mobileNumber"
+                      name="mobileNumber"
+                      placeholder="Mobile Number"
+                      inputMode="numeric"
+                      value={formData.mobileNumber}
+                      className={styles.input}
+                      onChange={handleMobileNumberChange}
+                    />
+                    <span className={`${styles.icon} input-icon`}>
+                      <FaPhone />
+                    </span>
+                  </div>
+                  {formErrors.mobileNumber && (
+                    <span className="error">{formErrors.mobileNumber}</span>
+                  )}
+                </div>
 
                 <div
                   className={styles.formGroup}
                   style={{ position: "relative" }}
                 >
-                 <Select
-  id="profession"
-  name="profession"
-  value={professionOptions.find(
-    (option) => option.value === formData.profession
-  )}
-  options={professionOptions}
-  ref={nextInputRef}
-  onChange={handleProfessionChange}
-  styles={customStyles}
-  placeholder="Select Occupation"
-  isSearchable={false}
-  menuPosition="absolute"
-  components={{ Option: CustomOption }}
-  // ✅ REMOVED: menuIsOpen, onFocus, onBlur, onClick - let react-select handle menu state
-/>
+                  <Select
+                    id="profession"
+                    name="profession"
+                    value={professionOptions.find(
+                      (option) => option.value === formData.profession
+                    )}
+                    options={professionOptions}
+                    ref={nextInputRef}
+                    onChange={handleProfessionChange}
+                    styles={customStyles}
+                    placeholder="Select Occupation"
+                    isSearchable={false}
+                    menuPosition="absolute"
+                    components={{ Option: CustomOption }}
+                    // ✅ REMOVED: menuIsOpen, onFocus, onBlur, onClick - let react-select handle menu state
+                  />
                   {formErrors.profession && (
-                    <span
-                      className="error"
-                    >
-                      {formErrors.profession}
-                    </span>
+                    <span className="error">{formErrors.profession}</span>
                   )}
                 </div>
               </div>
@@ -1134,93 +1126,85 @@ const NewPlPage = ({ params, searchParams }) => {
                 className={styles.formGroup}
                 style={{ position: "relative" }}
               >
-               <Select
-  id="paymentType"
-  name="paymentType"
-  value={paymentTypeOptions.find(
-    (option) => option.value === formData.paymentType
-  )}
-  options={paymentTypeOptions}
-  ref={paymentTypeRef}
-  onChange={handlePaymentTypeChange}
-  styles={customStyles}
-  placeholder="Select Payment Type"
-  isSearchable={false}
-  menuPosition="absolute"
-  components={{ Option: CustomOption }}
-  // ✅ REMOVED: menuIsOpen, onFocus, onBlur, onClick - let react-select handle menu state
-/>
+                <Select
+                  id="paymentType"
+                  name="paymentType"
+                  value={paymentTypeOptions.find(
+                    (option) => option.value === formData.paymentType
+                  )}
+                  options={paymentTypeOptions}
+                  ref={paymentTypeRef}
+                  onChange={handlePaymentTypeChange}
+                  styles={customStyles}
+                  placeholder="Select Payment Type"
+                  isSearchable={false}
+                  menuPosition="absolute"
+                  components={{ Option: CustomOption }}
+                  // ✅ REMOVED: menuIsOpen, onFocus, onBlur, onClick - let react-select handle menu state
+                />
                 {formErrors.paymentType && (
-                  <span
-                    className="error"
-                  >
-                    {formErrors.paymentType}
-                  </span>
+                  <span className="error">{formErrors.paymentType}</span>
                 )}
               </div>
 
               {/* Monthly Income Field */}
               <div className={`${styles.formGroup} form-group`}>
-                 <div className="input-wrapper">
+                <div className="input-wrapper">
                   <input
-                      type="number"
-                      id="monthlyIncome"
-                      name="monthlyIncome"
-                      placeholder="Monthly Income"
-                      value={formData.monthlyIncome}
-                      inputMode="numeric"
-                      className={styles.input}
-                      ref={monthlyIncomeRef}
-                      onChange={(e) => {
-        const value = e.target.value.replace(/\D/g, "");
-        setFormData({ ...formData, monthlyIncome: value });
-        if (formErrors.monthlyIncome) {
-          setFormErrors({ ...formErrors, monthlyIncome: "" });
-        }
-      }}
-    />
-               <span className={`${styles.icon} input-icon`}>
-                <FaRupeeSign />
-                </span>
-             </div>
+                    type="number"
+                    id="monthlyIncome"
+                    name="monthlyIncome"
+                    placeholder="Monthly Income"
+                    value={formData.monthlyIncome}
+                    inputMode="numeric"
+                    className={styles.input}
+                    ref={monthlyIncomeRef}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/\D/g, "");
+                      setFormData({ ...formData, monthlyIncome: value });
+                      if (formErrors.monthlyIncome) {
+                        setFormErrors({ ...formErrors, monthlyIncome: "" });
+                      }
+                    }}
+                  />
+                  <span className={`${styles.icon} input-icon`}>
+                    <FaRupeeSign />
+                  </span>
+                </div>
                 {formErrors.monthlyIncome && (
-                  <span className="error">
-                 {formErrors.monthlyIncome}
-                   </span>
-                   )}
+                  <span className="error">{formErrors.monthlyIncome}</span>
+                )}
               </div>
 
               {/* Pan Number field */}
-             <div className={`${styles.formGroup} form-group`}>
-                   <div className="input-wrapper">
-                       <input
-                          type={
-                          inputStage === "alphabets"
-                               ? "text"
-                                : inputStage === "numbers"
-                                ? "tel"
-                                : "text"
-                                }
-                             inputMode="text"
-                          id="pan"
-                           name="pan"
-                           placeholder="Enter PAN"
-                           value={panValue}
-                           className={styles.input}
-                           onChange={handleInputChange}
-                         pattern={inputStage === "numbers" ? "[0-9]*" : undefined}
-                         autoCapitalize="characters"
-                        />
-                      <span className={`${styles.icon} input-icon`}>
-                   <FaIdCard />
-                      </span>
-                         </div>
-                           {formErrors.pan && (
-                           <span className="error">
-                          {formErrors.pan}
-                              </span>
-                             )}
-                         </div>
+              <div className={`${styles.formGroup} form-group`}>
+                <div className="input-wrapper">
+                  <input
+                    type={
+                      inputStage === "alphabets"
+                        ? "text"
+                        : inputStage === "numbers"
+                        ? "tel"
+                        : "text"
+                    }
+                    inputMode="text"
+                    id="pan"
+                    name="pan"
+                    placeholder="Enter PAN"
+                    value={panValue}
+                    className={styles.input}
+                    onChange={handleInputChange}
+                    pattern={inputStage === "numbers" ? "[0-9]*" : undefined}
+                    autoCapitalize="characters"
+                  />
+                  <span className={`${styles.icon} input-icon`}>
+                    <FaIdCard />
+                  </span>
+                </div>
+                {formErrors.pan && (
+                  <span className="error">{formErrors.pan}</span>
+                )}
+              </div>
 
               <div className={styles.formGroup}>
                 <label>
@@ -1309,18 +1293,19 @@ const NewPlPage = ({ params, searchParams }) => {
                   {showConsent ? (
                     <>
                       By agreeing and accepting the terms and conditions set out
-                      herein, you provide your express consent to EarlySalary
-                      Services Private Limited(fibe), Whizdm Innovations Pvt
-                      Ltd, Upwards Fintech Services Pvt Ltd, Tata Capital
-                      Financial Services Ltd, SmartCoin Financials Pvt Ltd, MWYN
-                      Tech Pvt Ltd, L&T Finance Ltd, Krazybee Services Pvt Ltd,
-                      Infocredit Services Pvt. Ltd, Incred Financial Services,
-                      IIFL Finance Ltd, EQX Analytics Pvt Ltd, EPIMoney Pvt Ltd,
-                      Bhanix finance and Investment LTd, Aditya Birla Finance
-                      Ltd to access the credit bureaus and credit information
-                      report and credit score. You also hereby irrevocably and
-                      unconditionally consent to usage of such credit
-                      information being provided by credit bureaus.
+                      herein, you provide your express consent to Arysefin,
+                      Aditya Birla Capital Limited, EarlySalary Services Private
+                      Limited(fibe), Bajaj Finserv Limited, PaywithRing, Whizdm
+                      Innovations Pvt Ltd, Upwards Fintech Services Pvt Ltd,
+                      Tata Capital Financial Services Ltd, SmartCoin Financials
+                      Pvt Ltd, MWYN Tech Pvt Ltd, L&T Finance Ltd, Krazybee
+                      Services Pvt Ltd, Infocredit Services Pvt. Ltd, Incred
+                      Financial Services, IIFL Finance Ltd, EQX Analytics Pvt
+                      Ltd, EPIMoney Pvt Ltd, Bhanix finance and Investment LTd,
+                      Aditya Birla Finance Ltd to access the credit bureaus and
+                      credit information report and credit score. You also
+                      hereby irrevocably and unconditionally consent to usage of
+                      such credit information being provided by credit bureaus.
                       <span
                         onClick={() => setShowConsent(false)}
                         style={{

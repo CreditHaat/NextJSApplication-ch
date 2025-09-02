@@ -99,6 +99,26 @@ const GetLoanButton = ({ lender, productId }) => {
     if (lenderCpi === 1) {
       setRedirectionLinkLoader(true);
 
+      // if (productname === "AryseFin") {
+      //   try {
+      //     // ✅ STEP 0: Create lead on RYSA
+      //     const createLeadResponse = await axios.post(
+      //       `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}api/leadcreate`,
+      //       {
+      //         mobilenumber: mobileNumber,
+      //       },
+      //       {
+      //         headers: {
+      //           "Content-Type": "application/json",
+      //           token: "Y3JlZGl0aGFhdHRlc3RzZXJ2ZXI=", // or your valid token
+      //         },
+      //       }
+      //     );
+      //   } catch (err) {
+      //     console.error("❌ HDB API Error:", err);
+      //   }
+      // }
+
       if (productId === 138431539) {
         console.log("Product id is :: ", productId);
 
@@ -113,10 +133,10 @@ const GetLoanButton = ({ lender, productId }) => {
         );
 
         console.log("The response from h5/cpiClickNew_hdfc is :: ", response);
-          const timer = setTimeout(() => {
-        setRedirectionLinkLoader(false);
-        window.location.href = lenderApplicationLink;
-      }, 3000);
+        const timer = setTimeout(() => {
+          setRedirectionLinkLoader(false);
+          window.location.href = lenderApplicationLink;
+        }, 3000);
       } else {
         const formData2 = new FormData();
         formData2.append("userId", "");
@@ -129,15 +149,15 @@ const GetLoanButton = ({ lender, productId }) => {
           formData2
         );
         const timer = setTimeout(() => {
-            setRedirectionLinkLoader(false);
-            window.location.href = response.data.obj;
-          }, 3000);
-    }
+          setRedirectionLinkLoader(false);
+          window.location.href = response.data.obj;
+        }, 3000);
+      }
 
-    //   const timer = setTimeout(() => {
-    //     setRedirectionLinkLoader(false);
-    //     window.location.href = lenderApplicationLink;
-    //   }, 3000);
+      //   const timer = setTimeout(() => {
+      //     setRedirectionLinkLoader(false);
+      //     window.location.href = lenderApplicationLink;
+      //   }, 3000);
 
       //setRedirectionLinkLoader(false);
       // return; // Exit the function to avoid further execution

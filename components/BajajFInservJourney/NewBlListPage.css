@@ -49,6 +49,18 @@
   
 }
 
+.newcard-container-grayedout {
+  position: relative;
+  width: 100%;
+  margin-top: 10px;
+  background: linear-gradient(to right, #7f838b, #9a969f, #e1dfdb);
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  
+}
+
 .card-button {
   position: absolute;
   bottom: -15px; /* Adjusted so it appears half in and half out */

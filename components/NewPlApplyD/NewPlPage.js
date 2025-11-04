@@ -906,7 +906,7 @@ const NewPlPage = ({ params, searchParams }) => {
         }
 
         console.log("for partner page", response);
-      } catch (error) {}
+      } catch (error) { }
     }
   };
 
@@ -1113,7 +1113,7 @@ const NewPlPage = ({ params, searchParams }) => {
                     isSearchable={false}
                     menuPosition="absolute"
                     components={{ Option: CustomOption }}
-                    // ✅ REMOVED: menuIsOpen, onFocus, onBlur, onClick - let react-select handle menu state
+                  // ✅ REMOVED: menuIsOpen, onFocus, onBlur, onClick - let react-select handle menu state
                   />
                   {formErrors.profession && (
                     <span className="error">{formErrors.profession}</span>
@@ -1140,7 +1140,7 @@ const NewPlPage = ({ params, searchParams }) => {
                   isSearchable={false}
                   menuPosition="absolute"
                   components={{ Option: CustomOption }}
-                  // ✅ REMOVED: menuIsOpen, onFocus, onBlur, onClick - let react-select handle menu state
+                // ✅ REMOVED: menuIsOpen, onFocus, onBlur, onClick - let react-select handle menu state
                 />
                 {formErrors.paymentType && (
                   <span className="error">{formErrors.paymentType}</span>
@@ -1184,8 +1184,8 @@ const NewPlPage = ({ params, searchParams }) => {
                       inputStage === "alphabets"
                         ? "text"
                         : inputStage === "numbers"
-                        ? "tel"
-                        : "text"
+                          ? "tel"
+                          : "text"
                     }
                     inputMode="text"
                     id="pan"
@@ -1335,6 +1335,15 @@ const NewPlPage = ({ params, searchParams }) => {
                   )}
                 </label>
                 {errors.terms && <p style={{ color: "red" }}>{errors.terms}</p>}
+              </div>
+              <div className={styles.formGroup}>
+              <label>
+                By continuing; it is accepted that I have read/understood approach for gradation risk.<a href="https://www.credithaat.com/selectioncriteria"  style={{
+                          color: "blue",
+                          cursor: "pointer",
+                          textDecoration: "none",
+                        }} > (gradation risk policy)</a>
+              </label>
               </div>
               <div style={{ marginBottom: "50px" }}>
                 Calculation:

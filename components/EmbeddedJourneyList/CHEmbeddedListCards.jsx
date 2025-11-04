@@ -80,6 +80,56 @@ const CHEmbeddedListCards = ({ json1, mobile }) => {
             </div>
           ))
         }
+        {
+          json1.lender_details_greyedout.map((lender, index) => (
+            <div key={index} className={`${lender.product_id} newcard-container-grayedout`}>
+              <div className="card-logo">
+                <Image src={lender.logo} alt="Logo"
+                  width={50}
+                  height={50}
+                  className="logo-image" style={{ width: 'auto' }}/> {/* Display image here */}
+              </div>
+              <div className="subcardheader">
+                {/* <p className="card-subtitle">{lender.product}</p> */}
+              </div>
+              <div className="card-body">
+                <h1 className="amount">INR {lender.maxloanamount}</h1>
+                <p className="max-amount">Max. Amount</p>
+              </div>
+              <div className="card-info">
+                <div className="info-item">
+                  {/* <span role="img" aria-label="clock">⏱️</span>{lender.description} */}
+                  <span role="img" aria-label="clock">
+                    <Image
+                      src={clock}
+                      width={15}
+                      height={15}
+                    />
+                  </span>{lender.description}
+                </div>
+                <div className="info-item">
+                  {/* <span role="img" aria-label="interest">💰</span>{lender.interest} */}
+                  <span role="img" aria-label="interest"></span>{lender.interest}
+                </div>
+              </div>
+              {/* <div>
+                {
+                  lender.cpi === 1 ? (
+                    <button className="card-button" onClick={() => redirectLinkMethod(lender.product, lender.applicationLink)} >Get Loan</button>
+                  ) : (
+                    <button className="card-button" onClick={(e) => getLoanBackendMethod(e, lender.product)}>Get Loan</button>
+                  )
+                }
+
+              </div> */}
+
+              {/* <div>
+                 <GetLoanButton lender={lender} productId={lender.product_id} />
+              </div> */}
+
+            </div>
+          ))
+        }
       </div>
       </>)
     }

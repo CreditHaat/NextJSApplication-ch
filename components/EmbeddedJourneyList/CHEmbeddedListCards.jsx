@@ -1,209 +1,207 @@
-'use server'
+'use server';
 
 import { Typography } from '@mui/material';
 import GetLoanButton from './GetLoanButton';
-// // import GetLoanButton from './GetLoanButton';
-// import './CHEmbeddedList.css';
-
-// import clock from "./newblimages/clock.png";
-// import { Roboto } from '@next/font/google';
 import clock from "../../components/NewBlJourneyD/newblimages/clock.png";
 import Image from 'next/image';
 import '../../components/NewBlJourneyD/NewBlListPage.css';
-import {roboto} from "./fonts";
+import { roboto } from "./fonts";
 import OTPComponent from "../../components/EmbeddedJourneyList/OTPComponent";
+import DownloadKFSComponent from "./DownloadKFSComponent";
 
+import { getEMIAmount, getROI, getTenure } from "./generatekfsfunction";
 
+const CHEmbeddedListCards = async ({ json1, mobile }) => {
 
+  if (json1 === null) {
+    return <div>No Data To Display</div>;
+  }
 
-const CHEmbeddedListCards = ({ json1, mobile }) => {
+  // Pre-load all lender async values
+  const lendersWithKFS = await Promise.all(
+    json1.lender_details.map(async (lender) => {
+
+      let tenure = "";
+      let emi = "";
+      let roi = "";
+
+      if (lender.product_id === 519) {
+        tenure = await getTenure(lender.product_id, mobile);
+        emi = await getEMIAmount(lender.product_id, mobile);
+        roi = await getROI(lender.product_id, mobile);
+      } else {
+        roi = lender.interest;
+      }
+
+      return { ...lender, tenure, emi, roi };
+    })
+  );
 
   return (
     <>
-    {
-      (json1=== null)?
-      (<>
-        {/* <OTPComponent mobile={mobile}/> */}
-        <div>No Data To Display</div>
-      </>)
-      :
-      (<>
-      { <OTPComponent mobile={mobile}/>}
-        <div className={`${roboto.className} allnewcard-container`} style={{marginTop:"10px"}}>
-        {
-          json1.lender_details.map((lender, index) => (
-            <div key={index} className={`${lender.product_id} newcard-container`}>
-              <div className="card-logo">
-                <Image src={lender.logo} alt="Logo"
-                  width={50}
-                  height={50}
-                  className="logo-image" style={{ width: 'auto' }}/> {/* Display image here */}
-              </div>
-              <div className="subcardheader">
-                {/* <p className="card-subtitle">{lender.product}</p> */}
-              </div>
-              <div className="card-body">
-                <h1 className="amount">INR {lender.maxloanamount}</h1>
-                <p className="max-amount">Max. Amount</p>
-              </div>
-              <div className="card-info">
-                <div className="info-item">
-                  {/* <span role="img" aria-label="clock">⏱️</span>{lender.description} */}
-                  <span role="img" aria-label="clock">
-                    <Image
-                      src={clock}
-                      width={15}
-                      height={15}
-                    />
-                  </span>{lender.description}
-                </div>
-                <div className="info-item">
-                  {/* <span role="img" aria-label="interest">💰</span>{lender.interest} */}
-                  <span role="img" aria-label="interest"></span>{lender.interest}
-                </div>
-              </div>
-              {/* <div>
-                {
-                  lender.cpi === 1 ? (
-                    <button className="card-button" onClick={() => redirectLinkMethod(lender.product, lender.applicationLink)} >Get Loan</button>
-                  ) : (
-                    <button className="card-button" onClick={(e) => getLoanBackendMethod(e, lender.product)}>Get Loan</button>
-                  )
-                }
+      <OTPComponent mobile={mobile} />
 
-              </div> */}
+      <div className={`${roboto.className} allnewcard-container`} style={{ marginTop: "10px" }}>
 
-              <div>
-                 <GetLoanButton lender={lender} productId={lender.product_id} />
-              </div>
+        {/* Active lenders */}
+        {lendersWithKFS.map((lender, index) => (
+          <div key={index} className={`${lender.product_id} newcard-container`}>
 
+            <div className="card-logo">
+              <Image
+                src={lender.logo}
+                alt="Logo"
+                width={50}
+                height={50}
+                className="logo-image"
+                style={{ width: 'auto' }}
+              />
             </div>
-          ))
-        }
-        {
-          json1.lender_details_greyedout.map((lender, index) => (
-            <div key={index} className={`${lender.product_id} newcard-container-grayedout`}>
-              <div className="card-logo">
-                <Image src={lender.logo} alt="Logo"
-                  width={50}
-                  height={50}
-                  className="logo-image" style={{ width: 'auto' }}/> {/* Display image here */}
-              </div>
-              <div className="subcardheader">
-                {/* <p className="card-subtitle">{lender.product}</p> */}
-              </div>
-              <div className="card-body">
-                <h1 className="amount">INR {lender.maxloanamount}</h1>
-                <p className="max-amount">Max. Amount</p>
-              </div>
-              <div className="card-info">
-                <div className="info-item">
-                  {/* <span role="img" aria-label="clock">⏱️</span>{lender.description} */}
-                  <span role="img" aria-label="clock">
-                    <Image
-                      src={clock}
-                      width={15}
-                      height={15}
-                    />
-                  </span>{lender.description}
-                </div>
-                <div className="info-item">
-                  {/* <span role="img" aria-label="interest">💰</span>{lender.interest} */}
-                  <span role="img" aria-label="interest"></span>{lender.interest}
-                </div>
-              </div>
-              {/* <div>
-                {
-                  lender.cpi === 1 ? (
-                    <button className="card-button" onClick={() => redirectLinkMethod(lender.product, lender.applicationLink)} >Get Loan</button>
-                  ) : (
-                    <button className="card-button" onClick={(e) => getLoanBackendMethod(e, lender.product)}>Get Loan</button>
-                  )
-                }
 
-              </div> */}
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <span className="card-body">
+                <h1 className="amount2">{lender.maxloanamount}</h1>
+                <p className="max-amount2">Max. Amount</p>
+              </span>
 
-              {/* <div>
-                 <GetLoanButton lender={lender} productId={lender.product_id} />
-              </div> */}
-
+              <span className="card-body">
+                <h1 className="amount2">{lender.tenure}</h1>
+                <p className="max-amount2">Tenure</p>
+              </span>
             </div>
-          ))
-        }
+
+            <div style={{ display: 'flex', gap: '10px', marginBottom: '5px' }}>
+              <span className="card-body">
+                <h1 className="amount2">{lender.emi}</h1>
+                <p className="max-amount2">Installment Amount</p>
+              </span>
+
+              <span className="card-body">
+                <h1 className="amount2">{lender.roi}</h1>
+                <p className="max-amount2">Rate Of Interest</p>
+              </span>
+            </div>
+
+            {/* <div className="card-info">
+              <div className="info-item">
+                <span role="img" aria-label="clock">
+                  <Image src={clock} width={15} height={15} />
+                </span>
+                {lender.description}
+              </div>
+
+              <div className="info-item">
+                {lender.interest}
+              </div>
+            </div> */}
+
+            <div style={{ marginBottom: '20px' }}>
+              <DownloadKFSComponent productId={lender.product_id} mobileNumber={mobile} />
+            </div>
+
+            <GetLoanButton lender={lender} productId={lender.product_id} />
+
+
+          </div>
+        ))}
+
+        {/* Unmatched Lender label */}
+
+        <div style={{
+          display: "flex",
+          justifyContent: "center",
+          margin: "15px 0"
+        }}>
+          <div style={{
+            border: "1px solid #6039D2",
+            color: "#6039D2",
+            padding: "6px 18px",
+            borderRadius: "30px",
+            fontSize: "14px",
+            fontWeight: "500",
+            background: "white"
+          }}>
+            Unmatched Lender
+          </div>
+        </div>
+
+
+        {/* Greyed out lenders */}
+        {json1.lender_details_greyedout.map((lender, index) => (
+          // <div key={index} className={`${lender.product_id} newcard-container-grayedout`}>
+
+          //   <div className="card-logo">
+          //     <Image
+          //       src={lender.logo}
+          //       alt="Logo"
+          //       width={50}
+          //       height={50}
+          //       className="logo-image"
+          //       style={{ width: 'auto' }}
+          //     />
+          //   </div>
+
+          //   <div className="card-body">
+          //     <h1 className="amount">INR {lender.maxloanamount}</h1>
+          //     <p className="max-amount">Max. Amount</p>
+          //   </div>
+
+          //   <div className="card-info">
+          //     <div className="info-item">
+          //       <span role="img" aria-label="clock">
+          //         <Image src={clock} width={15} height={15} />
+          //       </span>
+          //       {lender.description}
+          //     </div>
+
+          //     <div className="info-item">
+          //       {lender.interest}
+          //     </div>
+          //   </div>
+
+          // </div>
+          <div key={index} className={`${lender.product_id} newcard-container-grayedout`}>
+
+            <div className="card-logo">
+              <Image
+                src={lender.logo}
+                alt="Logo"
+                width={50}
+                height={50}
+                className="logo-image"
+                style={{ width: 'auto' }}
+              />
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <span className="card-body">
+                <h1 className="amount2">{lender.maxloanamount}</h1>
+                <p className="max-amount2">Max. Amount</p>
+              </span>
+
+              <span className="card-body">
+                <h1 className="amount2">{lender.tenure}</h1>
+                <p className="max-amount2">Tenure</p>
+              </span>
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px', marginBottom: '5px' }}>
+              <span className="card-body">
+                <h1 className="amount2">{lender.emi}</h1>
+                <p className="max-amount2">Installment Amount</p>
+              </span>
+
+              <span className="card-body">
+                <h1 className="amount2">{lender.roi}</h1>
+                <p className="max-amount2">Rate Of Interest</p>
+              </span>
+            </div>
+            
+          </div>
+        ))}
       </div>
-      </>)
-    }
-      
     </>
-  )
+  );
+};
 
-}
-
-
-//   return (
-//     <div>
-
-//       {console.log(json1)}
-
-//       <div style={{ padding: '10px', paddingTop: '0px' }}>
-//         {json1.lender_details.map((lender, index) => (
-//           <div key={index} className={lender.product_id} >
-//             <div className="card-container">
-//               <div className="card-content">
-//                 <div className="" style={{ width: '50%', float: 'left', margin: 'auto' }}>
-//                   <div className="text-content" style={{ width: '50%', padding: '10px', margin: 'auto', marginLeft: '0px' }}>
-//                     <img alt="logo" src={lender.logo} className="logo" style={{ display: 'flex', justifyContent: 'center', width: '100%', height: 'auto', maxWidth: '60px', minWidth: '0px' }} />
-
-//                   </div>
-//                 </div>
-//                 <div className="text-content" style={{ width: '50%', float: 'right' }}>
-//                   <Typography variant="h5" component="div" className="title" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
-//                     {lender.product}
-//                   </Typography>
-//                   <Typography variant="body2" color="textSecondary" className="data" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
-//                     {lender.description}
-//                   </Typography>
-//                 </div>
-//               </div>
-//               <div className="details">
-//                 <div className="detail">
-//                   <Typography variant="body2" color="textSecondary" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
-//                     <span className="detail-label">{lender.maxloanamount}</span> <br />Max Amount
-//                   </Typography>
-//                 </div>
-//                 <div className="detail">
-//                   <Typography variant="body2" color="textSecondary" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
-//                     <span className="detail-labels" >{lender.tenure}</span> <br />Tenure
-//                   </Typography>
-//                 </div>
-//                 <div className="detail">
-//                   <Typography variant="body2" color="textSecondary" style={{ fontFamily: 'Times New Roman, Times, serif' }}>
-//                     <span className="detail-labels" >{lender.interest}</span> <br />Interest
-//                   </Typography>
-//                 </div>
-//               </div>
-//               <div className="action-button">
-//                 <GetLoanButton lender={lender} productId={lender.product_id} />
-//               </div>
-
-//             </div>
-//           </div>
-//         ))}
-//       </div>
-
-//       <style>
-//         {`
-//         .hide{
-//           display: none;
-//         }
-//         .show{
-//         display:block;
-//         }
-//       `}
-//       </style>
-//     </div>
-//   )
-// }
-
-export default CHEmbeddedListCards
-
+export default CHEmbeddedListCards;

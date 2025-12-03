@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import EmbeddedContext from './EmbeddedContext'
 
 const EmbeddedProvider = () => {
@@ -10,6 +10,16 @@ const EmbeddedProvider = () => {
     const [lenderName, setlenderName] = useState("NA");
     const [productsArr, setProductsArr] = useState([]);
 
+    const [kfsPrincipalAmount, setKfsPrincipalAmount] = useState();
+    const [kfsDisbursalAmount, setKfsDisbursalAmount] = useState();
+    const [kfsPFAmt, setKfsPFAmt] = useState();
+    const [kfsROI, setKFSROI] = useState();
+    const [kfsTenure, setKfsTenure] = useState();
+    const [kfsEmiAmount, setKfsEmiAmount] = useState();
+    const [kfsFinalPF, setKfsFinalPF] = useState();
+    const [kfsInsuranceWithGST, setKfsInsuranceWithGST] = useState();
+    const [kfsTotalCharges, setKfsTotalCharges] = useState();
+
     // setLenderProduct(product);
     //   setProductsArr(addProductCallback);
     //   setLenderCpi(cpi);
@@ -17,8 +27,8 @@ const EmbeddedProvider = () => {
     //   setLender_id(productId);
     //   handleOTPComponent();
 
-    return(
-        <EmbeddedContext.Provider>
+    return (
+        <EmbeddedContext.Provider value={{kfsPrincipalAmount, kfsDisbursalAmount, kfsPFAmt, kfsROI, kfsTenure, kfsEmiAmount, kfsFinalPF, kfsInsuranceWithGST, kfsTotalCharges}}>
             {children}
         </EmbeddedContext.Provider>
     )

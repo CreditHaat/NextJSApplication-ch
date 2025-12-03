@@ -97,17 +97,17 @@ const embeddedGetLoanButton = ({ lenderProduct, productsArr, lenderCpi, lenderAp
   const generateKFS = async (product, addProductCallback, cpi, applicationLink, productId) => {
     try {
 
-      // if(productId === 228265178 || productId === 519){ //for production
-      if (productId === 228265178 || productId === 519) { //for uat
+      if(productId === 228265178){ //for production
+      // if (productId === 15365588) { //for uat
         setKfsLender(product);
         const formData = new FormData();
         formData.append("mobileNumber", mobileNumber);
-        const response = await axios.post("https://uat.credithaat.in/api/getUserDetails", formData);
-        // const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}api/getUserDetails`,formData);
+        // const response = await axios.post("https://uat.credithaat.in/api/getUserDetails", formData);
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}api/getUserDetails`,formData);
         if (response.status === 200) {
 
           //here we will set kfs details according to the lender
-          if (productId === 228265178) { //Id only for uat not for production
+          if (productId === 15365588) { //Id only for uat not for production5
 
             //this is for Poonawalla Fincorp
 
@@ -766,9 +766,6 @@ const embeddedGetLoanButton = ({ lenderProduct, productsArr, lenderCpi, lenderAp
       const pageWidth = doc.internal.pageSize.getWidth();
       const pageHeight = doc.internal.pageSize.getHeight();
       const margin = 10;
-
-//       const logoBase64 = "data:image/png;base64,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"; // replace with your logo
-// doc.addImage(logoBase64, "PNG", margin, 8, 25, 10);
 
       // ==================== PAGE 1 ====================
       // Company Header

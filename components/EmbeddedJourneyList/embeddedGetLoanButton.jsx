@@ -107,7 +107,7 @@ const embeddedGetLoanButton = ({ lenderProduct, productsArr, lenderCpi, lenderAp
         if (response.status === 200) {
 
           //here we will set kfs details according to the lender
-          if (productId === 15365588) { //Id only for uat not for production5
+          if (productId === 228265178) { //Id only for uat not for production5
 
             //this is for Poonawalla Fincorp
 

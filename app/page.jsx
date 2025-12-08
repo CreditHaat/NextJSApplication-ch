@@ -4,14 +4,16 @@
 // import HomePage from '@'
 // import HomePage from '@/components/HomePage'
 import HomePage from '../components/HomePage'
+import { redirect } from "next/navigation";
 
 
 const page = () => {
   return (
     <>
         {/* <HomePage/> */}
-        <HomePage/>
+        {/* <HomePage/> */}
         {/* <MainComponent/> */}
+        {redirect("https://www.credithaat.com")}
     </>
   )
 }

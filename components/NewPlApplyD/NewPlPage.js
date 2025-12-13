@@ -58,6 +58,7 @@ const NewPlPage = ({ params, searchParams }) => {
 
   const [genderFlag, setGenderFlag] = useState(false);
   const [addressFlag, setAddressFlag] = useState(false);
+  const [showOtpSheet, setShowOtpSheet] = useState(false);
 
   const [formErrors, setFormErrors] = useState({
     fullname: "",
@@ -315,8 +316,13 @@ const NewPlPage = ({ params, searchParams }) => {
       valid = false;
     }
 
-    if (!formData.monthlyIncome)
-      errors.monthlyIncome = "Monthly income is required";
+    if (!formData.monthlyIncome) {
+      errors.monthlyIncome = "Amount is required";
+      valid = false;
+    } else if (Number(formData.monthlyIncome) <= 1000) {
+      errors.monthlyIncome = "Amount must be greater than 1000";
+      valid = false;
+    }
 
     // PAN validation with regex
     if (!formData.pan) {
@@ -424,6 +430,10 @@ const NewPlPage = ({ params, searchParams }) => {
     // setIsOtpBottomSheetVisible(false);
   };
 
+  const handleCloseOtpSheet = () => {
+    setIsOtpBottomSheetVisible(false);
+  };
+
   const verify_otp_credithaat_from_backend = async (e) => {
     // e.preventDefault();
     setOtpLoader(true);
@@ -477,6 +487,7 @@ const NewPlPage = ({ params, searchParams }) => {
         // setGenderFlag(true);
         // setAddressFlag(true);
         // Close the OTP Bottom Sheet only when the OTP is correct
+        setOtpStatus("");
         setIsOtpBottomSheetVisible(false);
 
         if (formData.profession === "Salaried") {
@@ -906,7 +917,7 @@ const NewPlPage = ({ params, searchParams }) => {
         }
 
         console.log("for partner page", response);
-      } catch (error) { }
+      } catch (error) {}
     }
   };
 
@@ -1113,7 +1124,7 @@ const NewPlPage = ({ params, searchParams }) => {
                     isSearchable={false}
                     menuPosition="absolute"
                     components={{ Option: CustomOption }}
-                  // ✅ REMOVED: menuIsOpen, onFocus, onBlur, onClick - let react-select handle menu state
+                    // ✅ REMOVED: menuIsOpen, onFocus, onBlur, onClick - let react-select handle menu state
                   />
                   {formErrors.profession && (
                     <span className="error">{formErrors.profession}</span>
@@ -1140,7 +1151,7 @@ const NewPlPage = ({ params, searchParams }) => {
                   isSearchable={false}
                   menuPosition="absolute"
                   components={{ Option: CustomOption }}
-                // ✅ REMOVED: menuIsOpen, onFocus, onBlur, onClick - let react-select handle menu state
+                  // ✅ REMOVED: menuIsOpen, onFocus, onBlur, onClick - let react-select handle menu state
                 />
                 {formErrors.paymentType && (
                   <span className="error">{formErrors.paymentType}</span>
@@ -1184,8 +1195,8 @@ const NewPlPage = ({ params, searchParams }) => {
                       inputStage === "alphabets"
                         ? "text"
                         : inputStage === "numbers"
-                          ? "tel"
-                          : "text"
+                        ? "tel"
+                        : "text"
                     }
                     inputMode="text"
                     id="pan"
@@ -1337,21 +1348,38 @@ const NewPlPage = ({ params, searchParams }) => {
                 {errors.terms && <p style={{ color: "red" }}>{errors.terms}</p>}
               </div>
               <div className={styles.formGroup}>
-              <label>
-                By continuing; it is accepted that I have read/understood approach for gradation risk.<a href="https://www.credithaat.com/selectioncriteria"  style={{
-                          color: "blue",
-                          cursor: "pointer",
-                          textDecoration: "none",
-                        }} > (gradation risk policy)</a>
-              </label>
+                <label>
+                  By continuing; it is accepted that I have read/understood
+                  approach for gradation risk.
+                  <a
+                    href="https://www.credithaat.com/selectioncriteria"
+                    style={{
+                      color: "blue",
+                      cursor: "pointer",
+                      textDecoration: "none",
+                    }}
+                  >
+                    {" "}
+                    (gradation risk policy)
+                  </a>
+                </label>
               </div>
               <div style={{ marginBottom: "50px" }}>
-                Calculation:
                 <br /> CreditHaat does not charge any fees from the user.
+                <br />
+                Calculation:
                 <br /> A sample loan calculation for ₹1,00,000 borrowed for 1
                 year, with interest rate @13% per annum*, is as provided below:{" "}
                 <br />
-                Processing fee (@ 2%) = ₹2,000 + GST = ₹2,360
+                Processing fee (@ 2%) = ₹2,000 + GST = ₹2,360 <br />
+                Interest = ₹7,181
+                <br />
+                EMI = ₹8,932
+                <br />
+                Total amount to be repaid after a year = ₹1,10,129/-
+                <br />
+                *Interest Rate varies based on your risk profile The maximum
+                Annual Interest Rate (APR) can go up to 36%
               </div>
               <div className={styles.stickyButton}>
                 <button
@@ -1376,6 +1404,7 @@ const NewPlPage = ({ params, searchParams }) => {
           upotp={upotp}
           otpStatus={otpStatus}
           setUpOtp={setUpOtp}
+          onClose={handleCloseOtpSheet}
         />
       )}
     </>

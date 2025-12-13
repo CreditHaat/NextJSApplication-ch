@@ -410,9 +410,10 @@ function OTPVerification({ verifyOTP, upotp, otpStatus, setUpOtp }) {
                 border:'solid #3e2780 1px',
                 textAlign:'center'
               }}
-              type="number"
+                type="text"
               name="otp"
-              maxLength="1"
+              inputMode="numeric"
+              maxLength={1}
               key={index}
               ref={(el) => (inputRefs.current[index] = el)}
               value={data}

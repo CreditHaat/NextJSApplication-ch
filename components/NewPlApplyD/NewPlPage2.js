@@ -8,12 +8,10 @@ import styles from "./NewPlFirstPage.module.css";
 import EmblaCarousel from "./Emblacarousel/js/EmblaCarousel";
 import NewBlListPage from "../NewBlJourneyD/NewBlListPage";
 import axios from "axios";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { format } from "date-fns";
 import Loader from "../NewBlJourneyD/LendersLoader";
 import RedirectionLoader from "../NewBlJourneyD/RedirectionLoader";
 import ApplicationLoader from "../NewBlJourneyD/ApplicationLoader";
+import Select from "react-select";
 import {
   FaEnvelope,
   FaHome,
@@ -76,6 +74,12 @@ const NewPlPage2 = ({
   const [showConsent, setShowConsent] = useState(false);
   const [errors, setErrors] = useState({}); // Object to store error messages
   const formRef = useRef(null);
+  const emailRef = useRef(null);
+  const companyNameRef = useRef(null);
+  const officeemailRef = useRef(null);
+  const officePincodeRef = useRef(null);
+  const residentialPincodeRef = useRef(null);
+  const addressRef = useRef(null);
 
   // const[ActiveContainer, setActiveContainer]= useState("NewBlFirstPage");
   const [isLoading, setIsLoading] = useState(false);
@@ -93,7 +97,408 @@ const NewPlPage2 = ({
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top of the page when component mounts
   }, []);
+  // ========================================================
+  // ========================================================
 
+  // Initial state variables
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+  const [dobError, setDobError] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
+  const datePickerRef = useRef(null);
+
+  // Helper arrays for date picker
+  const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  // Generate years array (from 1924 to current year)
+  const currentYearValue = new Date().getFullYear();
+  const years = Array.from({ length: 101 }, (_, i) => currentYearValue - i);
+
+  // Function to check if a date is valid
+  const isValidDate = (dateString) => {
+    const regex = /^\d{2}-\d{2}-\d{4}$/;
+    if (!regex.test(dateString)) return false;
+
+    const [day, month, year] = dateString.split("-").map(Number);
+    const date = new Date(year, month - 1, day);
+
+    return (
+      date.getFullYear() === year &&
+      date.getMonth() === month - 1 &&
+      date.getDate() === day
+    );
+  };
+
+  const genderOptions = [
+    { value: "Male", label: "Male" },
+    { value: "Female", label: "Female" },
+    { value: "Other", label: "Other" },
+  ];
+
+  // Function to validate date of birth
+  const validateDOB = (value) => {
+    if (!value.trim()) {
+      return "Date of birth is required";
+    } else if (!isValidDate(value)) {
+      return "Please enter a valid date in DD-MM-YYYY format";
+    } else {
+      const [day, month, year] = value.split("-").map(Number);
+      const dob = new Date(year, month - 1, day);
+      const today = new Date();
+
+      let age = today.getFullYear() - dob.getFullYear();
+      const monthDiff = today.getMonth() - dob.getMonth();
+      const dayDiff = today.getDate() - dob.getDate();
+
+      if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+        age--;
+      }
+
+      if (age < 18) {
+        return "You must be at least 18 years old";
+      }
+
+      if (age > 100) {
+        return "Please enter a valid date of birth";
+      }
+    }
+    return "";
+  };
+
+  const handleGenderChange = (selectedOption) => {
+    console.log("Selected profession:", selectedOption);
+
+    // ✅ Update state
+    setFormData({
+      ...formData,
+      gender: selectedOption.value,
+    });
+
+    // ✅ Clear error if valid option selected
+    if (selectedOption.value !== "NA") {
+      setFormErrors({
+        ...formErrors,
+        gender: "",
+      });
+    } else {
+      setFormErrors({
+        ...formErrors,
+        gender: "Gender is required",
+      });
+    }
+
+    // ✅ Menu will automatically close after selection due to react-select default behavior
+  };
+
+  const CustomOption = (props) => {
+    const { data, innerRef, innerProps, selectOption, isSelected } = props;
+
+    return (
+      <div
+        ref={innerRef}
+        {...innerProps}
+        style={{
+          padding: "10px",
+          position: "relative",
+          cursor: "pointer",
+          backgroundColor: isSelected ? "#f0f0f0" : "white",
+        }}
+        onClick={() => {
+          selectOption(data); // ✅ This will trigger onChange and close menu
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <span>{data.label}</span>
+          <input
+            type="radio"
+            name={data.name || "option"}
+            value={data.value}
+            checked={isSelected}
+            readOnly
+            style={{ pointerEvents: "none" }}
+          />
+        </div>
+
+        <hr
+          style={{
+            margin: "5px 0",
+            border: "0",
+            borderTop: "1px solid #ddd",
+            width: "100%",
+          }}
+        />
+      </div>
+    );
+  };
+
+  const customStyles = {
+    input: (provided) => ({
+      ...provided,
+      padding: "8px",
+      width: "100%",
+      minHeight: "70px",
+      border: "none",
+      cursor: "pointer",
+      borderRadius: "50px",
+    }),
+
+    menu: (provided) => ({
+      ...provided,
+      position: "fixed",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: "80%",
+      maxWidth: "400px",
+      zIndex: 9999,
+      boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.2)",
+      borderRadius: "10px",
+      backgroundColor: "white",
+    }),
+
+    control: (provided) => ({
+      ...provided,
+      width: "100%",
+      borderRadius: "10px",
+      minHeight: "50px",
+    }),
+
+    placeholder: (provided) => ({
+      ...provided,
+      padding: "12px",
+    }),
+
+    dropdownIndicator: (provided) => ({
+      ...provided,
+      padding: "0",
+    }),
+
+    indicatorSeparator: () => ({
+      display: "none",
+    }),
+  };
+
+  // Handle manual date input
+  const handleDateInputChange = (e) => {
+    let value = e.target.value.replace(/\D/g, ""); // Remove non-digits
+
+    if (value.length >= 2) {
+      value = value.slice(0, 2) + "-" + value.slice(2);
+    }
+    if (value.length >= 5) {
+      value = value.slice(0, 5) + "-" + value.slice(5, 9);
+    }
+
+    setSelectedDate(value);
+
+    if (value.length === 10) {
+      const error = validateDOB(value);
+      setFormErrors({ ...formErrors, dob: error });
+      setDobError(error);
+
+      if (!error) {
+        setFormData({ ...formData, dob: value });
+      }
+    }
+  };
+
+  // Handle date blur (when user leaves the field)
+  const handleDateBlur = () => {
+    if (selectedDate) {
+      const error = validateDOB(selectedDate);
+      setFormErrors({ ...formErrors, dob: error });
+      setDobError(error);
+
+      if (!error) {
+        setFormData({ ...formData, dob: selectedDate });
+      }
+    }
+  };
+
+  // Generate calendar days for the current month
+  const generateCalendarDays = () => {
+    const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
+
+    const days = [];
+
+    // Previous month days
+    for (let i = firstDay - 1; i >= 0; i--) {
+      days.push({
+        day: daysInPrevMonth - i,
+        isCurrentMonth: false,
+      });
+    }
+
+    // Current month days
+    for (let i = 1; i <= daysInMonth; i++) {
+      days.push({
+        day: i,
+        isCurrentMonth: true,
+      });
+    }
+
+    // Next month days to fill the grid
+    const remainingDays = 42 - days.length; // 6 rows × 7 days
+    for (let i = 1; i <= remainingDays; i++) {
+      days.push({
+        day: i,
+        isCurrentMonth: false,
+      });
+    }
+
+    return days;
+  };
+
+  // Handle date click in calendar
+  const handleDateClick = (day, isCurrentMonth) => {
+    if (!isCurrentMonth) return;
+
+    const formattedDate = `${String(day).padStart(2, "0")}-${String(
+      currentMonth + 1
+    ).padStart(2, "0")}-${currentYear}`;
+    setSelectedDate(formattedDate);
+    setFormData({ ...formData, dob: formattedDate });
+
+    const error = validateDOB(formattedDate);
+    setFormErrors({ ...formErrors, dob: error });
+    setDobError(error);
+
+    if (!error) {
+      setShowDatePicker(false);
+    }
+  };
+
+  // Check if a date is selected
+  const isSelected = (day, isCurrentMonth) => {
+    if (!selectedDate || !isCurrentMonth) return false;
+    const [selectedDay, selectedMonth, selectedYear] = selectedDate
+      .split("-")
+      .map(Number);
+    return (
+      day === selectedDay &&
+      currentMonth === selectedMonth - 1 &&
+      currentYear === selectedYear
+    );
+  };
+
+  // Check if a date is today
+  const isToday = (day, isCurrentMonth) => {
+    if (!isCurrentMonth) return false;
+    const today = new Date();
+    return (
+      day === today.getDate() &&
+      currentMonth === today.getMonth() &&
+      currentYear === today.getFullYear()
+    );
+  };
+
+  // Handle month change
+  const handleMonthChange = (e) => {
+    setCurrentMonth(Number(e.target.value));
+  };
+
+  // Handle year change
+  const handleYearChange = (e) => {
+    setCurrentYear(Number(e.target.value));
+  };
+
+  // Clear date
+  const handleClear = () => {
+    setSelectedDate("");
+    setFormData({ ...formData, dob: "" });
+    setFormErrors({ ...formErrors, dob: "" });
+    setDobError("");
+  };
+
+  // Set today's date
+  const handleToday = () => {
+    const today = new Date();
+    const formattedDate = `${String(today.getDate()).padStart(2, "0")}-${String(
+      today.getMonth() + 1
+    ).padStart(2, "0")}-${today.getFullYear()}`;
+    setSelectedDate(formattedDate);
+    setFormData({ ...formData, dob: formattedDate });
+    setCurrentMonth(today.getMonth());
+    setCurrentYear(today.getFullYear());
+
+    const error = validateDOB(formattedDate);
+    setFormErrors({ ...formErrors, dob: error });
+    setDobError(error);
+  };
+
+  // Handle click outside the date picker
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        datePickerRef.current &&
+        !datePickerRef.current.contains(event.target)
+      ) {
+        setShowDatePicker(false);
+      }
+    };
+
+    if (showDatePicker) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showDatePicker]);
+
+  // const validateDOB = (value) => {
+  //   if (!value.trim()) {
+  //     return 'Date of birth is required';
+  //   } else if (!isValidDate(value)) {
+  //     return 'Please enter a valid date in DD-MM-YYYY format';
+  //   } else {
+  //     const [day, month, year] = value.split('-').map(Number);
+  //     const dob = new Date(year, month - 1, day);
+  //     const today = new Date();
+
+  //     let age = today.getFullYear() - dob.getFullYear();
+  //     const monthDiff = today.getMonth() - dob.getMonth();
+  //     const dayDiff = today.getDate() - dob.getDate();
+
+  //     if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+  //       age--;
+  //     }
+
+  //     if (age < 18) {
+  //       return 'You must be at least 18 years old';
+  //     }
+
+  //     if (age > 100) {
+  //       return 'Please enter a valid date of birth';
+  //     }
+  //   }
+  //   return '';
+  // };
+  // ========================================================
+  // ========================================================
   const validateForm = () => {
     let valid = true;
     const errors = {
@@ -108,9 +513,13 @@ const NewPlPage2 = ({
       //   ITR: "",
     };
 
-    if (dobFlag && !formData.dob) {
-      errors.dob = "Date of birth is required";
-      valid = false;
+    if (dobFlag) {
+      const dobValidation = validateDOB(selectedDate);
+      if (dobValidation) {
+        errors.dob = dobValidation;
+        setDobError(dobValidation);
+        valid = false;
+      }
     }
 
     if (!formData.email) {
@@ -135,11 +544,22 @@ const NewPlPage2 = ({
         valid = false;
       }
     }
-
-    if (residentialPincodeFlag) {
-      if (!formData.residentialPincode) {
-        errors.residentialPincode = "Home pincode is required";
-      }
+    //
+    // if (residentialPincodeFlag) {
+    //   if (!formData.residentialPincode) {
+    //     errors.residentialPincode = "Home pincode is required";
+    //   }
+    // }
+    //
+    if (!formData.residentialPincode.trim()) {
+      errors.residentialPincode = "Residential pincode is required";
+      valid = false;
+    } else if (
+      formData.residentialPincode.length !== 6 ||
+      !/^\d{6}$/.test(formData.residentialPincode)
+    ) {
+      errors.residentialPincode = "Invalid pincode format";
+      valid = false;
     }
 
     // if (!formData.ITR) errors.ITR = 'ITR is required';
@@ -174,29 +594,6 @@ const NewPlPage2 = ({
     console.log("The form errors are ", errors);
     return valid;
   };
-
-  const handleDateChange2 = (date) => {
-    console.log("Inside handle date change");
-    const formattedDate = date ? format(date, "yyyy-MM-dd") : null;
-    setFormData({ ...formData, dob: formattedDate });
-
-    console.log("The changed date is :: ", formattedDate);
-
-    // (date) => setFormData({ ...formData, dob: date })
-  };
-
-  const today = new Date();
-  const eighteenYearsAgo = new Date(
-    today.getFullYear() - 18,
-    today.getMonth(),
-    today.getDate()
-  );
-  const sixtyYearsAgo = new Date(
-    today.getFullYear() - 60,
-    today.getMonth(),
-    today.getDate()
-  );
-
   const handleDataLayerStage = (stage) => {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ stage: stage });
@@ -325,26 +722,16 @@ const NewPlPage2 = ({
   //       console.error('Error submitting form:', error);
   //   }
   // };
-  const dobInputRef = useRef(null); // Reference for the DatePicker input element
+  // const dobInputRef = useRef(null); // Reference for the DatePicker input element
 
   // Handle gender selection
-  const handleGenderChange = (e) => {
-    const genderValue = e.target.value;
-    setFormData({ ...formData, gender: genderValue });
+  // const handleGenderChange = (e) => {
+  //   const genderValue = e.target.value;
+  //   setFormData({ ...formData, gender: genderValue });
 
-    // Clear gender error
-    setFormErrors({ ...formErrors, gender: "" });
-
-    // Focus on DOB field after gender is selected
-    if (dobInputRef.current) {
-      // Add a small delay before focusing on the DOB input to ensure it's rendered
-      setTimeout(() => {
-        if (dobInputRef.current) {
-          dobInputRef.current.setFocus(); // Focus on the DatePicker input element
-        }
-      }, 100); // Small delay of 100ms to ensure the DatePicker is rendered
-    }
-  };
+  //   // Clear gender error
+  //   setFormErrors({ ...formErrors, gender: "" });
+  // };
 
   const apiExecutionBackend = async (productname) => {
     console.log(productname);
@@ -468,7 +855,8 @@ const NewPlPage2 = ({
                 style={{ position: "relative" }}
               >
                 <input
-                  type="email"
+                  ref={emailRef}
+                  type="text"
                   id="email"
                   name="email"
                   placeholder="Enter Email"
@@ -491,6 +879,7 @@ const NewPlPage2 = ({
                     transform: "translateY(-50%)",
                     cursor: "pointer",
                   }}
+                  onClick={() => emailRef.current?.focus()}
                 >
                   <FaEnvelope />
                 </span>
@@ -508,6 +897,7 @@ const NewPlPage2 = ({
                     style={{ position: "relative" }}
                   >
                     <input
+                      ref={addressRef}
                       type="text"
                       id="address"
                       name="address"
@@ -531,6 +921,7 @@ const NewPlPage2 = ({
                         transform: "translateY(-50%)", // Center the icon vertically
                         cursor: "pointer",
                       }}
+                      onClick={() => addressRef.current?.focus()}
                     >
                       <FaHome />
                     </span>
@@ -545,31 +936,43 @@ const NewPlPage2 = ({
             <div>
               {/* Gender Selection */}
               {genderFlag && (
-                <div className={styles.formGroup}>
-                  <label style={{ fontWeight: "bold" }}>Gender</label>
-                  <div className={styles.radioGroup}>
-                    {["Male", "Female", "Other"].map((gender) => (
-                      <label
-                        key={gender}
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          marginBottom: "8px",
-                        }}
-                      >
-                        <input
-                          type="radio"
-                          value={gender}
-                          checked={formData.gender === gender}
-                          onChange={handleGenderChange}
-                          style={{ marginRight: "8px" }}
-                        />
-                        {gender}
-                      </label>
-                    ))}
-                  </div>
+                <div
+                  className={styles.formGroup}
+                  style={{ position: "relative" }}
+                >
+                  {/* <label style={{ fontWeight: "bold", marginBottom: "5px" }}>
+                    Gender
+                  </label> */}
+                  <Select
+                    id="gender"
+                    name="gender"
+                    value={genderOptions.find(
+                      (option) => option.value === formData.gender
+                    )}
+                    options={genderOptions}
+                    // ref={nextInputRef}
+                    onChange={handleGenderChange}
+                    styles={customStyles}
+                    placeholder="Select Gender"
+                    isSearchable={false}
+                    menuPosition="absolute"
+                    components={{ Option: CustomOption }}
+                    // ✅ REMOVED: menuIsOpen, onFocus, onBlur, onClick - let react-select handle menu state
+                  />
+
                   {formErrors.gender && (
-                    <div className="error-message">{formErrors.gender}</div> 
+                    <p
+                      style={{
+                        color: "red",
+                        fontSize: "12px",
+                        fontWeight: 700,
+                        // position: "absolute",
+                        marginTop: "4px",
+                        marginLeft: "4px",
+                      }}
+                    >
+                      {formErrors.gender}
+                    </p>
                   )}
                 </div>
               )}
@@ -577,22 +980,23 @@ const NewPlPage2 = ({
               {/* DOB Date Picker */}
               {dobFlag && (
                 <div className={styles.formGroup}>
-                  <label style={{ fontWeight: "bold" }}>Date of Birth</label>
+                  {/* <label style={{ fontWeight: "bold" }}>Date of Birth</label> */}
                   <div
                     className="input-wrapper"
                     style={{ position: "relative" }}
                   >
-                    <DatePicker
-                      selected={formData.dob}
-                      onChange={handleDateChange2}
-                      dateFormat="dd/MM/yyyy"
-                      className={styles.input}
-                      placeholderText="DD/MM/YYYY"
-                      ref={dobInputRef} // Use the ref for the actual input element
-                      showYearDropdown // This enables the year selection dropdown
-                      yearDropdownItemNumber={50} // This controls how many years are shown in the dropdown
-                      scrollableYearDropdown // Allows you to scroll through years in the dropdown
+                    <input
+                      type="text"
+                      name="dateOfBirth"
+                      className={`${styles.input} ${styles.dobInput}`}
+                      value={selectedDate}
+                      placeholder="Date of Birth"
+                      onChange={handleDateInputChange}
+                      onBlur={handleDateBlur}
+                      maxLength={10}
+                      // inputMode="numeric"
                     />
+
                     <span
                       className="icon"
                       style={{
@@ -604,7 +1008,13 @@ const NewPlPage2 = ({
                         cursor: "pointer",
                       }}
                     >
-                      <FaCalendar />
+                      <FaCalendar
+                        // onClick={() => setShowDatePicker(!showDatePicker)}
+                        onClick={() => {
+                          console.error("Toggling date picker");
+                          setShowDatePicker(!showDatePicker);
+                        }}
+                      />
                     </span>
                   </div>
                   {formErrors.dob && (
@@ -615,13 +1025,16 @@ const NewPlPage2 = ({
             </div>
 
             <>
-              <div className={styles.formGroup} 
-              style={{ position: "relative" }}>
+              <div
+                className={styles.formGroup}
+                style={{ position: "relative" }}
+              >
                 <div
                   className={styles.inputWrapper}
                   style={{ position: "relative" }}
                 >
                   <input
+                    ref={companyNameRef}
                     type="text"
                     id="companyName"
                     name="companyName"
@@ -645,6 +1058,7 @@ const NewPlPage2 = ({
                       transform: "translateY(-50%)",
                       cursor: "pointer",
                     }}
+                    onClick={() => companyNameRef.current?.focus()}
                   >
                     <FaBuilding /> {/* Building icon */}
                   </span>
@@ -660,7 +1074,8 @@ const NewPlPage2 = ({
                   style={{ position: "relative" }}
                 >
                   <input
-                    type="email"
+                    ref={officeemailRef}
+                    type="text"
                     id="officeemail"
                     name="officeemail"
                     placeholder="Enter Work Email"
@@ -683,6 +1098,7 @@ const NewPlPage2 = ({
                       transform: "translateY(-50%)",
                       cursor: "pointer",
                     }}
+                    onClick={() => officeemailRef.current?.focus()}
                   >
                     <FaEnvelope /> {/* Envelope (email) icon */}
                   </span>
@@ -698,6 +1114,7 @@ const NewPlPage2 = ({
                   style={{ position: "relative" }}
                 >
                   <input
+                    ref={officePincodeRef}
                     type="text"
                     id="officePincode"
                     name="officePincode"
@@ -729,6 +1146,7 @@ const NewPlPage2 = ({
                       transform: "translateY(-50%)",
                       cursor: "pointer",
                     }}
+                    onClick={() => officePincodeRef.current?.focus()}
                   >
                     <FaMapPin /> {/* Map pin (location) icon */}
                   </span>
@@ -746,6 +1164,7 @@ const NewPlPage2 = ({
                       style={{ position: "relative" }}
                     >
                       <input
+                        ref={residentialPincodeRef}
                         type="text"
                         id="residentialPincode"
                         name="residentialPincode"
@@ -761,7 +1180,7 @@ const NewPlPage2 = ({
                             ...formData,
                             residentialPincode: value,
                           });
-                          if (formErrors.officePincode) {
+                          if (formErrors.residentialPincode) {
                             setFormErrors({
                               ...formErrors,
                               residentialPincode: "",
@@ -770,7 +1189,7 @@ const NewPlPage2 = ({
                         }}
                       />
                       <span
-                        className={styles.icon}
+                        classNameclassName="error"
                         style={{
                           position: "absolute",
                           right: "10px",
@@ -779,6 +1198,7 @@ const NewPlPage2 = ({
                           transform: "translateY(-50%)",
                           cursor: "pointer",
                         }}
+                        onClick={() => residentialPincodeRef.current?.focus()}
                       >
                         <FaMapPin /> {/* Map pin (location) icon */}
                       </span>
@@ -892,6 +1312,97 @@ const NewPlPage2 = ({
               {/* className={`w-full  ${styles.submitButton}`} */}
             </div>
           </form>
+          {/* CHANGE 3: Updated Date Picker Modal with Dropdowns */}
+          {showDatePicker && (
+            <div
+              className={styles.datePickerOverlay}
+              onClick={() => setShowDatePicker(false)}
+            >
+              <div
+                className={styles.datePickerModal}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className={styles.datePickerHeader}>
+                  <div className={styles.monthYearSelector}>
+                    <div className={styles.monthSelector}>
+                      <select
+                        value={currentMonth}
+                        onChange={handleMonthChange}
+                        className={styles.monthDropdown}
+                      >
+                        {months.map((month, index) => (
+                          <option key={index} value={index}>
+                            {month}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className={styles.yearSelector}>
+                      <select
+                        value={currentYear}
+                        onChange={handleYearChange}
+                        className={styles.yearDropdown}
+                      >
+                        {years.map((year) => (
+                          <option key={year} value={year}>
+                            {year}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <button
+                    className={styles.closeButton}
+                    onClick={() => setShowDatePicker(false)}
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                <div className={styles.weekdaysGrid}>
+                  {weekdays.map((day) => (
+                    <div key={day} className={styles.weekdayHeader}>
+                      {day}
+                    </div>
+                  ))}
+                </div>
+
+                <div className={styles.calendarGrid}>
+                  {generateCalendarDays().map((dateObj, index) => (
+                    <button
+                      key={index}
+                      onClick={() =>
+                        handleDateClick(dateObj.day, dateObj.isCurrentMonth)
+                      }
+                      disabled={!dateObj.isCurrentMonth}
+                      className={`${styles.calendarDay} ${
+                        !dateObj.isCurrentMonth ? styles.disabledDay : ""
+                      } ${
+                        isSelected(dateObj.day, dateObj.isCurrentMonth)
+                          ? styles.selectedDay
+                          : ""
+                      } ${
+                        isToday(dateObj.day, dateObj.isCurrentMonth)
+                          ? styles.todayDay
+                          : ""
+                      }`}
+                    >
+                      {dateObj.day}
+                    </button>
+                  ))}
+                </div>
+
+                <div className={styles.datePickerFooter}>
+                  <button onClick={handleClear} className={styles.clearButton}>
+                    Clear
+                  </button>
+                  <button onClick={handleToday} className={styles.todayButton}>
+                    Today
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>

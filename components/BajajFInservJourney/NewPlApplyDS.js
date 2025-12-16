@@ -24,7 +24,7 @@ import {
 } from "react-icons/fa"; // Font Awesome icons for React
 import ErrorPopup from "../NewBlJourneyD/ErrorPopup";
 // import {Roboto} from '@next/font/google';
-import { Roboto } from "@next/font/google";
+import { Roboto } from "next/font/google";
 
 const roboto = Roboto({
   weight: ["400", "700"],

@@ -67,7 +67,7 @@ import listimage3 from '../NewBlJourneyD/newblimages/newchange2.png';
 import rejectrimage from '../NewBlJourneyD/newblimages/rejectrimage.png';
 import successrightimg from '../NewBlJourneyD/newblimages/successrightimg.png';
 import EmblaCarousel from '../NewBlJourneyD/Emblacarousel/js/EmblaCarousel';
-import { Roboto } from '@next/font/google';
+import { Roboto } from 'next/font/google';
 
 const roboto = Roboto({
     weight: ['400', '700'],

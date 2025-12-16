@@ -20,7 +20,7 @@ import Select from 'react-select';
 import IndiaGoldSuccessPage from "./NewBlSuccessPage";
 import IndiaGoldRejectPage from './NewBlRejectPage';
 // import {Roboto} from '@next/font/google';
-import {Roboto} from '@next/font/google';
+import {Roboto} from 'next/font/google';
 const roboto = Roboto({
   weight: ['400', '700'],
   subsets: ['latin'],

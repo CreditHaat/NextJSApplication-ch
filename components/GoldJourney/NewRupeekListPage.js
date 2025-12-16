@@ -10,7 +10,7 @@ import Image from 'next/image';
 import EmblaCarousel from '../../components/NewPersonalLoan/Other Components/Emblacarousel/js/EmblaCarousel';
 // import {Roboto} from '@next/font/google';
 import clock from "../NewBlJourneyD/newblimages/clock.png";
-import {Roboto} from '@next/font/google';
+import {Roboto} from 'next/font/google';
 
 const roboto = Roboto({
   weight: ['400', '700'],

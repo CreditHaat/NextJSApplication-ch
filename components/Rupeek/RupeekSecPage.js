@@ -399,7 +399,7 @@ import listimage2 from "../NewPlApplyD/newplimages/finalimage3.png";
 import listimage3 from "../NewPlApplyD/newplimages/plimage33.png";
 import styles from "./NewAllPages.module.css";
 import EmblaCarousel from "../NewPlApplyD/Emblacarousel/js/EmblaCarousel";
-import { Roboto } from "@next/font/google";
+import { Roboto } from "next/font/google";
 import axios from "axios";
 import RupeekRejectPage from "./RupeekRejectPage";
 import RupeekSuccessPage from "./RupeekSuccessPage";
@@ -509,7 +509,8 @@ const CustomJwellaryDropdown = ({ value, onChange, options, error, autoFocus }) 
 };
 
 const RupeekSecPage = ({ formData, searchParams }) => {
-  const queryParams = Object.fromEntries(new URLSearchParams(searchParams));
+  // const queryParams = Object.fromEntries(new URLSearchParams(searchParams));
+  const queryParams = searchParams ?? {};
   const page = queryParams.page;
 
   const [rejectPage, setRejectPage] = useState(false);

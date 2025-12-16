@@ -8,7 +8,7 @@ import listimage1 from '../NewBlJourneyD/newblimages/newchange11.png';
 import listimage2 from '../NewBlJourneyD/newblimages/newchange3.png';
 import listimage3 from '../NewBlJourneyD/newblimages/newchange2.png';
 import styles from '../NewBlJourneyD/NewBlFirstFormPage.module.css';
-import { Roboto } from '@next/font/google';
+import { Roboto } from 'next/font/google';
 import axios from "axios";
 // import IndiaGoldSuccessPage from "../IndiaGold/IndiaGoldSuccessPage";
 // import NewBlListPage from "@components/NewBlJourneyD/NewBlListPage";
@@ -133,7 +133,8 @@ const RupeekSecondPage = ({ formData, formState, searchParams}) => {
 
   const [responseproductname, setResponseProductName] = useState('');
 
-  const queryParams = Object.fromEntries(new URLSearchParams(searchParams));
+  // const queryParams = Object.fromEntries(new URLSearchParams(searchParams));
+  const queryParams = searchParams ?? {};
   const page = queryParams.page;
   // const mobile = queryParams.mobilenumber;
 

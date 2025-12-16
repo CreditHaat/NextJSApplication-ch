@@ -21,7 +21,7 @@ import {
   FaIdCard,
   FaRupeeSign,
 } from "react-icons/fa"; // Importing icons for name, mobile number, profession, income, payment type, and PAN
-import { Roboto } from "@next/font/google";
+import { Roboto } from "next/font/google";
 import OTPBottomSheet from "../NewPlOtpBottomSheet/PlOTPBottomSheet";
 import RejectionPage from "../../components/NewPlRejectionPage/NewPlRejPage";
 

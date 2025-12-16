@@ -13,7 +13,7 @@ import RedirectionLoader from "./RedirectionLoader";
 import ApplicationLoader from "./ApplicationLoader";
 import ErrorPopup from "./ErrorPopup";
 // import {Roboto} from '@next/font/google';
-import { Roboto } from "@next/font/google";
+import { Roboto } from "next/font/google";
 
 const roboto = Roboto({
   weight: ["400", "700"],

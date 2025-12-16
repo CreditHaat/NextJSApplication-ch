@@ -21,14 +21,18 @@
         "name": "next"
       }
     ],
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "target": "ES2017"
   },
   "include": [
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "app/Journey/page.jsx", "components/EmbeddedJourneyList/ServerSidePropsFunction.jsx", "app/creditcard/page.jsx"  ],
+    "**/*.tsx",
+    "app/Journey/page.jsx",
+    "components/EmbeddedJourneyList/ServerSidePropsFunction.jsx",
+    "app/creditcard/page.jsx"
+  ],
   "exclude": [
     "node_modules"
   ]

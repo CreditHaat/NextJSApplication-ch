@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation"; // Import useRouter for navigation
 import "./NewPlSingle.css"; // Import the CSS module from the same directory
 import styles from "../NewBlJourneyD/NewBlFirstFormPage.module.css";
-import { Roboto } from "@next/font/google";
+import { Roboto } from "next/font/google";
 // import NewNavBar from "../../components/NewPersonalLoan/Other Components/Navbar";
 // import SmartCoinFooter from "../SmartCoin/SmartCoinFooter";
 import BLApplyLenders from "../BLApplyPrimeThirdJourney/BLApplyLenders";

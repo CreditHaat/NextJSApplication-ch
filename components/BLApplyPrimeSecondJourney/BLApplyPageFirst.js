@@ -32,7 +32,8 @@ export default function BLPageFirst({ params, searchParams }) {
     PaymentType: "",
   });
 
-  const queryParams = Object.fromEntries(new URLSearchParams(searchParams));
+  // const queryParams = Object.fromEntries(new URLSearchParams(searchParams));
+  const queryParams = searchParams ?? {};
   const header = queryParams.banner;
   const header2 = queryParams.campaignBL;
 

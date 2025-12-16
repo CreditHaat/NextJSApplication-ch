@@ -32,7 +32,7 @@ import listimage3 from '../NewPlApplyD/newplimages/plimage33.png';
 import RedirectionLoader from "./SecuredRedirectionLoader";
 
 import Link from "next/link";
-import { Roboto } from '@next/font/google';
+import { Roboto } from 'next/font/google';
 
 const roboto = Roboto({
   weight: ['400', '700'],

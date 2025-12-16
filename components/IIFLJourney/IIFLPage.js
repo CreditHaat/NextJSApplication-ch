@@ -6,7 +6,7 @@ import listimage1 from "../NewBlJourneyD/newblimages/newchange11.png";
 import listimage2 from "../NewBlJourneyD/newblimages/newchange3.png";
 import listimage3 from "../NewBlJourneyD/newblimages/newchange2.png";
 import styles from "../NewBlJourneyD/NewBlFirstFormPage.module.css";
-import { Roboto } from "@next/font/google";
+import { Roboto } from "next/font/google";
 import IndiaGoldSecPage from "./IIFLSecPage";
 import axios from "axios";
 import Link from "next/link";

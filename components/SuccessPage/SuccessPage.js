@@ -34,7 +34,8 @@ import Link from "next/link";
         const [cardAnimation, setCardAnimation] = useState("");
         const [animationClass, setAnimationClass] = useState("");
 
-        const queryParams = Object.fromEntries(new URLSearchParams(searchParams));
+        // const queryParams = Object.fromEntries(new URLSearchParams(searchParams));
+        const queryParams = searchParams ?? {};
     const link = queryParams.link;
     const lenderName = queryParams.lenderName;
 

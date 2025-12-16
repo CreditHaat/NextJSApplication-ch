@@ -1,3 +1,5 @@
+"use client"
+
 import React from 'react'
 // import PageCreditScore from '../../components/CreditScore/PageCreditScore';
 import Footer from '../../components/Footer'

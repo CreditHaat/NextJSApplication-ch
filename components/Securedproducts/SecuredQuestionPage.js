@@ -9,7 +9,7 @@ import listimage1 from './securedpageimages/securedbanner1.png';
 import listimage2 from './securedpageimages/Securedbanner22.png';
 import listimage3 from './securedpageimages/Securedbanner33.png';
 import styles from '../NewBlJourneyD/NewBlFirstFormPage.module.css';
-import { Roboto } from '@next/font/google';
+import { Roboto } from 'next/font/google';
 import axios from "axios";
 import { FaArrowLeft } from 'react-icons/fa';
 import NewRupeekListPage from "./SecuredProductListPage";
@@ -67,7 +67,8 @@ const SecuredQuestionPage = ({ formData, formState, searchParams, setActiveConta
 
   const [responseproductname, setResponseProductName] = useState('');
 
-  const queryParams = Object.fromEntries(new URLSearchParams(searchParams));
+  // const queryParams = Object.fromEntries(new URLSearchParams(searchParams));
+  const queryParams = searchParams ?? {};
   const page = queryParams.page;
   const [listPage, setListPage] = useState(false);
   const [mobileNumber, setMobileNumber] = useState();

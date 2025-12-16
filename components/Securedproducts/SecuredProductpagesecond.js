@@ -20,8 +20,7 @@ import IndiaGoldSuccessPage from "../NewBl_Prime_Master_Journey/NewBlSuccessPage
 import IndiaGoldRejectPage from '../NewBl_Prime_Master_Journey/NewBlRejectPage';
 import QuestionPage from './SecuredQuestionPage';
 import { useSearchParams } from 'next/navigation';
-// import {Roboto} from '@next/font/google';
-import {Roboto} from '@next/font/google';
+import {Roboto} from 'next/font/google';
 const roboto = Roboto({
   weight: ['400', '700'],
   subsets: ['latin'],

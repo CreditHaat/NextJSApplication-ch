@@ -93,7 +93,7 @@ const OTPComponent = ({mobile}) => {
                 }, 1000);
                 setTimeout(() => inputRefs.current[0]?.focus(), 50);
                 setUpOtp("");
-                setOtpInputs
+                // setOtpInputs
                 return;
             }
 
@@ -153,7 +153,8 @@ const OTPComponent = ({mobile}) => {
                 }, 4000);
                 ;
                 // const queryParams = Object.fromEntries(new URLSearchParams(searchParams));
-                const queryParams = new URLSearchParams(location.search);
+                // const queryParams = new URLSearchParams(location.search);
+                const queryParams = searchParams;
       
                 // Retrieve values for the specified parameters
                 const channel = queryParams.get('channel') || '';
@@ -170,7 +171,8 @@ const OTPComponent = ({mobile}) => {
                 // console.log(mobileNumber);
                 // console.log("Inside OTP Generate....................., mobileNumber : ", mobileNumber);
       
-                const urllink = location.search?.split('?')[1] || 'null';
+                // const urllink = location.search?.split('?')[1] || 'null';
+                const urllink = queryParams.toString() || 'null';
                 // const urllink = getUrlLink(searchParams);
 
                 console.log("urll link is :: ",urllink);

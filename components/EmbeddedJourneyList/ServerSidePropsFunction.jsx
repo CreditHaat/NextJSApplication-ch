@@ -154,7 +154,8 @@ const ServerSidePropsFunction = async ({params, searchParams}) => {
 
     // response=null;
 
-    const queryParams = Object.fromEntries(new URLSearchParams(searchParams));
+    // const queryParams = Object.fromEntries(new URLSearchParams(searchParams));
+    const queryParams = searchParams ?? {};
     const header = queryParams.ch_header;
     const mobile = queryParams.mobilenumber;
 

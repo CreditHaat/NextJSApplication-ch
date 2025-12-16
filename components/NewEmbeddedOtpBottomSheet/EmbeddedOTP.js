@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import otpimage from '../../images/otpimagess.png';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Roboto } from '@next/font/google';
+import { Roboto } from 'next/font/google';
 
 const roboto = Roboto({
     weight: ['400', '700'],

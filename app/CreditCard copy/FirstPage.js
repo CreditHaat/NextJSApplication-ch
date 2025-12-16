@@ -119,6 +119,7 @@ const FirstPage = () => {
   });
 
   const urllink=location.search?.split('?')[1] || 'null';
+  // const urllink = queryParams.toString() || 'null';
   
 // Split the URL string by '&' to get individual key-value pairs
 const keyValuePairs = urllink.split("&");

@@ -30,7 +30,7 @@ import {
 // import ErrorPopup from '../NewBlJourneyD/ErrorPopup';
 import otpimage from "../SmartCoin/SmartCoin_Images/otpimage.png";
 // import {Roboto} from '@next/font/google';
-import { Roboto } from "@next/font/google";
+import { Roboto } from "next/font/google";
 import OTPBottomSheet from "../NewPlOtpBottomSheet/PlOTPBottomSheet";
 import ForSelfEmployed from "../BLApplyPrimeSecondJourney/ForSelfEmployed";
 import ForSalaried from "../BLApplyPrimeSecondJourney/ForSalaried";

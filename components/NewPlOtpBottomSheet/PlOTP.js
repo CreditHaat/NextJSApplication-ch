@@ -270,7 +270,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import otpimage from '../../images/otpimagess.png';
 import Image from 'next/image';
-import { Roboto } from '@next/font/google';
+import { Roboto } from 'next/font/google';
 
 const roboto = Roboto({
   weight: ['400', '700'],

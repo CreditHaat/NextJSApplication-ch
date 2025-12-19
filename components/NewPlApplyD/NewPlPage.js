@@ -431,6 +431,7 @@ const NewPlPage = ({ params, searchParams }) => {
   };
 
   const handleCloseOtpSheet = () => {
+    setOtpStatus("");
     setIsOtpBottomSheetVisible(false);
   };
 

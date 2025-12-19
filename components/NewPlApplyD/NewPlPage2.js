@@ -551,6 +551,7 @@ const NewPlPage2 = ({
     //   }
     // }
     //
+    if (residentialPincodeFlag) {
     if (!formData.residentialPincode.trim()) {
       errors.residentialPincode = "Residential pincode is required";
       valid = false;
@@ -561,6 +562,7 @@ const NewPlPage2 = ({
       errors.residentialPincode = "Invalid pincode format";
       valid = false;
     }
+  }
 
     // if (!formData.ITR) errors.ITR = 'ITR is required';
 

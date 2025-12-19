@@ -145,7 +145,7 @@ const GetLoanButton = ({ lender, productId }) => {
         formData2.append("channel", "creditHaat");
 
         const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}h5/cpiClickNew`,
+          `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}h5/cpiClickNew1`,
           formData2
         );
         const timer = setTimeout(() => {

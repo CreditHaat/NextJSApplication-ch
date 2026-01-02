@@ -58,6 +58,7 @@ const NewPlPage = ({ params, searchParams }) => {
 
   const [genderFlag, setGenderFlag] = useState(false);
   const [addressFlag, setAddressFlag] = useState(false);
+  const [showOtpSheet, setShowOtpSheet] = useState(false);
 
   const [formErrors, setFormErrors] = useState({
     fullname: "",
@@ -111,6 +112,10 @@ const NewPlPage = ({ params, searchParams }) => {
   const [firstName, setFirstName] = useState(null);
 
   const [rejectionPage, setRejectionPage] = useState(false);
+
+  // ✅ FIXED: Add these state variables for menu control
+  // const [isProfessionMenuOpen, setIsProfessionMenuOpen] = useState(false);
+  // const [isPaymentTypeMenuOpen, setIsPaymentTypeMenuOpen] = useState(false);
 
   // useEffect(() => {
   //   // Initialize refs array with refs to each OTP input field
@@ -291,10 +296,10 @@ const NewPlPage = ({ params, searchParams }) => {
 
     // Mobile Number validation
     if (!formData.mobileNumber.trim()) {
-      errors.mobileNumber = "Mobile Number is required";
+      errors.mobileNumber = "Mobile number is required";
       valid = false;
     } else if (!/^[6-9]\d{9}$/.test(formData.mobileNumber.trim())) {
-      errors.mobileNumber = "Mobile Number should start with 6 to 9 digit";
+      errors.mobileNumber = "Mobile number should start with 6 to 9 digit";
       valid = false;
     }
 
@@ -306,13 +311,18 @@ const NewPlPage = ({ params, searchParams }) => {
       errors.profession = ""; // Clear error if the profession is valid
     }
 
-    if (!formData.paymentType) {
+    if (!formData.paymentType || formData.paymentType === "NA") {
       errors.paymentType = "Payment type is required";
       valid = false;
     }
 
-    if (!formData.monthlyIncome)
-      errors.monthlyIncome = "Monthly income is required";
+    if (!formData.monthlyIncome) {
+      errors.monthlyIncome = "Amount is required";
+      valid = false;
+    } else if (Number(formData.monthlyIncome) <= 1000) {
+      errors.monthlyIncome = "Amount must be greater than 1000";
+      valid = false;
+    }
 
     // PAN validation with regex
     if (!formData.pan) {
@@ -391,7 +401,7 @@ const NewPlPage = ({ params, searchParams }) => {
       formData1.append("sub_dsa", subDsa);
 
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}chfronetendotpgenerator_PlApplyNew`,
+        `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}chfronetendotpgenerator_PlApplyNewBajaj`,
         formData1
       );
 
@@ -418,6 +428,11 @@ const NewPlPage = ({ params, searchParams }) => {
   const handleVerifyOTP = () => {
     verify_otp_credithaat_from_backend();
     // setIsOtpBottomSheetVisible(false);
+  };
+
+  const handleCloseOtpSheet = () => {
+    setOtpStatus("");
+    setIsOtpBottomSheetVisible(false);
   };
 
   const verify_otp_credithaat_from_backend = async (e) => {
@@ -473,6 +488,7 @@ const NewPlPage = ({ params, searchParams }) => {
         // setGenderFlag(true);
         // setAddressFlag(true);
         // Close the OTP Bottom Sheet only when the OTP is correct
+        setOtpStatus("");
         setIsOtpBottomSheetVisible(false);
 
         if (formData.profession === "Salaried") {
@@ -482,9 +498,12 @@ const NewPlPage = ({ params, searchParams }) => {
         }
       } else {
         setOtpLoader(false);
-        setOtpStatus("Incorrect OTP! Try Again..");
+        setOtpStatus("");
         console.log("Otp incorrect");
         setOtpInputs(["", "", "", "", "", ""]);
+        setTimeout(() => {
+          setOtpStatus("Incorrect OTP! Try Again..");
+        }, 50);
       }
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -550,11 +569,10 @@ const NewPlPage = ({ params, searchParams }) => {
   };
   const nextInputRef = useRef(null);
   const paymentTypeRef = useRef(null);
-  const [isProfessionMenuOpen, setIsProfessionMenuOpen] = useState(false);
-  const [isPaymentTypeMenuOpen, setIsPaymentTypeMenuOpen] = useState(false);
   const monthlyIncomeRef = useRef(null); // Reference for the monthly income field
   const mobileNumberRef = useRef(null);
 
+  // ✅ FIXED: Custom Option Component
   const CustomOption = (props) => {
     const { data, innerRef, innerProps, selectOption, isSelected } = props;
 
@@ -564,33 +582,38 @@ const NewPlPage = ({ params, searchParams }) => {
         {...innerProps}
         style={{
           padding: "10px",
-          position: "relative", // Ensures that the radio button is placed on the right side
+          position: "relative",
+          cursor: "pointer",
+          backgroundColor: isSelected ? "#f0f0f0" : "white",
+        }}
+        onClick={() => {
+          selectOption(data); // ✅ This will trigger onChange and close menu
         }}
       >
         <div
           style={{
             display: "flex",
-            justifyContent: "space-between", // Space between label and radio button
-            alignItems: "center", // Aligns the label and radio button
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
-          <span>{data.label}</span> {/* Label on the left */}
+          <span>{data.label}</span>
           <input
             type="radio"
-            name="profession"
+            name={data.name || "option"}
             value={data.value}
             checked={isSelected}
-            onChange={() => selectOption(data)} // Select option when radio button is clicked
+            readOnly
+            style={{ pointerEvents: "none" }}
           />
         </div>
 
-        {/* Horizontal line below the option and radio button */}
         <hr
           style={{
             margin: "5px 0",
             border: "0",
-            borderTop: "1px solid #ddd", // Optional styling for the horizontal line
-            width: "100%", // Ensure the line spans the entire width
+            borderTop: "1px solid #ddd",
+            width: "100%",
           }}
         />
       </div>
@@ -610,45 +633,52 @@ const NewPlPage = ({ params, searchParams }) => {
     { value: "1", label: "Cheque" },
     { value: "0", label: "Cash" },
   ];
+
+  // ✅ FIXED: Updated customStyles (same as working marital status)
   const customStyles = {
     input: (provided) => ({
       ...provided,
-      padding: "8px", // Padding for input text
-      // borderRadius: '10px',  // Border radius for input
-      width: "100%", // Full width
+      padding: "8px",
+      width: "100%",
       minHeight: "70px",
-      border: "none", // Remove border for input itself
+      border: "none",
       cursor: "pointer",
       borderRadius: "50px",
     }),
+
     menu: (provided) => ({
       ...provided,
-      position: "fixed", // Make the dropdown fixed relative to the viewport
-      top: "50%", // Vertically center the dropdown on the screen
-      left: "50%", // Horizontally center the dropdown on the screen
-      transform: "translate(-50%, -50%)", // Adjust the dropdown to be exactly centered
-      width: "80%", // Set the width of the dropdown (you can adjust it)
-      maxWidth: "400px", // Set a max width for the dropdown
-      zIndex: 9999, // Ensure the dropdown appears on top of other content
-      boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.2)", // Optional: Add shadow for a popup effect
+      position: "fixed",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: "80%",
+      maxWidth: "400px",
+      zIndex: 9999,
+      boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.2)",
       borderRadius: "10px",
+      backgroundColor: "white",
     }),
+
     control: (provided) => ({
       ...provided,
-      width: "100%", // Full width of the control
+      width: "100%",
       borderRadius: "10px",
       minHeight: "50px",
     }),
+
     placeholder: (provided) => ({
       ...provided,
-      padding: "12px", // Padding for placeholder text
+      padding: "12px",
     }),
+
     dropdownIndicator: (provided) => ({
       ...provided,
-      padding: "0", // Optional: Adjust padding of the dropdown indicator
+      padding: "0",
     }),
+
     indicatorSeparator: () => ({
-      display: "none", // Hide the indicator separator (optional)
+      display: "none",
     }),
   };
 
@@ -661,88 +691,97 @@ const NewPlPage = ({ params, searchParams }) => {
       setFormErrors({ ...formErrors, mobileNumber: "" });
     }
 
-    if (value.length === 10) {
-      // Automatically focus and open the profession dropdown when mobile number has 10 digits
-      setTimeout(() => {
-        if (nextInputRef.current) {
-          mobileNumberRef.current.blur();
-          nextInputRef.current.focus(); // Focus on the Profession field
-          setIsProfessionMenuOpen(true); // Open the dropdown
-        }
-      }, 100); // Small delay to ensure focus is set first
-    }
+    // if (value.length === 10) {
+    //   // Automatically focus and open the profession dropdown when mobile number has 10 digits
+    //   setTimeout(() => {
+    //     if (nextInputRef.current) {
+    //       mobileNumberRef.current.blur();
+    //       nextInputRef.current.focus(); // Focus on the Profession field
+    //       setIsProfessionMenuOpen(true); // Open the dropdown
+    //     }
+    //   }, 100); // Small delay to ensure focus is set first
+    // }
   };
 
+  // ✅ FIXED: Profession Change Handler
   const handleProfessionChange = (selectedOption) => {
-    setFormData({ ...formData, profession: selectedOption.value });
+    console.log("Selected profession:", selectedOption);
 
-    // Only clear the error if a valid profession is selected (not 'NA')
+    // ✅ Update state
+    setFormData({
+      ...formData,
+      profession: selectedOption.value,
+    });
+
+    // ✅ Clear error if valid option selected
     if (selectedOption.value !== "NA") {
-      setFormErrors({ ...formErrors, profession: "" }); // Clear error for valid option
+      setFormErrors({
+        ...formErrors,
+        profession: "",
+      });
     } else {
-      setFormErrors({ ...formErrors, profession: "Profession is required" }); // Show error if 'NA' is selected
+      setFormErrors({
+        ...formErrors,
+        profession: "Profession is required",
+      });
     }
 
-    setIsProfessionMenuOpen(false); // Close the profession dropdown
-
-    // Automatically focus on the next field (paymentType)
-    if (paymentTypeRef.current) {
-      paymentTypeRef.current.focus();
-      setTimeout(() => {
-        setIsPaymentTypeMenuOpen(true); // Open payment type dropdown after focus
-      }, 100);
-    }
+    // ✅ Menu will automatically close after selection due to react-select default behavior
   };
 
-  // Handle profession field interactions
-  const handleProfessionFocus = () => {
-    setIsProfessionMenuOpen(true); // Open dropdown menu
-  };
+  // ✅ REMOVED: Menu control functions - not needed anymore
+  // const handleProfessionFocus = () => {
+  //   setIsProfessionMenuOpen(true);
+  // };
 
-  const handleProfessionBlur = () => {
-    setIsProfessionMenuOpen(false); // Close dropdown menu when focus leaves
-  };
+  // const handleProfessionBlur = () => {
+  //   setIsProfessionMenuOpen(false);
+  // };
 
-  const handleProfessionClick = (e) => {
-    e.stopPropagation(); // Prevent the keyboard from opening when clicking on the profession field
-    setIsProfessionMenuOpen(true); // Open dropdown menu
-  };
+  // const handleProfessionClick = (e) => {
+  //   e.stopPropagation();
+  //   setIsProfessionMenuOpen(true);
+  // };
 
+  // ✅ FIXED: Payment Type Change Handler
   const handlePaymentTypeChange = (selectedOption) => {
-    // Set the form data with the selected value
-    setFormData({ ...formData, paymentType: selectedOption.value });
+    console.log("Selected payment type:", selectedOption);
 
-    // Check if the selected value is not 'NA' (Select Payment Type)
+    // ✅ Update state
+    setFormData({
+      ...formData,
+      paymentType: selectedOption.value,
+    });
+
+    // ✅ Clear error if valid option selected
     if (selectedOption.value !== "NA") {
-      // Clear any error if a valid option is selected
-      setFormErrors({ ...formErrors, paymentType: "" });
+      setFormErrors({
+        ...formErrors,
+        paymentType: "",
+      });
     } else {
-      // Show error if 'Select Payment Type' is selected
-      setFormErrors({ ...formErrors, paymentType: "Payment type is required" });
+      setFormErrors({
+        ...formErrors,
+        paymentType: "Payment type is required",
+      });
     }
 
-    // Optionally close the menu after selection
-    setIsPaymentTypeMenuOpen(false);
-
-    // Automatically focus on the monthly income field after selection
-    if (monthlyIncomeRef.current) {
-      monthlyIncomeRef.current.focus();
-    }
+    // ✅ Menu will automatically close after selection
   };
 
-  // Handle Payment Type field interactions
-  const handlePaymentTypeFocus = () => {
-    setIsPaymentTypeMenuOpen(true); // Open dropdown menu when focused
-  };
+  // ✅ REMOVED: Payment Type menu control functions - not needed anymore
+  // const handlePaymentTypeFocus = () => {
+  //   setIsPaymentTypeMenuOpen(true);
+  // };
 
-  const handlePaymentTypeBlur = () => {
-    setIsPaymentTypeMenuOpen(false); // Close dropdown menu when blurred
-  };
+  // const handlePaymentTypeBlur = () => {
+  //   setIsPaymentTypeMenuOpen(false);
+  // };
 
-  const handlePaymentTypeClick = (e) => {
-    e.stopPropagation(); // Prevent the keyboard from opening when clicking on the Payment Type field
-    setIsPaymentTypeMenuOpen(true); // Open dropdown menu
-  };
+  // const handlePaymentTypeClick = (e) => {
+  //   e.stopPropagation();
+  //   setIsPaymentTypeMenuOpen(true);
+  // };
 
   function handleDataLayerStart(flag, mobile_number, emptype) {
     console.log("INside handledatalayer , ", flag, mobile_number, emptype);
@@ -1022,81 +1061,49 @@ const NewPlPage = ({ params, searchParams }) => {
             </div>
             <form ref={formRef} onSubmit={handleSubmit} className={styles.form}>
               {/* First Name Field */}
-              <div
-                className={styles.formGroup}
-                style={{ position: "relative" }}
-              >
-                <input
-                  type="text"
-                  id="fullname"
-                  name="fullname"
-                  placeholder="Name as per PAN"
-                  value={formData.fullname}
-                  className={styles.input}
-                  onChange={handleChange}
-                  onKeyDown={handleKeyDown}
-                  autoCapitalize="words"
-                />
-                <span
-                  className={styles.icon}
-                  style={{
-                    position: "absolute",
-                    right: "15px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    cursor: "pointer",
-                    color: "#00000061",
-                  }}
-                >
-                  <FaUser />
-                </span>
-                {formErrors.fullname && (
-                  <span
-                    className="error"
-                    style={{ position: "absolute", top: "100%", left: 0 }}
-                  >
-                    {formErrors.fullname}
+              <div className={`${styles.formGroup} form-group`}>
+                <div className="input-wrapper">
+                  <input
+                    type="text"
+                    id="fullname"
+                    name="fullname"
+                    placeholder="Name as per PAN"
+                    value={formData.fullname}
+                    className={styles.input}
+                    onChange={handleChange}
+                    onKeyDown={handleKeyDown}
+                    autoCapitalize="words"
+                  />
+                  <span className={`${styles.icon} input-icon`}>
+                    <FaUser />
                   </span>
+                </div>
+                {formErrors.fullname && (
+                  <span className="error">{formErrors.fullname}</span>
                 )}
               </div>
 
               <div>
                 {/* Mobile Number Field */}
-                <div
-                  className={styles.formGroup}
-                  style={{ position: "relative" }}
-                >
-                  <input
-                    ref={mobileNumberRef}
-                    type="text"
-                    id="mobileNumber"
-                    name="mobileNumber"
-                    placeholder="Mobile number"
-                    inputMode="numeric"
-                    value={formData.mobileNumber}
-                    className={styles.input}
-                    onChange={handleMobileNumberChange}
-                  />
-                  <span
-                    className={styles.icon}
-                    style={{
-                      position: "absolute",
-                      right: "15px",
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                      cursor: "pointer",
-                      color: "#00000061",
-                    }}
-                  >
-                    <FaPhone />
-                  </span>
-                  {formErrors.mobileNumber && (
-                    <span
-                      className="error"
-                      style={{ position: "absolute", top: "100%", left: 0 }}
-                    >
-                      {formErrors.mobileNumber}
+                <div className={`${styles.formGroup} form-group`}>
+                  <div className="input-wrapper">
+                    <input
+                      ref={mobileNumberRef}
+                      type="text"
+                      id="mobileNumber"
+                      name="mobileNumber"
+                      placeholder="Mobile Number"
+                      inputMode="numeric"
+                      value={formData.mobileNumber}
+                      className={styles.input}
+                      onChange={handleMobileNumberChange}
+                    />
+                    <span className={`${styles.icon} input-icon`}>
+                      <FaPhone />
                     </span>
+                  </div>
+                  {formErrors.mobileNumber && (
+                    <span className="error">{formErrors.mobileNumber}</span>
                   )}
                 </div>
 
@@ -1114,30 +1121,14 @@ const NewPlPage = ({ params, searchParams }) => {
                     ref={nextInputRef}
                     onChange={handleProfessionChange}
                     styles={customStyles}
-                    placeholder="Select occupation"
-                    // onBlur={() =>
-                    //   // Only set the error if the user hasn't selected a valid profession
-                    //   setFormErrors({
-                    //     ...formErrors,
-                    //     profession: formData.profession === "NA" ? "Employment type is required" : "",
-                    //   })
-                    // }
-                    menuIsOpen={isProfessionMenuOpen} // Use isProfessionMenuOpen state
-                    onFocus={handleProfessionFocus} // Open dropdown when focused
-                    onBlur={handleProfessionBlur} // Close dropdown when blurred
-                    onClick={handleProfessionClick} // Prevent keyboard opening when clicked
-                    isSearchable={false} // Prevent searching in the dropdown
-                    // menuPortalTarget={document.body} // Ensure the menu is rendered outside the container
-                    menuPosition="absolute" // Position relative to the viewport
-                    components={{ Option: CustomOption }} // Use the custom option component
+                    placeholder="Select Occupation"
+                    isSearchable={false}
+                    menuPosition="absolute"
+                    components={{ Option: CustomOption }}
+                    // ✅ REMOVED: menuIsOpen, onFocus, onBlur, onClick - let react-select handle menu state
                   />
                   {formErrors.profession && (
-                    <span
-                      className="error"
-                      style={{ position: "absolute", top: "100%", left: 0 }}
-                    >
-                      {formErrors.profession}
-                    </span>
+                    <span className="error">{formErrors.profession}</span>
                   )}
                 </div>
               </div>
@@ -1157,128 +1148,73 @@ const NewPlPage = ({ params, searchParams }) => {
                   ref={paymentTypeRef}
                   onChange={handlePaymentTypeChange}
                   styles={customStyles}
-                  placeholder="Select payment type"
-                  // onBlur={() =>
-                  //   // Only set the error if the user hasn't selected a valid profession
-                  //   setFormErrors({
-                  //     ...formErrors,
-                  //     profession: formData.profession === "NA" ? "Employment type is required" : "",
-                  //   })
-                  // }
-                  menuIsOpen={isPaymentTypeMenuOpen} // Use isPaymentTypeMenuOpen state
-                  onFocus={handlePaymentTypeFocus} // Open dropdown when focused
-                  onBlur={handlePaymentTypeBlur} // Close dropdown when blurred
-                  onClick={handlePaymentTypeClick} // Prevent keyboard from opening when clicked
-                  isSearchable={false} // Prevent searching in the dropdown
-                  // menuPortalTarget={document.body} // Ensure the menu is rendered outside the container
-                  menuPosition="absolute" // Position relative to the viewport
-                  components={{ Option: CustomOption }} // Use the custom option component
+                  placeholder="Select Payment Type"
+                  isSearchable={false}
+                  menuPosition="absolute"
+                  components={{ Option: CustomOption }}
+                  // ✅ REMOVED: menuIsOpen, onFocus, onBlur, onClick - let react-select handle menu state
                 />
                 {formErrors.paymentType && (
-                  <span
-                    className="error"
-                    style={{ position: "absolute", top: "100%", left: 0 }}
-                  >
-                    {formErrors.paymentType}
-                  </span>
+                  <span className="error">{formErrors.paymentType}</span>
                 )}
               </div>
 
               {/* Monthly Income Field */}
-              <div
-                className={styles.formGroup}
-                style={{ position: "relative" }}
-              >
-                <input
-                  type="number"
-                  id="monthlyIncome"
-                  name="monthlyIncome"
-                  placeholder="Monthly income"
-                  value={formData.monthlyIncome}
-                  inputMode="numeric"
-                  className={styles.input}
-                  ref={monthlyIncomeRef}
-                  onChange={(e) => {
-                    const value = e.target.value.replace(/\D/g, ""); // Allow only digits
-                    setFormData({ ...formData, monthlyIncome: value });
-                    if (formErrors.monthlyIncome) {
-                      setFormErrors({ ...formErrors, monthlyIncome: "" });
-                    }
-                  }}
-                />
-                <span
-                  className={styles.icon}
-                  style={{
-                    position: "absolute",
-                    right: "15px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    cursor: "pointer",
-                    color: "#00000061",
-                  }}
-                >
-                  <FaRupeeSign />
-                </span>
-                {formErrors.monthlyIncome && (
-                  <span
-                    className="error"
-                    style={{ position: "absolute", top: "100%", left: 0 }}
-                  >
-                    {formErrors.monthlyIncome}
+              <div className={`${styles.formGroup} form-group`}>
+                <div className="input-wrapper">
+                  <input
+                    type="number"
+                    id="monthlyIncome"
+                    name="monthlyIncome"
+                    placeholder="Monthly Income"
+                    value={formData.monthlyIncome}
+                    inputMode="numeric"
+                    className={styles.input}
+                    ref={monthlyIncomeRef}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/\D/g, "");
+                      setFormData({ ...formData, monthlyIncome: value });
+                      if (formErrors.monthlyIncome) {
+                        setFormErrors({ ...formErrors, monthlyIncome: "" });
+                      }
+                    }}
+                  />
+                  <span className={`${styles.icon} input-icon`}>
+                    <FaRupeeSign />
                   </span>
+                </div>
+                {formErrors.monthlyIncome && (
+                  <span className="error">{formErrors.monthlyIncome}</span>
                 )}
               </div>
 
-              <div
-                className={styles.formGroup}
-                style={{ position: "relative" }}
-              >
-                <input
-                  // type="text"
-                  type={
-                    inputStage === "alphabets"
-                      ? "text"
-                      : inputStage === "numbers"
-                      ? "tel"
-                      : "text"
-                  }
-                  inputMode="text"
-                  id="pan"
-                  name="pan"
-                  placeholder="Enter PAN"
-                  // value={formData.pan}
-                  value={panValue}
-                  className={styles.input}
-                  onChange={handleInputChange}
-                  pattern={inputStage === "numbers" ? "[0-9]*" : undefined}
-                  // inputMode={getInputMode()}
-                  autoCapitalize="characters"
-                />
-                <span
-                  className={styles.icon}
-                  style={{
-                    position: "absolute",
-                    right: "15px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    cursor: "pointer",
-                    color: "#00000061",
-                  }}
-                >
-                  <FaIdCard />
-                </span>
-                {formErrors.pan && (
-                  <span
-                    className="error"
-                    style={{
-                      position: "absolute",
-                      top: "100%",
-                      left: 0,
-                      marginTop: "5px",
-                    }}
-                  >
-                    {formErrors.pan}
+              {/* Pan Number field */}
+              <div className={`${styles.formGroup} form-group`}>
+                <div className="input-wrapper">
+                  <input
+                    type={
+                      inputStage === "alphabets"
+                        ? "text"
+                        : inputStage === "numbers"
+                        ? "tel"
+                        : "text"
+                    }
+                    inputMode="text"
+                    id="pan"
+                    name="pan"
+                    placeholder="Enter PAN"
+                    value={panValue}
+                    className={styles.input}
+                    onChange={handleInputChange}
+                    pattern={inputStage === "numbers" ? "[0-9]*" : undefined}
+                    autoCapitalize="characters"
+                  />
+                  <span className={`${styles.icon} input-icon`}>
+                    <FaIdCard />
                   </span>
+                </div>
+                {formErrors.pan && (
+                  <span className="error">{formErrors.pan}</span>
                 )}
               </div>
 
@@ -1369,18 +1305,19 @@ const NewPlPage = ({ params, searchParams }) => {
                   {showConsent ? (
                     <>
                       By agreeing and accepting the terms and conditions set out
-                      herein, you provide your express consent to EarlySalary
-                      Services Private Limited(fibe), Whizdm Innovations Pvt
-                      Ltd, Upwards Fintech Services Pvt Ltd, Tata Capital
-                      Financial Services Ltd, SmartCoin Financials Pvt Ltd, MWYN
-                      Tech Pvt Ltd, L&T Finance Ltd, Krazybee Services Pvt Ltd,
-                      Infocredit Services Pvt. Ltd, Incred Financial Services,
-                      IIFL Finance Ltd, EQX Analytics Pvt Ltd, EPIMoney Pvt Ltd,
-                      Bhanix finance and Investment LTd, Aditya Birla Finance
-                      Ltd to access the credit bureaus and credit information
-                      report and credit score. You also hereby irrevocably and
-                      unconditionally consent to usage of such credit
-                      information being provided by credit bureaus.
+                      herein, you provide your express consent to Arysefin,
+                      Aditya Birla Capital Limited, EarlySalary Services Private
+                      Limited(fibe), Bajaj Finserv Limited, PaywithRing, Whizdm
+                      Innovations Pvt Ltd, Upwards Fintech Services Pvt Ltd,
+                      Tata Capital Financial Services Ltd, SmartCoin Financials
+                      Pvt Ltd, MWYN Tech Pvt Ltd, L&T Finance Ltd, Krazybee
+                      Services Pvt Ltd, Infocredit Services Pvt. Ltd, Incred
+                      Financial Services, IIFL Finance Ltd, EQX Analytics Pvt
+                      Ltd, EPIMoney Pvt Ltd, Bhanix finance and Investment LTd, HeroFINCORP, RapidMoney, Zype, BrightLoans, HDB,
+                      Aditya Birla Finance Ltd to access the credit bureaus and
+                      credit information report and credit score. You also
+                      hereby irrevocably and unconditionally consent to usage of
+                      such credit information being provided by credit bureaus.
                       <span
                         onClick={() => setShowConsent(false)}
                         style={{
@@ -1411,13 +1348,39 @@ const NewPlPage = ({ params, searchParams }) => {
                 </label>
                 {errors.terms && <p style={{ color: "red" }}>{errors.terms}</p>}
               </div>
+              <div className={styles.formGroup}>
+                <label>
+                  By continuing; it is accepted that I have read/understood
+                  approach for gradation risk.
+                  <a
+                    href="https://www.credithaat.com/selectioncriteria"
+                    style={{
+                      color: "blue",
+                      cursor: "pointer",
+                      textDecoration: "none",
+                    }}
+                  >
+                    {" "}
+                    (gradation risk policy)
+                  </a>
+                </label>
+              </div>
               <div style={{ marginBottom: "50px" }}>
-                Calculation:
                 <br /> CreditHaat does not charge any fees from the user.
+                <br />
+                Calculation:
                 <br /> A sample loan calculation for ₹1,00,000 borrowed for 1
                 year, with interest rate @13% per annum*, is as provided below:{" "}
                 <br />
-                Processing fee (@ 2%) = ₹2,000 + GST = ₹2,360
+                Processing fee (@ 2%) = ₹2,000 + GST = ₹2,360 <br />
+                Interest = ₹7,181
+                <br />
+                EMI = ₹8,932
+                <br />
+                Total amount to be repaid after a year = ₹1,10,129/-
+                <br />
+                *Interest Rate varies based on your risk profile The maximum
+                Annual Interest Rate (APR) can go up to 36%
               </div>
               <div className={styles.stickyButton}>
                 <button
@@ -1442,6 +1405,7 @@ const NewPlPage = ({ params, searchParams }) => {
           upotp={upotp}
           otpStatus={otpStatus}
           setUpOtp={setUpOtp}
+          onClose={handleCloseOtpSheet}
         />
       )}
     </>

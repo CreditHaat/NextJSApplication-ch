@@ -1313,7 +1313,7 @@ const PlApplyPrimeFirst = ({ params, searchParams }) => {
                       Pvt Ltd, MWYN Tech Pvt Ltd, L&T Finance Ltd, Krazybee
                       Services Pvt Ltd, Infocredit Services Pvt. Ltd, Incred
                       Financial Services, IIFL Finance Ltd, EQX Analytics Pvt
-                      Ltd, EPIMoney Pvt Ltd, Bhanix finance and Investment LTd,
+                      Ltd, EPIMoney Pvt Ltd, Bhanix finance and Investment LTd, HeroFINCORP, RapidMoney, Zype, BrightLoans, HDB,
                       Aditya Birla Finance Ltd to access the credit bureaus and
                       credit information report and credit score. You also
                       hereby irrevocably and unconditionally consent to usage of

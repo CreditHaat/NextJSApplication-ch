@@ -1,204 +1,485 @@
 /* Wrapper for the entire page */
 .page-container {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 100px; /* Create space at the top */
-  }
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 100px; /* Create space at the top */
+}
+
+/* Carousel background */
+.carousel-background {
+  position: absolute;
+  top: 0px; /* Set it closer to the top of the page to avoid going off-screen */
+  width: 100%;
+  max-width: 412px;
+  z-index: 0; /* Place it behind the allnewcard-container */
+  overflow: hidden;
+}
+
+ .error-message{
+color: red;
+font-size: 12px;
+font-weight: bold;
+margin-left: 2%;
+margin-top: 5px;
+}
+
+/* Container for all cards */
+.plsecfnewfirstcard-container {
+  position: relative;
+  max-width: 330px;
+  width: 77%;
+  margin: 0 auto;
+  padding: 40px;
+  border: 2px solid #ddd;
+  border-radius: 20px;
+  background-color: #F7F6FD;
+  ;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  /* margin-top: 110px; */
+  /* margin-bottom: 5%; */
+  padding-bottom: 25%;
+  z-index: 1; /* Place it above the carousel */
+}
+
+/* Individual card styles */
+.newcard-container {
+  position: relative;
+  width: 100%;
+  background: linear-gradient(to right, #FEE1A2, #ECDDFE, #8ca8e6);
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   
-  /* Carousel background */
-  .carousel-background {
-    position: absolute;
-    top: 0px; /* Set it closer to the top of the page to avoid going off-screen */
-    width: 100%;
-    max-width: 412px;
-    z-index: 0; /* Place it behind the allnewcard-container */
-    overflow: hidden;
-  }
-  
-  /* Container for all cards */
-  .plsecfnewfirstcard-container {
-    position: relative;
-    max-width: 330px;
-    width: 77%;
-    margin: 0 auto;
-    padding: 40px;
-    border: 2px solid #ddd;
-    border-radius: 20px;
-    background-color: #F7F6FD;
-    ;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    /* margin-top: 110px; */
-    /* margin-bottom: 5%; */
-    padding-bottom: 25%;
-    z-index: 1; /* Place it above the carousel */
-  }
-  
-  /* Individual card styles */
-  .newcard-container {
-    position: relative;
-    width: 100%;
-    background: linear-gradient(to right, #FEE1A2, #ECDDFE, #8ca8e6);
-    border-radius: 20px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    
-  }
-  
-  .card-button {
-    position: absolute;
-    bottom: -15px; /* Adjusted so it appears half in and half out */
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #6a00ff;
-    color: white;
-    border: none;
-    border-radius: 15px;
-    padding: 12px 30px; /* Adjusted padding for size */
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    z-index: 1;
-  }
-  
-  
-  .card-button:hover {
-    background-color: #4a00cc;
-  }
-  
-  .newcard-header {
-    background-color: black;
-    color: orange;
-    padding: 10px;
-    width: 50%;
-    margin: 0 auto;
-    border-radius: 10px;
-  }
-  
-  .card-logo {
-    font-size: 18px;
-    font-weight: bold;
-  }
-  
-  .card-subtitle {
-    font-size: 12px;
-    color: #555;
-  }
-  
-  .card-body {
-    margin: 20px 0;
-    background-color: #ffffff78;
-    padding: 2px;
-    border-radius: 15px;
-  }
-  
-  .amount {
-    font-size: 24px;
-    color: #333;
-    font-weight: bold;
-  }
-  
-  .max-amount {
-    font-size: 14px;
-    color: #777;
-  }
-  
-  .card-info {
-    display: flex;
-    justify-content: space-between;
-    margin: 15px 0;
-    margin-bottom: 40px;
-  }
-  
-  .info-item {
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    color: #777;
-    border: 1px solid #6a00ff;
-    border-radius: 10px;
-    padding: 2px 5px;
-  }
-  .react-datepicker-wrapper {
-    display: inline-block;
-    padding: 0;
-    border: 0;
-    width: 100%;
+}
+
+.card-button {
+  position: absolute;
+  bottom: -15px; /* Adjusted so it appears half in and half out */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #6a00ff;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  padding: 12px 30px; /* Adjusted padding for size */
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  z-index: 1;
+}
+
+
+.card-button:hover {
+  background-color: #4a00cc;
+}
+
+.newcard-header {
+  background-color: black;
+  color: orange;
+  padding: 10px;
+  width: 50%;
+  margin: 0 auto;
+  border-radius: 10px;
+}
+
+.card-logo {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.card-subtitle {
+  font-size: 12px;
+  color: #555;
+}
+
+.card-body {
+  margin: 20px 0;
+  background-color: #ffffff78;
+  padding: 2px;
+  border-radius: 15px;
+}
+
+.amount {
+  font-size: 24px;
+  color: #333;
+  font-weight: bold;
+}
+
+.max-amount {
+  font-size: 14px;
+  color: #777;
+}
+
+.card-info {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0;
+  margin-bottom: 40px;
+}
+
+.info-item {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #777;
+  border: 1px solid #6a00ff;
+  border-radius: 10px;
+  padding: 2px 5px;
+}
+.react-datepicker-wrapper {
+  display: inline-block;
+  padding: 0;
+  border: 0;
+  width: 100%;
 }
 .error {
-    color: red;
-    font-size: 12px;
-    font-weight: bold;
-  }
-  .pploan-invalid-feedback {
-    color: red;
-    font-size: 12px;
-    font-weight: bold;
-  }
-
-  .progress-bar-container {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  
-  .progress-bar {
-    width: 48%;
-    height: 6px;
-    background-color: #e6e6e6;
-  }
-
-  .step-number {
-    position: absolute;
-    top: 20px;
-    font-size: 14px;
-    font-weight: bold;
-  }
-  
-  .progress-bar-fill {
-    height: 100%;
-    background-color: #B69DFF;
-    transition: width 0.5s ease-in-out;
-  }
-  /* Basic button styling */
-.back-button {
-  /* padding: 10px 20px; */
-  font-size: 30px;
+  color: red;
+  font-size: 12px;
   font-weight: bold;
-  color:white;
-  background-color: #6039D2; /* Red background */
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.pploan-invalid-feedback {
+  color: red;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.progress-bar-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.progress-bar {
+  width: 48%;
+  height: 6px;
+  background-color: #e6e6e6;
+}
+
+.step-number {
+  position: absolute;
+  top: 20px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: #B69DFF;
+  transition: width 0.5s ease-in-out;
+}
+/* Basic button styling */
+.back-button {
+/* padding: 10px 20px; */
+font-size: 30px;
+font-weight: bold;
+color:white;
+background-color: #6039D2; /* Red background */
+border: none;
+border-radius: 50%;
+cursor: pointer;
+transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 /* Hover effect */
 .back-button:hover {
-  background-color: #cccccc; /* Darker red on hover */
-  transform: scale(1.05); /* Slightly enlarge the button */
+background-color: #cccccc; /* Darker red on hover */
+transform: scale(1.05); /* Slightly enlarge the button */
 }
 
 /* Active (pressed) effect */
 .back-button:active {
-  background-color:#cccccc; /* Even darker red when pressed */
-  transform: scale(0.98); /* Slightly shrink the button */
+background-color:#cccccc; /* Even darker red when pressed */
+transform: scale(0.98); /* Slightly shrink the button */
 }
 
 /* Disabled button (optional) */
 .back-button:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
+background-color: #cccccc;
+cursor: not-allowed;
 }
 
 /* Small button (optional) */
 .back-button-small {
-  padding: 6px 12px;
-  font-size: 14px;
+padding: 6px 12px;
+font-size: 14px;
+}
+/* Professional Date Picker Styles - Compact Version */
+.datePickerOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(3px);
+}
+
+.datePickerModal {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  width: 280px; /* Reduced from 380px */
+  max-width: 90%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+      opacity: 0;
+      transform: translateY(20px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+.datePickerHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px; /* Reduced from 20px */
+  border-bottom: 1px solid #E5E7EB;
+  padding-bottom: 12px; /* Reduced from 16px */
+}
+/* new */
+.monthYearSelector {
+  display: flex;
+  /* flex-direction: column; */
+  flex-direction: row;
+  gap: 6px; /* Reduced from 8px */
+}
+
+.monthSelector,
+.yearSelector {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Reduced from 12px */
+}
+
+.monthDisplay,
+.yearDisplay {
+  font-size: 14px; /* Reduced from 16px */
+  font-weight: 600;
+  color: #374151;
+  min-width: 70px; /* Reduced from 80px */
+  text-align: center;
+}
+
+.navButton {
+  background: #F7F6FD;
+  border: none;
+  border-radius: 4px;
+  width: 24px; /* Reduced from 32px */
+  height: 24px; /* Reduced from 32px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px; /* Reduced from 16px */
+  color: #6B7280;
+  transition: all 0.2s ease;
+}
+
+.navButton:hover {
+  background: #E5E7EB;
+  color: #374151;
+}
+
+.navButton:active {
+  background: #D1D5DB;
+}
+
+.closeButton {
+  background: #F7F6FD;
+  border: none;
+  border-radius: 50%;
+  width: 24px; /* Reduced from 32px */
+  height: 24px; /* Reduced from 32px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 12px; /* Reduced from 14px */
+  color: #6B7280;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background: #E5E7EB;
+  color: #374151;
+}
+
+.weekdaysGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px; /* Reduced from 4px */
+  margin-bottom: 6px; /* Reduced from 8px */
+}
+
+.weekdayHeader {
+  text-align: center;
+  font-size: 11px; /* Reduced from 12px */
+  font-weight: 600;
+  color: #6B7280;
+  padding: 6px 2px; /* Reduced padding */
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px; /* Reduced from 4px */
+  margin-bottom: 12px; /* Reduced from 20px */
+}
+
+.calendarDay {
+  background: none;
+  border: none;
+  border-radius: 6px; /* Reduced from 8px */
+  padding: 8px 2px; /* Reduced padding */
+  text-align: center;
+  font-size: 13px; /* Reduced from 14px */
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #374151;
+  min-height: 30px; /* Reduced from 40px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendarDay:hover:not(.disabledDay) {
+  background-color: #EDE9FE;
+  color: #8B5CF6;
+}
+
+.disabledDay {
+  color: #D1D5DB;
+  cursor: not-allowed;
+}
+
+.disabledDay:hover {
+  background: none !important;
+  color: #D1D5DB !important;
+}
+
+.selectedDay {
+  background-color: #6039d2 !important;
+  color: white !important;
+  font-weight: 600;
+}
+
+.selectedDay:hover {
+  background-color: #8B5CF6 !important;
+  color: white !important;
+}
+
+.todayDay {
+  background-color: #FEF3C7;
+  color: #D97706;
+  font-weight: 600;
+}
+
+.todayDay:hover {
+  background-color: #FDE68A;
+  color: #B45309;
+}
+
+.datePickerFooter {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px; /* Reduced from 12px */
+  border-top: 1px solid #E5E7EB;
+  padding-top: 12px; /* Reduced from 16px */
+}
+
+.clearButton,
+.todayButton {
+  flex: 1;
+  padding: 8px 12px; /* Reduced padding */
+  border-radius: 6px; /* Reduced from 8px */
+  font-size: 13px; /* Reduced from 14px */
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.clearButton {
+  background-color: #F7F6FD;
+  color: #6B7280;
+}
+
+.clearButton:hover {
+  background-color: #F7F6FD;
+  color: #374151;
+}
+
+.todayButton {
+  background-color: #6039d2;
+  color: white;
+}
+
+.todayButton:hover {
+  background-color: #6039d2;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 480px) {
+  .datePickerModal {
+      width: 260px; /* Even smaller on mobile */
+      padding: 12px;
+      margin: 20px;
+  }
+  
+  .calendarDay {
+      padding: 6px 1px;
+      min-height: 26px; /* Reduced further */
+      font-size: 12px;
+  }
+  
+  .monthDisplay,
+  .yearDisplay {
+      font-size: 12px;
+      min-width: 60px;
+  }
+  
+  .weekdayHeader {
+      font-size: 10px;
+      padding: 4px 1px;
+  }
+}
+.genderIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+  color: #6039d2;
+  width: 24px;
+  height: 24px;
+}
+
+.genderSelected .genderIcon {
+  color: #F7F6FD;
+}
+
+.genderSelected .genderIcon svg path {
+  fill: #6039d2;
+}
+
+.genderOption:hover .genderIcon svg path {
+  fill: #6039d2;
 }

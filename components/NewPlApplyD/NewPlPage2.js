@@ -552,17 +552,17 @@ const NewPlPage2 = ({
     // }
     //
     if (residentialPincodeFlag) {
-    if (!formData.residentialPincode.trim()) {
-      errors.residentialPincode = "Residential pincode is required";
-      valid = false;
-    } else if (
-      formData.residentialPincode.length !== 6 ||
-      !/^\d{6}$/.test(formData.residentialPincode)
-    ) {
-      errors.residentialPincode = "Invalid pincode format";
-      valid = false;
+      if (!formData.residentialPincode.trim()) {
+        errors.residentialPincode = "Residential pincode is required";
+        valid = false;
+      } else if (
+        formData.residentialPincode.length !== 6 ||
+        !/^\d{6}$/.test(formData.residentialPincode)
+      ) {
+        errors.residentialPincode = "Invalid pincode format";
+        valid = false;
+      }
     }
-  }
 
     // if (!formData.ITR) errors.ITR = 'ITR is required';
 

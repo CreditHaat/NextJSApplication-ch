@@ -1,0 +1,86 @@
+/* Layout */
+.containerCenter {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+/* Backgrounds */
+.bgSuccess {
+  background-color: #ffffff; /* light green */
+}
+
+.bgReject {
+  background-color: #ffffff; /* light red */
+}
+
+/* Card */
+.card {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Icons (simple text icons) */
+.iconSuccess {
+  font-size: 48px;
+  color: #16a34a; /* green */
+  margin-bottom: 1rem;
+}
+
+.iconReject {
+  font-size: 48px;
+  color: #dc2626; /* red */
+  margin-bottom: 1rem;
+}
+
+/* Text */
+.title {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #1f2937;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #4b5563;
+  margin-bottom: 1.25rem;
+}
+
+/* Amount */
+.amountText {
+  font-size: 20px;
+  font-weight: 700;
+  color: #166534;
+  margin-bottom: 1.5rem;
+}
+
+/* Buttons */
+.btnSuccess {
+  width: 100%;
+  background-color: #6a00ff;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.btnReject {
+  width: 100%;
+  background-color: #6a00ff;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}

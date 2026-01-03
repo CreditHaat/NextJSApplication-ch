@@ -50,6 +50,9 @@ const GetLoanButton = ({ lender, productId }) => {
   const SSO = searchParams.get("sso");
   const chaid = searchParams.get("chaid");
 
+  const [showIframeModal, setShowIframeModal] = useState(false);
+  const [iframeLink, setIframeLink] = useState("");
+
   const [stgOneHitId, setStgOneHitId] = useState(null);
   const [stgTwoHitId, setstgTwoHitId] = useState(null);
   const [t_experian_log_id, sett_experian_log_id] = useState(null);
@@ -213,6 +216,20 @@ const GetLoanButton = ({ lender, productId }) => {
             response.data.data.lender_details[0].applicationlink;
           setLink(redirectionlink);
 
+          if (productname === "Zype") {
+            setIframeLink(redirectionlink);
+            setShowIframeModal(true);
+
+            // Popup + loader band
+            setIsCameFromBackend(false);
+            setApiExecutionLoader(false);
+          }
+          // Other products
+          else {
+            setIsCameFromBackend(true);
+            setApiExecutionLoader(false);
+          }
+
           // handleNavigation(redirectionlink); //we will add this if we want the success page on this
 
           {
@@ -349,6 +366,22 @@ const GetLoanButton = ({ lender, productId }) => {
       )}
       {redirectionLinkLoader && <LinkLoader lendername={lenderProduct} />}
       {otpVerifyLoader && <OtpVerifyLoader />}
+      {showIframeModal && (
+        <iframe
+          src={iframeLink}
+          title="Zype Journey"
+          style={{
+            position: "fixed",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            border: "none",
+            zIndex: 9999,
+            background: "#fff",
+          }}
+        />
+      )}
+
       {!apiExecutionLoader && errorPopup && (
         <ErrorPopup
           setErrorPopup={setErrorPopup}

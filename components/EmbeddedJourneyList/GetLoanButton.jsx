@@ -216,7 +216,7 @@ const GetLoanButton = ({ lender, productId }) => {
             response.data.data.lender_details[0].applicationlink;
           setLink(redirectionlink);
 
-          if (productname === "Zype") {
+          if (productname === "Zype PL") {
             setIframeLink(redirectionlink);
             setShowIframeModal(true);
 

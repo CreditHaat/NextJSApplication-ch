@@ -687,9 +687,9 @@ export default function NewPlSingle() {
                 }}
               >
                 Quick loan upto ₹ 50 Lacs <br></br>
-                <span style={{ color: "GrayText", fontSize: "medium" }}>
+                {/* <span style={{ color: "GrayText", fontSize: "medium" }}>
                   by RBI Licensed Banks & NBFCs
-                </span>
+                </span> */}
               </div>
 
               <div

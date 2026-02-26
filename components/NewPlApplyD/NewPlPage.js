@@ -1329,7 +1329,9 @@ const NewPlPage = ({ params, searchParams }) => {
                       Birla Finance Ltd to access the credit bureaus and credit
                       information report and credit score. You also hereby
                       irrevocably and unconditionally consent to usage of such
-                      credit information being provided by credit bureaus.
+                      credit information being provided by credit bureaus.<br/>
+                      I agree and accept that the Unity Small Finance Bank may in its sole discretion, by itself or through authorised persons, advocate, agencies, credit bureau, etc. verify any information given, check credit reference.
+                      
                       <span
                         onClick={() => setShowConsent(false)}
                         style={{

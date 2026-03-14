@@ -1,0 +1,512 @@
+/* Wrapper for the entire page */
+.page-container1 {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* padding-top: 100px; Create space at the top */
+    margin-bottom: 5%;
+    /* background: linear-gradient(45deg, #6039D2, #D6C8FF); */
+
+
+}
+
+/* Carousel background */
+.carousel-background1 {
+    background: linear-gradient(45deg, #6039D2, #D6C8FF);
+height: 200px;
+    position: absolute;
+    top: 0px; /* Set it closer to the top of the page to avoid going off-screen */
+    width: 100%;
+    max-width: 412px;
+    z-index: 0; /* Place it behind the allnewcard-container */
+    overflow: hidden;
+}
+
+/* Container for all cards */
+.newfirstcard-containerpl {
+    /* position: relative;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 40px;
+    border: 2px solid #ddd;
+    border-radius: 20px;
+    background-color: #F7F6FD;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, .1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 1;
+        width: 22%; */
+
+          position: relative;
+  max-width: 330px;
+  width: 77%;
+  margin: 0 auto;
+  padding: 40px;
+  border: 2px solid #ddd;
+  border-radius: 20px;
+  background-color: #F7F6FD;
+  ;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  /* margin-top: 110px; */
+  /* margin-bottom: 5%; */
+  padding-bottom: 25%;
+  z-index: 1; /* Place it above the carousel */
+
+}
+
+
+
+/* Individual card styles */
+.newcard-container {
+    position: relative;
+    width: 100%;
+    background: linear-gradient(to right, #FEE1A2, #ECDDFE, #8ca8e6);
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-button {
+    position: absolute;
+    bottom: -15px; /* Adjusted so it appears half in and half out */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #6a00ff;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 12px 30px; /* Adjusted padding for size */
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    z-index: 1;
+}
+
+.card-button:hover {
+    background-color: #4a00cc;
+}
+
+.newcard-header {
+    background-color: black;
+    color: orange;
+    padding: 10px;
+    width: 50%;
+    margin: 0 auto;
+    border-radius: 10px;
+}
+
+.card-logo {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.card-subtitle {
+    font-size: 12px;
+    color: #555;
+}
+
+.card-body {
+    margin: 20px 0;
+    background-color: #ffffff78;
+    padding: 2px;
+    border-radius: 15px;
+}
+
+.amount {
+    font-size: 24px;
+    color: #333;
+    font-weight: bold;
+}
+
+.max-amount {
+    font-size: 14px;
+    color: #777;
+}
+
+.card-info {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
+    margin-bottom: 40px;
+}
+
+.info-item {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #777;
+    border: 1px solid #6a00ff;
+    border-radius: 10px;
+    padding: 2px 5px;
+}
+
+.react-datepicker-wrapper {
+    display: inline-block;
+    padding: 0;
+    border: 0;
+    width: 100%;
+}
+
+/* Fixed error styling to prevent icon displacement */
+.error1 {
+    color: red;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 2%;
+    bottom: -18px; /* Position it below the input field */
+    left: 0;
+    width: 100%;
+    z-index: 10; /* Ensure it appears above other elements */
+}
+
+.pploan-invalid-feedback {
+    color: red;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.progress-bar-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    width: 48%;
+    height: 6px;
+    background-color: #e6e6e6;
+    position: relative; /* Add relative positioning for step number */
+}
+
+.step-number {
+    position: absolute;
+    top: -25px; /* Position above the progress bar */
+    left: 0;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background-color: #B69DFF;
+    transition: width 0.5s ease-in-out;
+}
+
+/* Additional styles to ensure proper form group spacing */
+.form-group {
+    position: relative;
+    margin-bottom: 25px; /* Add margin to accommodate error messages */
+}
+
+/* Input field wrapper to maintain consistent spacing */
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Ensure icons stay in place */
+.input-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #00000061;
+    z-index: 5; /* Ensure icon stays above input but below error */
+    pointer-events: none; /* Prevent icon from interfering with input */
+}
+
+
+  @media (max-width: 768px) {
+
+    /* Container for all cards */
+.newfirstcard-containerpl {
+    position: relative;
+    width:77%;
+    margin: 0 auto;
+    padding: 40px;
+    border: 2px solid #ddd;
+    border-radius: 20px;
+    background-color: #F7F6FD;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 1; /* Place it above the carousel */
+    
+}
+ }
+
+   @media (min-width: 768px) {
+
+    /* Container for all cards */
+.newfirstcard-containerpl {
+    position: relative;
+    width:77%;
+    margin: 0 auto;
+    padding: 40px;
+    border: 2px solid #ddd;
+    border-radius: 20px;
+    background-color: #F7F6FD;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 1; /* Place it above the carousel */
+    margin-bottom: 2%;
+}
+ }
+
+ 
+
+.containers {
+    width: 100%;
+    height: auto;
+    background-color: #F7F6FD;
+    justify-content: center;
+    align-items: center;
+    display: grid;
+}
+
+.mainHeaderParts {
+    width: 100%;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    display: inline-flex;
+    margin: 0 0 30px 0;
+    
+}
+.topchildrens{
+    
+    width: 100%;
+    height: auto;
+    height: 50px;
+    border-bottom-left-radius: 500px;
+    border-bottom-right-radius: 500px;
+    /* background-color: #6039D2; */
+    justify-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.logoContainers {
+    width: 100%;
+    /* height: 150px; */
+    /* margin: 25px 0 10px 0; */
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    display: inline-flex
+}
+
+.logo2s {
+    width: auto;
+    height: auto;
+    /* border-radius: 326.24px; */
+    /* border-radius: 50%; */
+
+}
+
+.logos {
+    width: 40px;
+    height: 40px;
+    border-radius: 326.24px;
+    /* border-radius: 50%; */
+
+}
+
+.logoNames {
+    color: black;
+    font-size: 24px;
+    font-family: Outfit;
+    font-weight: 500;
+    word-wrap: break-word;
+}
+
+.progressBarContainers {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    margin: 20px 0;
+    padding: 0 0px 0 85px;
+    margin: 30px 0px 0px 30px;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    /* margin-top: 30px; */
+}
+
+.progressBars {
+    width: 240px;
+    height: 2px;
+    position: relative;
+    flex: 1;
+    border-radius: 10px;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    background-color: #FFFFFF;
+    margin-left: 10px;
+}
+
+.progressBarlasts {
+    position: relative;
+    flex: 1;
+    height: 10px;
+    border-radius: 10px;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    background-color: none;
+}
+
+.progressBarFills {
+    height: 2px;
+    width: 50%;
+    /* background-color: #6039d2; */
+    background: #FABA44;
+    border-radius: 10px;
+    transition: width 0.3s ease-in-out;
+}
+.progressBarFill2s {
+    height: 5px;
+    background-color: none;
+    border-radius: 10px;
+    transition: width 0.3s ease-in-out;
+}
+.outerCrcileLinesfirst{
+    border: 1px solid white;
+    position: absolute;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    transform: translateX(-20%);
+    top: -14px;
+    left: -30px;
+    align-items: center;
+    justify-content: center;
+}
+
+.outerCrcileLine3s{
+    border: 1px solid white;
+    position: absolute;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    /* transform: translateX(-40%); */
+    top: -10px;
+    /* left: -1px; */
+    align-items: center;
+    justify-content: center;
+}
+.stepNumbers {
+    position: relative;
+    text-align: center;
+    top: 3.2px;
+    left: 3.5px;
+    /* transform: translateX(-50%); */
+    color: #000;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 400;
+    /* background: white; */
+}
+
+
+.stepNumberLasts {
+    position: absolute;
+    text-align: center;
+    top: 3.2px;
+    left: 2.2px;
+    /* transform: translateX(-50%); */
+    color: #000;
+    font-weight: bold;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 400;
+    /* background: white; */
+}
+.progressBarHeadings{
+    position: relative;
+    top: 15px;
+    left: -80px;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 400;
+    color: #FFFFFF;
+}
+.progressBarHeading2s{
+    position: relative;
+    top: 22px;
+    left: -52px;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 400;
+    color: #FFFFFF;
+}
+.progressBarHeading3{
+    position: relative;
+    top: 35px;
+    left: -45px;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 400;
+    color: #FFFFFF;
+}
+
+.outerCrcileLinesfirst{
+    border: 1px solid white;
+    position: absolute;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    transform: translateX(-20%);
+    top: -14px;
+    left: -30px;
+    align-items: center;
+    justify-content: center;
+}
+
+.outerCrcileLinesfirstnew{
+    border: 1px solid white;
+    position: absolute;
+    background: #FABA44;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    transform: translateX(-20%);
+    top: -14px;
+    left: -30px;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
+
+
+
+ 

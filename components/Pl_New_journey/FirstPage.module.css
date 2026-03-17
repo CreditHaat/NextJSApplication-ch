@@ -1,12 +1,9 @@
 .topdiv{
-font-family: normal;
 /* justify-content: center; */
 align-items: center;
 justify-items: center;
 }
 .mainContainer {
-    font-family: __nextjs-Geist;
-
     width: 100%;
     max-width: 412px;
     min-width: 300px;
@@ -32,7 +29,7 @@ justify-items: center;
    1px 0 2px rgba(0,0,0,0.1);
 }
 .topBannerDiv{
-    background-image: url("../../images/Banner.jpg");
+    background-image: url("../../images/relaxedlady.png");
     height: 300px;
     background-size: cover;        
   background-repeat: no-repeat;  
@@ -40,16 +37,13 @@ justify-items: center;
   
 }
 .bannerText{
-font-family: normal;
 padding: 80px 0 0 20px;
 color: #FFFFFF;
 font-size: 500;
 font-size: 28px;
 line-height: 100%;
 }
-.bannerText h3{
-    font-family: __nextjs-Geist;
-}
+
 
 .topchildren {
     width: 100%;
@@ -230,7 +224,6 @@ line-height: 100%;
 .fieldName {
     color: rgba(0, 0, 0, 0.74);
     font-size: 12px;
-    font-family: Outfit;
     font-weight: 400;
     word-wrap: break-word;
 }

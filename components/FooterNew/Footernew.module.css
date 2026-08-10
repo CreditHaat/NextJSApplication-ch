@@ -1,0 +1,112 @@
+.footer {
+    width: 100%;
+  max-width: 412px;
+  margin: 0 auto;
+
+  background-color: #000;
+  color: #7c7c7c;
+  padding: 30px 35px;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 400;
+
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+
+  box-sizing: border-box;
+
+}
+
+/* Company information */
+.companyText {
+  width: 100%;
+}
+
+.companyText h3 {
+  margin: 0;
+  color: #7c7c7c;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+/* Terms and Privacy links */
+.tandC {
+  padding: 20px 0;
+  display: flex;
+  gap: 50px;
+}
+
+.tandC a {
+  color: #7c7c7c;
+  text-decoration: none;
+  font-size: 14px;
+  background: none;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+.tandC a:hover,
+.tandC a:focus,
+.tandC a:focus-visible,
+.tandC a:active {
+  color: #7c7c7c;
+  text-decoration: none;
+  background: none;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+/* Cookie message */
+.lastChildsec {
+  text-align: center;
+  border-top: 1px solid #7c7c7c;
+  padding: 10px 0 0 0;
+  color: #7c7c7c;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+/* Privacy Policy link */
+.privacyLink {
+  color: #7c7c7c;
+  text-decoration: none;
+  background: none;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+.privacyLink:hover,
+.privacyLink:focus,
+.privacyLink:focus-visible,
+.privacyLink:active {
+  color: #7c7c7c;
+  text-decoration: none;
+  background: none;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .footer {
+    width: 100%;
+    max-width: 412px;
+    padding: 25px 20px;
+  }
+
+  .tandC {
+    gap: 30px;
+    padding: 18px 0;
+  }
+
+  .lastChildsec {
+    font-size: 12px;
+    line-height: 18px;
+  }
+}

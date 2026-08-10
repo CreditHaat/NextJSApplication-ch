@@ -1,0 +1,104 @@
+.ppartnerListContainer {
+  overflow: hidden;
+  margin: auto;
+  position: relative;
+}
+
+.ppartnerHeading {
+  margin-top: 15px;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 2.5rem;
+  padding-top: 20px;
+  font-weight: normal;
+  color: #3e2780;
+}
+
+.pmarqueeContainer {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  height: 70px;
+}
+
+.pmarquee {
+  display: flex;
+  width: 300%;
+  animation: scrollLeft var(--marquee-duration, 20s) linear infinite;
+}
+
+.pmarqueeContent {
+  display: flex;
+  width: 100%;
+}
+
+.pbrandboxes {
+  /* margin: 10px; */
+  text-align: center;
+  /* padding: 10px; */
+  flex-shrink: 0; /* keep every logo at its natural size — never squeeze
+                     items to force-fit the container's 200% width.
+                     This is what was likely causing logos to shrink
+                     to near-zero / appear "missing". */
+}
+
+/* Wrapper gives next/image's `fill` mode a sized, positioned box to fill —
+   this is what actually controls the rendered size, same job your original
+   max-width/max-height did directly on the <img>. */
+.pbrandImgWrapper {
+  position: relative;
+  width: 100px;
+  height: 50px;
+  max-width: 80%;
+  flex-shrink: 0;
+}
+
+.pbrandImg {
+  border-radius: 2px;
+  object-fit: contain; /* keeps aspect ratio, same visual result as before */
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.pviewAllContainer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pviewAllLink {
+  color: #3e2780;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.pviewAllLink:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .pbrandImgWrapper {
+    width: 100px;
+    height: 55px;
+  }
+
+  .ppartnerHeading {
+    font-size: 28px;
+  }
+
+  .pbrandboxes {
+    margin: 2px;
+    text-align: center;
+  }
+
+  .pmarquee {
+    width: 400%;
+    animation: scrollLeft var(--marquee-duration, 50s) linear infinite;
+  }
+}

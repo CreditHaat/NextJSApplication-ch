@@ -1,0 +1,132 @@
+/* .footer {
+    width: 100%;
+  max-width: 412px;
+  margin: 0 auto;
+
+  background-color: #000;
+  color: #7c7c7c;
+  padding: 30px 35px;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 400;
+
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+
+  box-sizing: border-box;
+
+} */
+.footerpl {
+    width: calc(100% + 80px);
+    margin: 30px 0 48px -40px;
+  
+    background: #000;
+    color: #7c7c7c;
+    padding: 30px 35px;
+  
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  
+    box-sizing: border-box;
+  }
+  
+  /* Company information */
+  .companyTextpl {
+    width: 100%;
+  }
+  
+  .companyTextpl h3 {
+    margin: 0;
+    color: #7c7c7c;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+  }
+  
+  /* Terms and Privacy links */
+  .tandCpl {
+    padding: 20px 0;
+    display: flex;
+    gap: 12px;
+  }
+  
+  .tandCpl a {
+    color: #7c7c7c;
+    text-decoration: none;
+    font-size: 14px;
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+  }
+  
+  .tandCpl a:hover,
+  .tandCpl a:focus,
+  .tandCpl a:focus-visible,
+  .tandCpl a:active {
+    color: #7c7c7c;
+    text-decoration: none;
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+  }
+  
+  /* Cookie message */
+  .lastChildsecpl {
+    text-align: center;
+    border-top: 1px solid #7c7c7c;
+    padding: 10px 0 0 0;
+    color: #7c7c7c;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+  }
+  
+  /* Privacy Policy link */
+  .privacyLinkpl {
+    color: #7c7c7c;
+    text-decoration: none;
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+  }
+  
+  .privacyLinkpl:hover,
+  .privacyLinkpl:focus,
+  .privacyLinkpl:focus-visible,
+  .privacyLinkpl:active {
+    color: #7c7c7c;
+    text-decoration: none;
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+  }
+  
+  /* Mobile */
+  @media (max-width: 480px) {
+    /* .footer {
+      width: 100%;
+      max-width: 412px;
+      padding: 25px 20px;
+    } */
+    .footerpl {
+      /* width: calc(100% + 40px); */
+      /* margin-left: -20px; */
+      margin-bottom: 48px;
+      padding: 25px 20px;
+    }
+    .tandCpl {
+      gap: 10px;
+      padding: 18px 0;
+      justify-content: space-between;
+      text-align: center;
+    }
+  
+    .lastChildsecpl {
+      font-size: 12px;
+      line-height: 18px;
+    }
+  }

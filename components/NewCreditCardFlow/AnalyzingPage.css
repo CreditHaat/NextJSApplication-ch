@@ -1,0 +1,188 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+.processingContainer{
+   min-height:100dvh;
+    display:flex;
+    justify-content:center;   
+    align-items:center;
+    padding:20px;
+}
+.Card3{
+    width:100%;
+    max-width:375px;
+    padding:20px 15px;
+    align-items: center;
+}
+
+/* .topImage{
+  display: flex;
+  justify-content: center;
+  margin-top: -30px;
+}
+
+.topImage img{
+  width: 240px;
+  margin-bottom: -15px;
+} */
+ .topImage{
+  display: flex;
+  justify-content: center;
+  /* margin-top: -30px; */
+  margin-top: 30px;
+}
+.topImageIcon {
+  margin-bottom: -15px;
+  height: auto;
+  margin-top: -5px;
+  margin-top: -35px;
+}
+
+h2{
+  /* margin-top:20px; */
+  font-size:22px;
+  font-weight:600;
+  color:#1b2140;
+  text-align: center;
+}
+
+.subtitle{
+  margin-top:10px;
+  color:#8087a2;
+  font-size:16px;
+  text-align: center;
+}
+
+/* .benefitBox{
+  background:#f6f7ff;
+  border-radius:12px;
+  padding:10px;
+  text-align: center; 
+}
+
+.benefitBox h3{
+  color:#2f43ff;
+  font-size:18px;
+  margin-bottom:8px;
+}
+
+.benefitBox p{
+  color:#555;
+  font-size:14px;
+} */
+
+.benefitBox{
+  background:#f6f7ff;
+  border-radius:12px;
+  padding:10px 15px;
+  text-align: center;
+
+  height: 100px;          /* thoda badha diya, 2 lines ke liye enough space */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.benefitBox h3{
+  color:#2f43ff;
+  font-size:18px;
+  margin-bottom:8px;
+  white-space: nowrap;      /* title ek hi line mein rahe */
+}
+
+.benefitBox p{
+  color:#555;
+  font-size:14px;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  /* -webkit-line-clamp: 2;     */
+  -webkit-line-clamp: 2;
+  line-clamp: 2; /* compatibility */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.steps{
+  margin-top:35px;
+}
+
+.stepRow{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:25px;
+}
+
+.left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.icon{
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  background:#ddd;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  font-size:14px;
+}
+
+.completed{
+  background:#28c76f;
+}
+
+.progress{
+  background:#5b3df5;
+}
+
+.completedText{
+  color:#28c76f;
+  font-size:14px;
+  font-weight:600;
+}
+
+.progressText{
+  color:#5b3df5;
+  font-size:14px;
+  font-weight:600;
+}
+
+.progressWrapper{
+  width:100%;
+  height:8px;
+  background:#ececff;
+  border-radius:10px;
+  overflow:hidden;
+  margin-top:30px;
+}
+
+.progressBar{
+  height:100%;
+  background:#5b3df5;
+  transition:width 1s ease;
+}
+
+.percent{
+  margin-top:10px;
+  text-align:right;
+  font-weight:600;
+}
+.backButtonLoad{
+  width:fit-content;
+  font-size:26px;
+  font-weight:500;
+  color:#1B2140;
+  cursor:pointer;
+  /* margin-bottom:20px; */
+  margin-left: -20px;
+  margin-top: -19px;
+}

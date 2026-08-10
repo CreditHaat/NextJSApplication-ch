@@ -4,6 +4,7 @@ import "./NewPlPage.css";
 import listimage1 from "./newplimages/updatedpl_jounreybannerimage.jpeg";
 import listimage2 from "./newplimages/finalimage3.png";
 import listimage3 from "./newplimages/plimage33.png";
+import Experiannew from "./newplimages/Experiannew.png";
 import styles from "./NewPlFirstPage.module.css";
 import EmblaCarousel from "./Emblacarousel/js/EmblaCarousel";
 import axios from "axios";
@@ -16,6 +17,8 @@ import RedirectionLoader from "./RedirectionLoader";
 import ApplicationPopup from "./ApplicationPopup";
 import ErrorPopup from "./ErrorPopup";
 import { FaEnvelope } from "react-icons/fa";
+import Image from "next/image";
+import Footernew from "../FooterNew/Footernewpl";
 import {
   FaUser,
   FaPhone,
@@ -1254,7 +1257,7 @@ const NewPlPage = ({ params, searchParams }) => {
                       India and I have read and I accept CreditHaat Privacy
                       Policy Click here to read the{" "}
                       <a
-                        href="/privacy"
+                        href="https://www.credithaat.com/privacy"
                         // target="_blank"
                         rel="noopener noreferrer"
                         style={{
@@ -1267,7 +1270,7 @@ const NewPlPage = ({ params, searchParams }) => {
                       </a>
                       &nbsp; &{" "}
                       <a
-                        href="/terms"
+                        href="https://www.credithaat.com/termsC"
                         // target="_blank"
                         rel="noopener noreferrer"
                         style={{
@@ -1326,12 +1329,18 @@ const NewPlPage = ({ params, searchParams }) => {
                       Financial Services, IIFL Finance Ltd, EQX Analytics Pvt
                       Ltd, EPIMoney Pvt Ltd, Bhanix finance and Investment LTd,
                       HeroFINCORP, RapidMoney, Zype, BrightLoans, HDB, Aditya
-                      Birla Finance Ltd to access the credit bureaus and credit
-                      information report and credit score. You also hereby
-                      irrevocably and unconditionally consent to usage of such
-                      credit information being provided by credit bureaus.<br/>
-                      I agree and accept that the Unity Small Finance Bank may in its sole discretion, by itself or through authorised persons, advocate, agencies, credit bureau, etc. verify any information given, check credit reference.
-                      
+                      Birla Finance Ltd, Abhicash Infotech Private Limited, RK
+                      Bansal Finance Pvt. Ltd., FatakPay Digital Private
+                      Limited, Poonawalla Fincorp Limited, Moneyview Limited,
+                      AFG Business Solutions (India) Private Limited, Dreamplug
+                      Technologies Private Limited to access the credit bureaus
+                      and credit information report and credit score. You also
+                      hereby irrevocably and unconditionally consent to usage of
+                      such credit information being provided by credit bureaus.
+                      <br />I agree and accept that the Unity Small Finance Bank
+                      may in its sole discretion, by itself or through
+                      authorised persons, advocate, agencies, credit bureau,
+                      etc. verify any information given, check credit reference.
                       <span
                         onClick={() => setShowConsent(false)}
                         style={{
@@ -1379,6 +1388,37 @@ const NewPlPage = ({ params, searchParams }) => {
                   </a>
                 </label>
               </div>
+
+              <div className="children5">
+                <div className="textContainer">
+                  <h3 className="hedingEliText">Loan eligibility criteria</h3>
+                  {/* <label> Loan eligibility criteria </label> */}
+                  <ul className="label" type="desc">
+                    <li>Loan Amount Upto ₹25 lacs.</li>
+                    <li>Tenure: 3 to 60 months.</li>
+                    <li>
+                      Rate of Interest (ROI): Starting from 10.99% per annum.
+                    </li>
+                    <li>Maximum APR: 45%.</li>
+                    <li>
+                      Processing Fee: 2.5% of loan amount + taxes as applicable.
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="textContainer1">
+                  <h3 className="hedingEliText">Credit score partner</h3>
+                  <Image
+                    src={Experiannew}
+                    width={100}
+                    height={100}
+                    className="logoExperian"
+                    alt="Experiannew"
+                    priority
+                  />
+                </div>
+              </div>
+
               <div style={{ marginBottom: "50px" }}>
                 <br /> CreditHaat does not charge any fees from the user.
                 <br />
@@ -1406,6 +1446,7 @@ const NewPlPage = ({ params, searchParams }) => {
                 </button>
                 {/* className={`w-full  ${styles.submitButton}`} */}
               </div>
+              <Footernew />
             </form>
           </div>
         </div>

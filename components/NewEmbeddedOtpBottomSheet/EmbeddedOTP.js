@@ -180,7 +180,7 @@ function OTPVerification({ verifyOTP, upotp, otpStatus, setUpOtp, inputRefs }) {
             Services Pvt Ltd, Infocredit Services Pvt. Ltd, Incred Financial
             Services, IIFL Finance Ltd, EQX Analytics Pvt Ltd, EPIMoney Pvt Ltd,
             Bhanix finance and Investment LTd, HeroFINCORP, RapidMoney, Zype,
-            BrightLoans, HDB, Aditya Birla Finance Ltd to access the credit
+            BrightLoans, HDB, Aditya Birla Finance Ltd, RK Bansal Finance Pvt. Ltd. to access the credit
             bureaus and credit information report and credit score. You also
             hereby irrevocably and unconditionally consent to usage of such
             credit information being provided by credit bureaus.

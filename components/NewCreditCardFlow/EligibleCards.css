@@ -1,0 +1,249 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+.eligibleContainer{
+  /* max-width:420px;
+  margin:auto;
+  min-height:100dvh;
+  padding:16px;
+  background:#ffffff; */
+   /* min-height:100dvh; */
+    display:flex;
+    justify-content:center;   
+    align-items:center;
+    padding:5px;
+}
+.Card4{
+    width:100%;
+    max-width:375px;
+    padding:20px 15px;
+    align-items: center;
+     min-height: 100dvh;
+    /* margin-top: 80px; */
+    /* margin-top: 50px; */
+}
+
+.successBox{
+  background:linear-gradient(
+    180deg,
+    #effff3,
+    #f7fffa
+  );
+  border-radius:16px;
+  /* padding:16px; */
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:22px;
+  text-align: center;
+  padding-top: 16px;
+  padding-right: 16px;
+  padding-left: 37px;
+}
+
+.successIcon{
+  margin-top: -10px;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  background:#34c759;
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-weight:700;
+}
+
+.successBox h3{
+  font-size:18px;
+  color:#1b2140;
+  font-weight:600;
+}
+
+.successBox p{
+  font-size:13px;
+  color:#6f7792;
+  margin-top:2px;
+}
+
+.tableHeader{
+  display:grid;
+  grid-template-columns:
+    70px
+    1fr
+    70px;
+  padding:0 6px 12px;
+  color:#1b2140;
+  font-size:14px;
+  font-weight:600;
+  text-align: center;
+}
+
+.cardRow{
+  /* display:grid;
+  grid-template-columns:
+    70px
+    1fr
+    70px; */
+     display:grid;
+  /* grid-template-columns:80px 1fr 75px; */
+   grid-template-columns:85px 1fr 70px;
+  gap:10px;
+  align-items:center;
+
+  background:#fff;
+  border:1px solid #edf0f7;
+  border-radius:16px;
+
+  padding:14px 10px;
+  margin-bottom:12px;
+
+  box-shadow:
+  0 2px 8px rgba(0,0,0,0.04);
+}
+
+.bankSection{
+  display:flex;
+  align-items:center;
+  /* gap:8px; */
+  /* justify-content:center; */
+}
+
+.rank{
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  color:rgb(26, 25, 25);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  font-weight:600;
+}
+
+/* .rank1{
+  background:#ffbf00;
+} */
+
+/* .rank2{
+  background:#9ca3af;
+} */
+
+/* .rank3{
+  background:#cd7f32;
+} */
+
+/* .rank4,
+.rank5{
+  background:#d1d5db;
+  color:#333;
+} */
+
+.bankLogo{
+  /* width:48px;
+  height:48px;*/
+  /* width:70px;
+  height:35px; */
+  object-fit:contain;
+}
+
+.cardName{
+  font-size:15px;
+  color:#1b2140;
+  font-weight:500;
+  line-height:20px;
+  word-break:break-word;
+      text-align: center;
+}
+
+.matchSection{
+  text-align:right;
+  justify-items: center;
+
+}
+
+.matchPercent{
+  color:#34c759; 
+  font-size:18px;
+  font-weight:700;
+}
+
+.progressTrack{
+  width:32px;
+  height:5px;
+  background:#e6eaf3;
+  border-radius:20px;
+  /* margin-left:auto; */
+  margin-top:4px;
+}
+
+.progressFill{
+  height:100%;
+  background:#34c759;
+  border-radius:20px;
+}
+
+.footerNote{
+  margin-top:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+
+  color:#6f7792;
+  font-size:13px;
+}
+
+.shield{
+  font-size:16px;
+}
+
+.arrowButton{
+  display: flex;
+  /* align-items: center;
+  justify-content: center;
+  margin-left: 12px;
+  font-size: 22px;
+  color: #1c2340;
+  cursor: pointer; */
+  transform: rotate(180deg); /* makes it point right */
+  /* flex-shrink: 0; */
+}
+/* .carddetails{
+  padding-left: 5px;
+} */
+/* .carddetails {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.carddetails svg {
+  transform: rotate(180deg);
+} */
+.cardButton{
+   width:fit-content;
+  font-size:26px;
+  font-weight:500;
+  /* color:#1B2140; */
+  color: #454549;
+  cursor:pointer;
+  margin-left: 60px;
+  margin-top: -30px;
+  transform: rotate(180deg);
+}
+.cardRow {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cardRow:hover {
+  background: #f5f8ff;
+  border-color: #fefeff;
+  transform: translateY(-2px);
+}

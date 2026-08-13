@@ -27,6 +27,7 @@ const getData = async (searchParams) => {
     const formData1 = new FormData();
     formData1.append('mobilenumber',searchParams.mobilenumber);
     formData1.append('cpi',searchParams.cpi);
+    formData1.append('sso',searchParams.sso);
 
     try{
       console.log('BASE URL:', process.env.NEXT_PUBLIC_REACT_APP_BASE_URL);
@@ -60,6 +61,7 @@ const ServerSidePropsFunction = async ({params, searchParams}) => {
     const header = queryParams.ch_header;
     const mobile = queryParams.mobilenumber;
     const cpi = queryParams.cpi;
+    const sso = queryParams.sso;
 
     const response = await getData(queryParams);
 

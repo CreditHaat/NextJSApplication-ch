@@ -9,6 +9,7 @@ import EmblaCarousel from "../../components/EmbeddedJourneyList/Emblacarousel/js
 import listimage1 from '../../components/NewBlJourneyD/newblimages/banner11.png';
 import listimage2 from '../../components/NewBlJourneyD/newblimages/banner22.png';
 import listimage3 from '../../components/NewBlJourneyD/newblimages/banner333.png';
+import { headers } from "next/headers";
 
 const OPTIONS = { direction: 'rtl', loop: true };
 const SLIDES = [
@@ -35,7 +36,8 @@ const getData = async (searchParams) => {
       const response =await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}lenderslist1`, formData1, {
         headers: {
           'Content-Type': 'application/json',
-          'token': 'Y3JlZGl0aGFhdHRlc3RzZXJ2ZXI=' // Add your token here
+          'token': 'Y3JlZGl0aGFhdHRlc3RzZXJ2ZXI=', // Add your token here
+           "X-Forwarded-For": searchParams.userIP,
         }
       })
       return response.data;
@@ -46,6 +48,18 @@ const getData = async (searchParams) => {
     return null;
     
    }
+
+   const getClientIP = async () => {
+  const headersList = await headers();
+
+  const forwardedFor = headersList.get("x-forwarded-for");
+
+  if (forwardedFor) {
+    return forwardedFor.split(",")[0].trim();
+  }
+
+  return headersList.get("x-real-ip") || null;
+};
 
 const ServerSidePropsFunction = async ({params, searchParams}) => {
     // const response = await getData({searchParams});
@@ -63,7 +77,13 @@ const ServerSidePropsFunction = async ({params, searchParams}) => {
     const cpi = queryParams.cpi;
     const sso = queryParams.sso;
 
-    const response = await getData(queryParams);
+    // const response = await getData(queryParams);
+    const userIP = await getClientIP();
+
+  const response = await getData({
+    ...queryParams,
+    userIP,
+  });
 
 
   return (

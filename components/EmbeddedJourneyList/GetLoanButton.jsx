@@ -125,6 +125,7 @@ const GetLoanButton = ({ lender, productId }) => {
       if (productId === 138431539) {
         console.log("Product id is :: ", productId);
 
+        const formData1 = new FormData();
         formData1.append("productId", productId);
         formData1.append("userId", 1);
         formData1.append("phone", mobileNumber);
@@ -138,7 +139,8 @@ const GetLoanButton = ({ lender, productId }) => {
         console.log("The response from h5/cpiClickNew_hdfc is :: ", response);
         const timer = setTimeout(() => {
           setRedirectionLinkLoader(false);
-          window.location.href = lenderApplicationLink;
+          // window.location.href = lenderApplicationLink;
+          window.location.href = response.data.obj;
         }, 3000);
       } else {
         const formData2 = new FormData();

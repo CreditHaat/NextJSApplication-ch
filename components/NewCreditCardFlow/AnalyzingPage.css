@@ -80,7 +80,7 @@ h2{
   padding:10px 15px;
   text-align: center;
 
-  height: 100px;          /* thoda badha diya, 2 lines ke liye enough space */
+  height: 130px;          /* thoda badha diya, 2 lines ke liye enough space */
   display: flex;
   flex-direction: column;
   justify-content: center;

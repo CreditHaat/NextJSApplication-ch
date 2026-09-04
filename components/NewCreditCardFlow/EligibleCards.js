@@ -237,7 +237,7 @@ function EligibleCards({
                 />
               </div> */}
               <div className="bankSection">
-                <Image
+                <img
                   src={card.banklogo}
                   alt={card.productName}
                   width={70}

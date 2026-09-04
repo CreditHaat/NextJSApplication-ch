@@ -172,7 +172,7 @@ function CardDetails({ card, setActiveContainer, mobileno }) {
           }`}
         >
           {/* <img src={card.cardImage} alt={card.cardName} className="cardImage" /> */}
-          <Image
+          <img
             src={card.cardImage}
             alt={card.cardName}
             width={0}
